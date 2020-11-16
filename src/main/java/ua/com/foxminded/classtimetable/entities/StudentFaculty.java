@@ -1,11 +1,11 @@
 package ua.com.foxminded.classtimetable.entities;
 
-public class StudentCourse {
+public class StudentFaculty {
 
 	private int studentId;
-	private int courseId;
+	private int facultyId;
 
-	public StudentCourse() {
+	public StudentFaculty() {
 	}
 
 	public int getStudentId() {
@@ -16,19 +16,19 @@ public class StudentCourse {
 		this.studentId = studentId;
 	}
 
-	public int getCourseId() {
-		return courseId;
+	public int getFacultyId() {
+		return facultyId;
 	}
 
-	public void setCourseId(int courseId) {
-		this.courseId = courseId;
+	public void setFacultyId(int facultyId) {
+		this.facultyId = facultyId;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + courseId;
+		result = prime * result + facultyId;
 		result = prime * result + studentId;
 		return result;
 	}
@@ -41,8 +41,8 @@ public class StudentCourse {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		StudentCourse other = (StudentCourse) obj;
-		if (courseId != other.courseId)
+		StudentFaculty other = (StudentFaculty) obj;
+		if (facultyId != other.facultyId)
 			return false;
 		if (studentId != other.studentId)
 			return false;
@@ -51,6 +51,7 @@ public class StudentCourse {
 
 	@Override
 	public String toString() {
-		return "StudentCourse [studentId=" + studentId + ", courseId=" + courseId + "]";
+		return "StudentFaculty [studentId=" + studentId + ", facultyId=" + facultyId + "]";
 	}
+
 }
