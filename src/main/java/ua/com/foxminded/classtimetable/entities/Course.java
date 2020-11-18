@@ -2,18 +2,15 @@ package ua.com.foxminded.classtimetable.entities;
 
 public class Course {
 
-	private int courseId;
+	private int id;
 	private String courseName;
 
-	public Course() {
+	public int getd() {
+		return id;
 	}
 
-	public int getCourseId() {
-		return courseId;
-	}
-
-	public void setCourseId(int courseId) {
-		this.courseId = courseId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getCourseName() {
@@ -28,7 +25,7 @@ public class Course {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + courseId;
+		result = prime * result + id;
 		result = prime * result + ((courseName == null) ? 0 : courseName.hashCode());
 		return result;
 	}
@@ -42,7 +39,7 @@ public class Course {
 		if (getClass() != obj.getClass())
 			return false;
 		Course other = (Course) obj;
-		if (courseId != other.courseId)
+		if (id != other.id)
 			return false;
 		if (courseName == null) {
 			if (other.courseName != null)
@@ -54,6 +51,6 @@ public class Course {
 
 	@Override
 	public String toString() {
-		return "Course [courseId=" + courseId + ", courseName=" + courseName + "]";
+		return "Course [id=" + id + ", courseName=" + courseName + "]";
 	}
 }

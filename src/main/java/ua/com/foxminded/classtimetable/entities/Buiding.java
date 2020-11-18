@@ -2,18 +2,15 @@ package ua.com.foxminded.classtimetable.entities;
 
 public class Buiding {
 
-	private int buildingId;
+	private int id;
 	private String buildingName;
 
-	public Buiding() {
+	public int getId() {
+		return id;
 	}
 
-	public int getBuildingId() {
-		return buildingId;
-	}
-
-	public void setBuildingId(int buildingId) {
-		this.buildingId = buildingId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getBuildingName() {
@@ -28,7 +25,7 @@ public class Buiding {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + buildingId;
+		result = prime * result + id;
 		result = prime * result + ((buildingName == null) ? 0 : buildingName.hashCode());
 		return result;
 	}
@@ -42,7 +39,7 @@ public class Buiding {
 		if (getClass() != obj.getClass())
 			return false;
 		Buiding other = (Buiding) obj;
-		if (buildingId != other.buildingId)
+		if (id != other.id)
 			return false;
 		if (buildingName == null) {
 			if (other.buildingName != null)
@@ -54,6 +51,6 @@ public class Buiding {
 
 	@Override
 	public String toString() {
-		return "Buiding [buildingId=" + buildingId + ", buildingName=" + buildingName + "]";
+		return "Buiding [id=" + id + ", buildingName=" + buildingName + "]";
 	}
 }

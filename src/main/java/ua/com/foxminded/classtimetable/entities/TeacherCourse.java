@@ -5,9 +5,6 @@ public class TeacherCourse {
 	private int teacherId;
 	private int courseId;
 
-	public TeacherCourse() {
-	}
-
 	public int getTeacherId() {
 		return teacherId;
 	}
@@ -53,5 +50,4 @@ public class TeacherCourse {
 	public String toString() {
 		return "TeacherCourse [teacherId=" + teacherId + ", courseId=" + courseId + "]";
 	}
-
 }

@@ -2,19 +2,25 @@ package ua.com.foxminded.classtimetable.entities;
 
 public class Teacher {
 
-	private int teacherId;
+	private int facultyId;
+	private int id;
 	private String firstName;
 	private String lastName;
 
-	public Teacher() {
+	public int getFacultyId() {
+		return facultyId;
 	}
 
-	public int getTeacherId() {
-		return teacherId;
+	public void setFacultyId(int facultyId) {
+		this.facultyId = facultyId;
 	}
 
-	public void setTeacherId(int teacherId) {
-		this.teacherId = teacherId;
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -37,9 +43,10 @@ public class Teacher {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + facultyId;
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + id;
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + teacherId;
 		return result;
 	}
 
@@ -52,24 +59,27 @@ public class Teacher {
 		if (getClass() != obj.getClass())
 			return false;
 		Teacher other = (Teacher) obj;
+		if (facultyId != other.facultyId)
+			return false;
 		if (firstName == null) {
 			if (other.firstName != null)
 				return false;
 		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (id != other.id)
 			return false;
 		if (lastName == null) {
 			if (other.lastName != null)
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
-		if (teacherId != other.teacherId)
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Teacher [teacherId=" + teacherId + ", firstName=" + firstName + ", lastName=" + lastName + "]";
+		return "Teacher [facultyId=" + facultyId + ", id=" + id + ", firstName=" + firstName + ", lastName=" + lastName
+				+ "]";
 	}
 
 }
