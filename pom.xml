@@ -47,12 +47,12 @@
 			<artifactId>spring-tx</artifactId>
 			<version>${spring-tx.version}</version>
 		</dependency>
-				<dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 			<version>${spring-jdbc.version}</version>
 		</dependency>
-						<dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-expression</artifactId>
 			<version>${spring-expression.version}</version>

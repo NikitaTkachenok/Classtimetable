@@ -14,7 +14,7 @@ import ua.com.foxminded.classtimetable.entities.Building;
 @Repository
 public class BuildingDao implements DaoInterface<Building> {
 
-	private JdbcTemplate jdbcTemplate;
+	private final JdbcTemplate jdbcTemplate;
 
 	private static final String GET_BUILDING_BY_ID = "SELECT * FROM buildings WHERE id = ?";
 	private static final String GET_ALL_BUILDINGS = "SELECT * FROM buildings";
@@ -29,12 +29,12 @@ public class BuildingDao implements DaoInterface<Building> {
 
 	@Override
 	public Building getById(int id) {
-		return jdbcTemplate.queryForObject(GET_BUILDING_BY_ID, getMap(), id);
+		return jdbcTemplate.queryForObject(GET_BUILDING_BY_ID, implementRowMapper(), id);
 	}
 
 	@Override
 	public List<Building> getAll() {
-		return jdbcTemplate.query(GET_ALL_BUILDINGS, getMap());
+		return jdbcTemplate.query(GET_ALL_BUILDINGS, implementRowMapper());
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class BuildingDao implements DaoInterface<Building> {
 		jdbcTemplate.update(REMOVE_BUILDING, building.getId());
 	}
 
-	private RowMapper<Building> getMap() {
+	private RowMapper<Building> implementRowMapper() {
 		RowMapper<Building> map = (resultSet, rowNumber) -> {
 			Building building = new Building();
 			building.setId(resultSet.getInt("id"));

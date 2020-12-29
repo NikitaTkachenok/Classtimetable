@@ -14,4 +14,4 @@ CREATE ROLE admin WITH
 	CONNECTION LIMIT -1
 	PASSWORD 'password';
 	
-	GRANT ALL PRIVILEGES ON DATABASE university_database TO admin;
+GRANT ALL PRIVILEGES ON DATABASE university_database TO admin;
