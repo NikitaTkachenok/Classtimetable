@@ -1,7 +1,6 @@
 package ua.com.foxminded.classtimetable.entities;
 
 public class TeacherCourse {
-
 	private int teacherId;
 	private int courseId;
 
@@ -50,4 +49,5 @@ public class TeacherCourse {
 	public String toString() {
 		return "TeacherCourse [teacherId=" + teacherId + ", courseId=" + courseId + "]";
 	}
+
 }

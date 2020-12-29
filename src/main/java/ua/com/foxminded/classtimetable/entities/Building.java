@@ -1,9 +1,9 @@
 package ua.com.foxminded.classtimetable.entities;
 
-public class Faculty {
+public class Building {
 
 	private int id;
-	private String facultyName;
+	private String buildingName;
 
 	public int getId() {
 		return id;
@@ -13,12 +13,12 @@ public class Faculty {
 		this.id = id;
 	}
 
-	public String getFacultyName() {
-		return facultyName;
+	public String getBuildingName() {
+		return buildingName;
 	}
 
-	public void setFacultyName(String facultyName) {
-		this.facultyName = facultyName;
+	public void setBuildingName(String buildingName) {
+		this.buildingName = buildingName;
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class Faculty {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + id;
-		result = prime * result + ((facultyName == null) ? 0 : facultyName.hashCode());
+		result = prime * result + ((buildingName == null) ? 0 : buildingName.hashCode());
 		return result;
 	}
 
@@ -38,20 +38,19 @@ public class Faculty {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Faculty other = (Faculty) obj;
+		Building other = (Building) obj;
 		if (id != other.id)
 			return false;
-		if (facultyName == null) {
-			if (other.facultyName != null)
+		if (buildingName == null) {
+			if (other.buildingName != null)
 				return false;
-		} else if (!facultyName.equals(other.facultyName))
+		} else if (!buildingName.equals(other.buildingName))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Faculty [id=" + id + ", facultyName=" + facultyName + "]";
+		return "Buiding [id=" + id + ", buildingName=" + buildingName + "]";
 	}
-
 }
