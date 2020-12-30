@@ -12,7 +12,7 @@ CREATE TABLE classrooms
 	id SERIAL NOT NULL,
 	room_name text NOT NULL,
 	room_type text NOT NULL,
-	room_capasity int NOT NULL,
+	room_capacity int NOT NULL,
 	building_id int,
 	PRIMARY KEY (id),
 	FOREIGN KEY (building_id) REFERENCES buildings (id) ON DELETE SET NULL

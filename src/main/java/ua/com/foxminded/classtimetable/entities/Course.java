@@ -5,7 +5,7 @@ public class Course {
 	private int id;
 	private String courseName;
 
-	public int getd() {
+	public int getId() {
 		return id;
 	}
 
