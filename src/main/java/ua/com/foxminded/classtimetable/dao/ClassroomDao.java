@@ -29,16 +29,16 @@ public class ClassroomDao implements DaoInterface<Classroom> {
 
 	@Override
 	public Classroom getById(int id) {
-		return jdbcTemplate.queryForObject(GET_CLASSROOM_BY_ID, implementRowMapper(), id);
+		return jdbcTemplate.queryForObject(GET_CLASSROOM_BY_ID, rowMapper(), id);
 	}
 
 	@Override
 	public List<Classroom> getAll() {
-		return jdbcTemplate.query(GET_ALL_CLASSROOMS, implementRowMapper());
+		return jdbcTemplate.query(GET_ALL_CLASSROOMS, rowMapper());
 	}
 
 	@Override
-	public void save(Classroom classroom) {
+	public void create(Classroom classroom) {
 		jdbcTemplate.update(ADD_NEW_CLASSROOM, classroom.getRoomName(), classroom.getRoomType(),
 				classroom.getRoomCapacity(), classroom.getBuildingId());
 	}
@@ -54,7 +54,7 @@ public class ClassroomDao implements DaoInterface<Classroom> {
 		jdbcTemplate.update(REMOVE_CLASSROOM, classroom.getId());
 	}
 
-	private RowMapper<Classroom> implementRowMapper() {
+	private RowMapper<Classroom> rowMapper() {
 		RowMapper<Classroom> map = (resultSet, rowNumber) -> {
 			Classroom classroom = new Classroom();
 			classroom.setId(resultSet.getInt("id"));
@@ -66,4 +66,5 @@ public class ClassroomDao implements DaoInterface<Classroom> {
 		};
 		return map;
 	}
+	
 }
