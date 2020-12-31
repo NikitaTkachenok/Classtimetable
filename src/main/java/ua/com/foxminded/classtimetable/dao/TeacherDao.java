@@ -30,16 +30,16 @@ public class TeacherDao implements DaoInterface<Teacher> {
 
 	@Override
 	public Teacher getById(int id) {
-		return jdbcTemplate.queryForObject(GET_TEACHER_BY_ID, rowMapper(), id);
+		return jdbcTemplate.queryForObject(GET_TEACHER_BY_ID, implementRowMapper(), id);
 	}
 
 	@Override
 	public List<Teacher> getAll() {
-		return jdbcTemplate.query(GET_ALL_TEACHERS, rowMapper());
+		return jdbcTemplate.query(GET_ALL_TEACHERS, implementRowMapper());
 	}
 
 	@Override
-	public void create(Teacher teacher) {
+	public void save(Teacher teacher) {
 		jdbcTemplate.update(ADD_NEW_TEACHER, teacher.getFirstName(), teacher.getLastName(), teacher.getFacultyId());
 	}
 
@@ -54,7 +54,7 @@ public class TeacherDao implements DaoInterface<Teacher> {
 		jdbcTemplate.update(REMOVE_TEACHER, teacher.getId());
 	}
 
-	private RowMapper<Teacher> rowMapper() {
+	private RowMapper<Teacher> implementRowMapper() {
 		RowMapper<Teacher> map = (resultSet, rowNumber) -> {
 			Teacher teacher = new Teacher();
 			teacher.setId(resultSet.getInt("id"));

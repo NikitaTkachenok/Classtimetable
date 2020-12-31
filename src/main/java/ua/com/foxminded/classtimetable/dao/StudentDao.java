@@ -29,16 +29,16 @@ public class StudentDao implements DaoInterface<Student> {
 
 	@Override
 	public Student getById(int id) {
-		return jdbcTemplate.queryForObject(GET_STUDENT_BY_ID, rowMapper(), id);
+		return jdbcTemplate.queryForObject(GET_STUDENT_BY_ID, implementRowMapper(), id);
 	}
 
 	@Override
 	public List<Student> getAll() {
-		return jdbcTemplate.query(GET_ALL_STUDENTS, rowMapper());
+		return jdbcTemplate.query(GET_ALL_STUDENTS, implementRowMapper());
 	}
 
 	@Override
-	public void create(Student student) {
+	public void save(Student student) {
 		jdbcTemplate.update(ADD_NEW_STUDENT, student.getFirstName(), student.getLastName(), student.getFacultyId());
 	}
 
@@ -53,7 +53,7 @@ public class StudentDao implements DaoInterface<Student> {
 		jdbcTemplate.update(REMOVE_STUDENT, student.getId());
 	}
 
-	private RowMapper<Student> rowMapper() {
+	private RowMapper<Student> implementRowMapper() {
 		RowMapper<Student> map = (resultSet, rowNumber) -> {
 			Student student = new Student();
 			student.setId(resultSet.getInt("id"));

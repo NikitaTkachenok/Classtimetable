@@ -29,16 +29,16 @@ public class CourseDao implements DaoInterface<Course> {
 
 	@Override
 	public Course getById(int id) {
-		return jdbcTemplate.queryForObject(GET_COURSE_BY_ID, rowMapper(), id);
+		return jdbcTemplate.queryForObject(GET_COURSE_BY_ID, implementRowMapper(), id);
 	}
 
 	@Override
 	public List<Course> getAll() {
-		return jdbcTemplate.query(GET_ALL_COURSES, rowMapper());
+		return jdbcTemplate.query(GET_ALL_COURSES, implementRowMapper());
 	}
 
 	@Override
-	public void create(Course course) {
+	public void save(Course course) {
 		jdbcTemplate.update(ADD_NEW_COURSE, course.getCourseName());
 	}
 
@@ -52,7 +52,7 @@ public class CourseDao implements DaoInterface<Course> {
 		jdbcTemplate.update(REMOVE_COURSE, course.getId());
 	}
 
-	private RowMapper<Course> rowMapper() {
+	private RowMapper<Course> implementRowMapper() {
 		RowMapper<Course> map = (resultSet, rowNumber) -> {
 			Course course = new Course();
 			course.setId(resultSet.getInt("id"));

@@ -29,16 +29,16 @@ public class LessonDao implements DaoInterface<Lesson> {
 
 	@Override
 	public Lesson getById(int id) {
-		return jdbcTemplate.queryForObject(GET_LESSON_BY_ID, rowMapper(), id);
+		return jdbcTemplate.queryForObject(GET_LESSON_BY_ID, implementRowMapper(), id);
 	}
 
 	@Override
 	public List<Lesson> getAll() {
-		return jdbcTemplate.query(GET_ALL_LESSONS, rowMapper());
+		return jdbcTemplate.query(GET_ALL_LESSONS, implementRowMapper());
 	}
 
 	@Override
-	public void create(Lesson lesson) {
+	public void save(Lesson lesson) {
 		jdbcTemplate.update(ADD_NEW_LESSON, lesson.getStartTime(), lesson.getEndTime(), lesson.getClassroomId(),
 				lesson.getCourseId(), lesson.getTeacherId());
 	}
@@ -54,7 +54,7 @@ public class LessonDao implements DaoInterface<Lesson> {
 		jdbcTemplate.update(REMOVE_LESSON, lesson.getId());
 	}
 
-	private RowMapper<Lesson> rowMapper() {
+	private RowMapper<Lesson> implementRowMapper() {
 		RowMapper<Lesson> map = (resultSet, rowNumber) -> {
 			Lesson lesson = new Lesson();
 			lesson.setId(resultSet.getInt("id"));

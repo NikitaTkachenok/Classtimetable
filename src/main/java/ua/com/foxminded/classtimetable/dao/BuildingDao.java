@@ -29,16 +29,16 @@ public class BuildingDao implements DaoInterface<Building> {
 
 	@Override
 	public Building getById(int id) {
-		return jdbcTemplate.queryForObject(GET_BUILDING_BY_ID, rowMapper(), id);
+		return jdbcTemplate.queryForObject(GET_BUILDING_BY_ID, implementRowMapper(), id);
 	}
 
 	@Override
 	public List<Building> getAll() {
-		return jdbcTemplate.query(GET_ALL_BUILDINGS, rowMapper());
+		return jdbcTemplate.query(GET_ALL_BUILDINGS, implementRowMapper());
 	}
 
 	@Override
-	public void create(Building building) {
+	public void save(Building building) {
 		jdbcTemplate.update(ADD_NEW_BUILDING, building.getBuildingName());
 	}
 
@@ -52,7 +52,7 @@ public class BuildingDao implements DaoInterface<Building> {
 		jdbcTemplate.update(REMOVE_BUILDING, building.getId());
 	}
 
-	private RowMapper<Building> rowMapper() {
+	private RowMapper<Building> implementRowMapper() {
 		RowMapper<Building> map = (resultSet, rowNumber) -> {
 			Building building = new Building();
 			building.setId(resultSet.getInt("id"));

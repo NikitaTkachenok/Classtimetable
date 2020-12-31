@@ -29,16 +29,16 @@ public class FacultyDao implements DaoInterface<Faculty> {
 
 	@Override
 	public Faculty getById(int id) {
-		return jdbcTemplate.queryForObject(GET_FACULTY_BY_ID, rowMapper(), id);
+		return jdbcTemplate.queryForObject(GET_FACULTY_BY_ID, implementRowMapper(), id);
 	}
 
 	@Override
 	public List<Faculty> getAll() {
-		return jdbcTemplate.query(GET_ALL_FACULTIES, rowMapper());
+		return jdbcTemplate.query(GET_ALL_FACULTIES, implementRowMapper());
 	}
 
 	@Override
-	public void create(Faculty faculty) {
+	public void save(Faculty faculty) {
 		jdbcTemplate.update(ADD_NEW_FACULTY, faculty.getFacultyName());
 	}
 
@@ -52,7 +52,7 @@ public class FacultyDao implements DaoInterface<Faculty> {
 		jdbcTemplate.update(REMOVE_FACULTY, faculty.getId());
 	}
 
-	private RowMapper<Faculty> rowMapper() {
+	private RowMapper<Faculty> implementRowMapper() {
 		RowMapper<Faculty> map = (resultSet, rowNumber) -> {
 			Faculty faculty = new Faculty();
 			faculty.setId(resultSet.getInt("id"));

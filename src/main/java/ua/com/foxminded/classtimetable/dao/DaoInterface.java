@@ -8,7 +8,7 @@ public interface DaoInterface<T> {
 
 	List<T> getAll();
 
-	void create(T t);
+	void save(T t);
 
 	void update(T t);
 
