@@ -30,20 +30,20 @@ public class TeacherCourseDao implements DaoInterface<TeacherCourse> {
 
 	@Override
 	public TeacherCourse getById(int id) {
-		return jdbcTemplate.queryForObject(GET_TEACHERCOURSE_BY_STUDENT_ID, implementRowMapper(), id);
+		return jdbcTemplate.queryForObject(GET_TEACHERCOURSE_BY_STUDENT_ID, rowMapper(), id);
 	}
 
 	public TeacherCourse getByCourseId(int id) {
-		return jdbcTemplate.queryForObject(GET_TEACHERCOURSE_BY_COURSE_ID, implementRowMapper(), id);
+		return jdbcTemplate.queryForObject(GET_TEACHERCOURSE_BY_COURSE_ID, rowMapper(), id);
 	}
 
 	@Override
 	public List<TeacherCourse> getAll() {
-		return jdbcTemplate.query(GET_ALL_TEACHERCOURSES, implementRowMapper());
+		return jdbcTemplate.query(GET_ALL_TEACHERCOURSES, rowMapper());
 	}
 
 	@Override
-	public void save(TeacherCourse teacherCourse) {
+	public void create(TeacherCourse teacherCourse) {
 		jdbcTemplate.update(ADD_TEACHER_TO_COURSE, teacherCourse.getTeacherId(), teacherCourse.getCourseId());
 	}
 
@@ -57,7 +57,7 @@ public class TeacherCourseDao implements DaoInterface<TeacherCourse> {
 		jdbcTemplate.update(REMOVE_TEACHER_FROM_COURSE, teacherCourse.getTeacherId(), teacherCourse.getCourseId());
 	}
 
-	private RowMapper<TeacherCourse> implementRowMapper() {
+	private RowMapper<TeacherCourse> rowMapper() {
 		RowMapper<TeacherCourse> map = (resultSet, rowNumber) -> {
 			TeacherCourse teacherCourse = new TeacherCourse();
 			teacherCourse.setTeacherId(resultSet.getInt("teacher_id"));
