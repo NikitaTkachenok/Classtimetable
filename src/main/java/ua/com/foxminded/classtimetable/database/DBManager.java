@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
@@ -25,5 +26,12 @@ public class DBManager {
 				.collect(Collectors.joining());
 
 		jdbcTemplate.execute(query);
+	}
+
+	public void fillTables() throws IOException, URISyntaxException, SQLException {
+		DataGenerator generatorOfEntities = new DataGenerator();
+		ScheduleGenerator generatorOfSchedule = new ScheduleGenerator();
+		generatorOfEntities.fillTables();
+		generatorOfSchedule.formSchedule();
 	}
 }

@@ -18,6 +18,7 @@ public class TeacherDao implements DaoInterface<Teacher> {
 	private final JdbcTemplate jdbcTemplate;
 
 	private static final String GET_TEACHER_BY_ID = "SELECT * FROM teachers WHERE id = ?";
+	private static final String GET_TEACHERS_FROM_ONE_FACULTY = "SELECT * FROM teachers WHERE faculty_id = ?";
 	private static final String GET_ALL_TEACHERS = "SELECT * FROM teachers";
 	private static final String ADD_NEW_TEACHER = "INSERT INTO teachers (first_name, last_name, faculty_id) VALUES (?, ?, ?)";
 	private static final String UPDATE_TEACHER = "UPDATE teachers SET first_name = ?, last_name = ?, faculty_id = ? WHERE id = ?";
@@ -31,6 +32,10 @@ public class TeacherDao implements DaoInterface<Teacher> {
 	@Override
 	public Teacher getById(int id) {
 		return jdbcTemplate.queryForObject(GET_TEACHER_BY_ID, rowMapper(), id);
+	}
+
+	public List<Teacher> getTeachersFromFaculty(int facultyId) {
+		return jdbcTemplate.query(GET_TEACHERS_FROM_ONE_FACULTY, rowMapper(), facultyId);
 	}
 
 	@Override

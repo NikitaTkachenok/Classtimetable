@@ -55,6 +55,7 @@ CREATE TABLE students
 CREATE TABLE lessons
 (
 	id SERIAL NOT NULL,
+	date DATE NOT NULL,
 	start_time TIME NOT NULL,
 	end_time TIME NOT NULL,
 	classroom_id int,

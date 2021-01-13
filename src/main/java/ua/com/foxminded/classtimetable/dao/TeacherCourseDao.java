@@ -16,7 +16,7 @@ public class TeacherCourseDao implements DaoInterface<TeacherCourse> {
 
 	private final JdbcTemplate jdbcTemplate;
 
-	private static final String GET_TEACHERCOURSE_BY_STUDENT_ID = "SELECT * FROM teachers_courses WHERE teacher_id = ?";
+	private static final String GET_TEACHERCOURSE_BY_TEACHER_ID = "SELECT * FROM teachers_courses WHERE teacher_id = ?";
 	private static final String GET_TEACHERCOURSE_BY_COURSE_ID = "SELECT * FROM teachers_courses WHERE course_id = ?";
 	private static final String GET_ALL_TEACHERCOURSES = "SELECT * FROM teachers_courses";
 	private static final String ADD_TEACHER_TO_COURSE = "INSERT INTO teachers_courses (teacher_id, course_id) VALUES (?, ?)";
@@ -30,7 +30,7 @@ public class TeacherCourseDao implements DaoInterface<TeacherCourse> {
 
 	@Override
 	public TeacherCourse getById(int id) {
-		return jdbcTemplate.queryForObject(GET_TEACHERCOURSE_BY_STUDENT_ID, rowMapper(), id);
+		return jdbcTemplate.queryForObject(GET_TEACHERCOURSE_BY_TEACHER_ID, rowMapper(), id);
 	}
 
 	public TeacherCourse getByCourseId(int id) {

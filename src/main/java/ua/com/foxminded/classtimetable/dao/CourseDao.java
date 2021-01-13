@@ -1,5 +1,8 @@
 package ua.com.foxminded.classtimetable.dao;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -21,6 +24,7 @@ public class CourseDao implements DaoInterface<Course> {
 	private static final String ADD_NEW_COURSE = "INSERT INTO courses (course_name) VALUES (?)";
 	private static final String UPDATE_COURSE = "UPDATE courses SET course_name = ? WHERE id = ?";
 	private static final String REMOVE_COURSE = "DELETE FROM courses WHERE id = ?";
+	private static final String GET_RANDOM_COURSE_ID = "SELECT * FROM courses ORDER BY random() limit ?";
 
 	@Autowired
 	public CourseDao(DataSource dataSource) {
@@ -52,6 +56,10 @@ public class CourseDao implements DaoInterface<Course> {
 		jdbcTemplate.update(REMOVE_COURSE, course.getId());
 	}
 
+	public Course getRandomId(int numberOfId) throws IOException, URISyntaxException, SQLException {
+		return jdbcTemplate.queryForObject(GET_RANDOM_COURSE_ID, rowMapper(), numberOfId);
+	}
+
 	private RowMapper<Course> rowMapper() {
 		RowMapper<Course> map = (resultSet, rowNumber) -> {
 			Course course = new Course();
@@ -61,5 +69,5 @@ public class CourseDao implements DaoInterface<Course> {
 		};
 		return map;
 	}
-	
+
 }
