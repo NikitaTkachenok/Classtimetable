@@ -15,7 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import ua.com.foxminded.classtimetable.config.DBConfiguratoin;
+import ua.com.foxminded.classtimetable.config.DBConfiguration;
 import ua.com.foxminded.classtimetable.dao.BuildingDao;
 import ua.com.foxminded.classtimetable.dao.ClassroomDao;
 import ua.com.foxminded.classtimetable.dao.CourseDao;
@@ -36,7 +36,7 @@ import ua.com.foxminded.classtimetable.entities.TeacherCourse;
 public class DataGenerator {
 
 	private final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
-			DBConfiguratoin.class);
+			DBConfiguration.class);
 
 	private static final String HYPHEN = "-";
 	private static final String SPACE = " ";

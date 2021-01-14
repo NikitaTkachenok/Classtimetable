@@ -30,11 +30,11 @@ public class StudentCourseDao implements DaoInterface<StudentCourse> {
 
 	@Override
 	public StudentCourse getById(int id) {
-		return jdbcTemplate.queryForObject(GET_STUDENTCOURSE_BY_STUDENT_ID, rowMapper(), id);
+		return jdbcTemplate.queryForObject(GET_STUDENTCOURSE_BY_COURSE_ID, rowMapper(), id);
 	}
 
-	public StudentCourse getByCourseId(int id) {
-		return jdbcTemplate.queryForObject(GET_STUDENTCOURSE_BY_COURSE_ID, rowMapper(), id);
+	public List<StudentCourse> getByStudentId(int id) {
+		return jdbcTemplate.query(GET_STUDENTCOURSE_BY_STUDENT_ID, rowMapper(), id);
 	}
 
 	@Override

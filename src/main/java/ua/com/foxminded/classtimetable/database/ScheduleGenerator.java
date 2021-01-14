@@ -13,7 +13,7 @@ import java.util.Set;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import ua.com.foxminded.classtimetable.config.DBConfiguratoin;
+import ua.com.foxminded.classtimetable.config.DBConfiguration;
 import ua.com.foxminded.classtimetable.dao.ClassroomDao;
 import ua.com.foxminded.classtimetable.dao.CourseDao;
 import ua.com.foxminded.classtimetable.dao.FacultyDao;
@@ -29,14 +29,13 @@ import ua.com.foxminded.classtimetable.entities.Teacher;
 public class ScheduleGenerator {
 
 	private final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
-			DBConfiguratoin.class);
+			DBConfiguration.class);
 
 	public void formSchedule() {
 		LessonDao daoLesson = context.getBean(LessonDao.class);
 		for (LocalDate date : setDateDiapason()) {
 			for (Lesson lesson : formLessons()) {
 				lesson.setDate(date);
-				System.out.println("lesson ¹ " + lesson);
 				daoLesson.create(lesson);
 			}
 		}
@@ -61,7 +60,6 @@ public class ScheduleGenerator {
 			List<Course> courses = leaveCoursesForOneFaculty(teachers);
 			for (Entry<LocalTime, LocalTime> entry : setLessonsTime().entrySet()) {
 				Lesson lesson = new Lesson();
-				System.out.println(entry + "\n");
 				lesson.setStartTime(entry.getKey());
 				lesson.setEndTime(entry.getValue());
 				int randomTeacher = 0;
@@ -70,7 +68,6 @@ public class ScheduleGenerator {
 				} else {
 					randomTeacher = ThreadLocalRandom.current().nextInt(teachers.size() + 1);
 				}
-				System.out.println(randomTeacher);
 				lesson.setTeacherId(teachers.get(randomTeacher).getId());
 				teachers.remove(randomTeacher);
 
@@ -80,7 +77,6 @@ public class ScheduleGenerator {
 				} else {
 					randomCourse = ThreadLocalRandom.current().nextInt(courses.size() + 1);
 				}
-				System.out.println(randomCourse);
 				lesson.setCourseId(courses.get(randomCourse).getId());
 				courses.remove(randomCourse);
 
@@ -90,11 +86,9 @@ public class ScheduleGenerator {
 				} else {
 					randomClassroom = ThreadLocalRandom.current().nextInt(classrooms.size() + 1);
 				}
-				System.out.println(randomClassroom);
 				lesson.setClassroomId(classrooms.get(randomClassroom).getId());
 				classrooms.remove(randomClassroom);
 
-				System.out.println(lesson);
 				lessonsPerDay.add(lesson);
 			}
 		}
