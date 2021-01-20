@@ -20,7 +20,7 @@ public class DBConfiguration {
 
 	private final String DRIVER = "driver";
 	private final String URL = "url";
-	private final String USER = "user";
+	private final String USER = "dbuser";
 	private final String PASSWORD = "password";
 
 	@Bean
