@@ -18,13 +18,11 @@ public class LessonDao implements DaoInterface<Lesson> {
 
 	private static final String GET_LESSON_BY_ID = "SELECT * FROM lessons WHERE id = ?";
 	private static final String GET_ALL_LESSONS = "SELECT * FROM lessons";
-	private static final String GET_TEACHER_LESSONS_FOR_ONE_DATE = "SELECT * FROM lessons WHERE teacher_id = ? AND date = ?";
-	private static final String GET_COURSE_LESSONS_FOR_ONE_DATE = "SELECT * FROM lessons WHERE course_id = ? AND date = ?";
-	private static final String GET_TEACHER_LESSONS_IN_DATE_DIAPASON = "SELECT * FROM lessons WHERE teacher_id = ? AND date between ? AND ?";
-	private static final String GET_COURSE_LESSONS_IN_DATE_DIAPASON = "SELECT * FROM lessons WHERE course_id = ? AND date between ? AND ?";
 	private static final String ADD_NEW_LESSON = "INSERT INTO lessons (date, start_time, end_time, classroom_id, course_id, teacher_id) VALUES (?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE_LESSON = "UPDATE lessons SET date = ?, start_time = ?, end_time = ?, classroom_id = ?, course_id = ?, teacher_id = ? WHERE id = ?";
 	private static final String REMOVE_LESSON = "DELETE FROM lessons WHERE id = ?";
+	private static final String GET_TEACHER_LESSONS_IN_DATE_RANGE = "SELECT lessons.id, date, start_time, end_time, classroom_id, course_id, teacher_id FROM teachers INNER JOIN lessons ON teachers.id = lessons.teacher_id WHERE teachers.id = ? AND date BETWEEN ? AND ?";
+	private static final String GET_STUDENT_LESSONS_IN_DATE_RANGE = "SELECT lessons.id, date, start_time, end_time, classroom_id, lessons.course_id, teacher_id FROM lessons INNER JOIN students_courses ON lessons.course_id = students_courses.course_id INNER JOIN students ON students_courses.student_id = students.id WHERE students.id = ? AND date BETWEEN ? AND ?;";
 
 	public LessonDao(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
@@ -38,22 +36,6 @@ public class LessonDao implements DaoInterface<Lesson> {
 	@Override
 	public List<Lesson> getAll() {
 		return jdbcTemplate.query(GET_ALL_LESSONS, rowMapper());
-	}
-
-	public List<Lesson> getLessonsForTeacherForOneDate(int teacherId, LocalDate date) {
-		return jdbcTemplate.query(GET_TEACHER_LESSONS_FOR_ONE_DATE, rowMapper(), teacherId, date);
-	}
-
-	public List<Lesson> getLessonsWithOneCourseForOneDate(int courseId, LocalDate date) {
-		return jdbcTemplate.query(GET_COURSE_LESSONS_FOR_ONE_DATE, rowMapper(), courseId, date);
-	}
-
-	public List<Lesson> getLessonsForTeacherOnDateDiapason(int teacherId, LocalDate startDate, LocalDate endDate) {
-		return jdbcTemplate.query(GET_TEACHER_LESSONS_IN_DATE_DIAPASON, rowMapper(), teacherId, startDate, endDate);
-	}
-
-	public List<Lesson> getLessonsWithOneCourseOnDateDiapason(int courseId, LocalDate startDate, LocalDate endDate) {
-		return jdbcTemplate.query(GET_COURSE_LESSONS_IN_DATE_DIAPASON, rowMapper(), courseId, startDate, endDate);
 	}
 
 	@Override
@@ -71,6 +53,14 @@ public class LessonDao implements DaoInterface<Lesson> {
 	@Override
 	public void delete(Lesson lesson) {
 		jdbcTemplate.update(REMOVE_LESSON, lesson.getId());
+	}
+
+	public List<Lesson> getLessonsForTeacherOnDateRange(int teacherId, LocalDate startDate, LocalDate endDate) {
+		return jdbcTemplate.query(GET_TEACHER_LESSONS_IN_DATE_RANGE, rowMapper(), teacherId, startDate, endDate);
+	}
+
+	public List<Lesson> getLessonsForStudentOnDateRange(int courseId, LocalDate startDate, LocalDate endDate) {
+		return jdbcTemplate.query(GET_STUDENT_LESSONS_IN_DATE_RANGE, rowMapper(), courseId, startDate, endDate);
 	}
 
 	private RowMapper<Lesson> rowMapper() {

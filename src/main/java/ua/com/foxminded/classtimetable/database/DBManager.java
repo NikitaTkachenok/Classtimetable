@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.core.io.FileSystemResource;
@@ -21,13 +22,15 @@ public class DBManager {
 	public DBManager(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
-
-	public void createTables() throws IOException, URISyntaxException, ScriptException, SQLException {
+	
+	@PostConstruct
+	private void createTables() throws IOException, URISyntaxException, ScriptException, SQLException {
 		ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(),
 				new FileSystemResource(Paths.get(ClassLoader.getSystemResource("tablesCreation.sql").toURI())));
 	}
-
-	public void fillTables() throws IOException, URISyntaxException, SQLException {
+	
+	@PostConstruct
+	private void fillTables() throws IOException, URISyntaxException, SQLException {
 		ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(),
 				new FileSystemResource(Paths.get(ClassLoader.getSystemResource("buildingsFilling.sql").toURI())));
 		ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(),

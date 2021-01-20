@@ -19,11 +19,7 @@ public class TeacherService {
 		daoLesson = new LessonDao(dataSource);
 	}
 
-	public List<Lesson> receiveLessonsForOneDate(int teacherId, LocalDate requiredDate) {
-		return daoLesson.getLessonsForTeacherForOneDate(teacherId, requiredDate);
-	}
-
-	public List<Lesson> receiveLessonsOnDateDiapason(int teacherId, LocalDate beginDate, LocalDate endDate) {
-		return daoLesson.getLessonsForTeacherOnDateDiapason(teacherId, beginDate, endDate);
+	public List<Lesson> receiveLessonsOnDateRange(int teacherId, LocalDate beginDate, LocalDate endDate) {
+		return daoLesson.getLessonsForTeacherOnDateRange(teacherId, beginDate, endDate);
 	}
 }
