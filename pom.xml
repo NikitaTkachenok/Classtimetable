@@ -10,6 +10,7 @@
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<junit.version>4.13.1</junit.version>
 		<postgresql.version>42.2.18</postgresql.version>
 		<spring-context.version>5.2.9.RELEASE</spring-context.version>
 		<spring-core.version>5.2.9.RELEASE</spring-core.version>
@@ -17,9 +18,16 @@
 		<spring-expression.version>5.2.9.RELEASE</spring-expression.version>
 		<maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
 		<commons-lang3.version>3.11</commons-lang3.version>
+		<mockito-core.version>3.7.7</mockito-core.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -49,6 +57,12 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${commons-lang3.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>${mockito-core.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

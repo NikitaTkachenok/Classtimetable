@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import ua.com.foxminded.classtimetable.dao.DaoInterface;
 import ua.com.foxminded.classtimetable.entities.Teacher;
 
 @Repository

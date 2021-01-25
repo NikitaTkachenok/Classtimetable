@@ -9,6 +9,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import ua.com.foxminded.classtimetable.config.DBConfiguration;
 import ua.com.foxminded.classtimetable.service.StudentService;
+import ua.com.foxminded.classtimetable.service.TeacherService;
 
 public class Application {
 
@@ -16,13 +17,6 @@ public class Application {
 
 		try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
 				DBConfiguration.class);) {
-
-			StudentService service = context.getBean(StudentService.class);
-
-			LocalDate beginDate = LocalDate.of(2021, 01, 20);
-			LocalDate endDate = LocalDate.of(2021, 01, 31);
-
-			System.out.println(service.receiveLessonsOnDateRange(3, beginDate, endDate));
 		}
 	}
 }
