@@ -22,15 +22,11 @@ public class DBManager {
 	public DBManager(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
-	
+
 	@PostConstruct
-	private void createTables() throws IOException, URISyntaxException, ScriptException, SQLException {
+	private void createAndFillTables() throws IOException, URISyntaxException, ScriptException, SQLException {
 		ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(),
 				new FileSystemResource(Paths.get(ClassLoader.getSystemResource("tablesCreation.sql").toURI())));
-	}
-	
-	@PostConstruct
-	private void fillTables() throws IOException, URISyntaxException, SQLException {
 		ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(),
 				new FileSystemResource(Paths.get(ClassLoader.getSystemResource("buildingsFilling.sql").toURI())));
 		ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(),

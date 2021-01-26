@@ -3,7 +3,6 @@ package ua.com.foxminded.classtimetable.service;
 import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
