@@ -12,10 +12,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 import ua.com.foxminded.classtimetable.dao.LessonDao;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TeacherServiceTest {
+public class StudentServiceTest {
 
 	@InjectMocks
-	private TeacherService teacherServiceMock;
+	private StudentService studentServiceMock;
 
 	@Mock
 	private LessonDao lessonDaoMock;
@@ -23,13 +23,12 @@ public class TeacherServiceTest {
 	@Test
 	public void should_callMethodInDaoClass_when_methodArgumentsIsCorrect() {
 
-		int teacherId = 1;
-		LocalDate beginDate = LocalDate.of(2021, 01, 20);
-		LocalDate endDate = LocalDate.of(2021, 01, 23);
+		int studentId = 1;
+		LocalDate beginDate = LocalDate.of(2021, 02, 15);
+		LocalDate endDate = LocalDate.of(2021, 02, 21);
 
-		teacherServiceMock.receiveLessonsOnDateRange(teacherId, beginDate, endDate);
+		studentServiceMock.receiveLessonsOnDateRange(studentId, beginDate, endDate);
 
-		Mockito.verify(lessonDaoMock).getLessonsForTeacherOnDateRange(teacherId, beginDate, endDate);
+		Mockito.verify(lessonDaoMock).getLessonsForStudentOnDateRange(studentId, beginDate, endDate);
 	}
-
 }

@@ -3,8 +3,6 @@ package ua.com.foxminded.classtimetable.service;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.stereotype.Service;
 
 import ua.com.foxminded.classtimetable.dao.LessonDao;
@@ -15,8 +13,8 @@ public class StudentService {
 
 	private final LessonDao daoLesson;
 
-	public StudentService(DataSource dataSource) {
-		daoLesson = new LessonDao(dataSource);
+	public StudentService(LessonDao daoLesson) {
+		this.daoLesson = daoLesson;
 	}
 
 	public List<Lesson> receiveLessonsOnDateRange(int studentId, LocalDate beginDate, LocalDate endDate) {
