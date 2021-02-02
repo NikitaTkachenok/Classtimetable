@@ -1,10 +1,12 @@
 package ua.com.foxminded.classtimetable.entities;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Lesson {
 
 	private int id;
+	private LocalDate date;
 	private LocalTime startTime;
 	private LocalTime endTime;
 	private int classroomId;
@@ -15,7 +17,7 @@ public class Lesson {
 		return id;
 	}
 
-	public void setid(int id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -59,12 +61,21 @@ public class Lesson {
 		this.teacherId = teacherId;
 	}
 
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + classroomId;
 		result = prime * result + courseId;
+		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + ((endTime == null) ? 0 : endTime.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((startTime == null) ? 0 : startTime.hashCode());
@@ -85,6 +96,11 @@ public class Lesson {
 			return false;
 		if (courseId != other.courseId)
 			return false;
+		if (date == null) {
+			if (other.date != null)
+				return false;
+		} else if (!date.equals(other.date))
+			return false;
 		if (endTime == null) {
 			if (other.endTime != null)
 				return false;
@@ -104,8 +120,8 @@ public class Lesson {
 
 	@Override
 	public String toString() {
-		return "Lesson [id=" + id + ", startTime=" + startTime + ", endTime=" + endTime + ", classroomId=" + classroomId
-				+ ", courseId=" + courseId + ", teacherId=" + teacherId + "]";
+		return "Lesson [id=" + id + ", date=" + date + ", startTime=" + startTime + ", endTime=" + endTime
+				+ ", classroomId=" + classroomId + ", courseId=" + courseId + ", teacherId=" + teacherId + "]";
 	}
 
 }

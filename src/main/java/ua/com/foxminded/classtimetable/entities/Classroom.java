@@ -2,11 +2,11 @@ package ua.com.foxminded.classtimetable.entities;
 
 public class Classroom {
 
-	private int buildingId;
 	private int id;
 	private String roomName;
 	private String roomType;
 	private int roomCapacity;
+	private int buildingId;
 
 	public int getBuildingId() {
 		return buildingId;
@@ -93,4 +93,5 @@ public class Classroom {
 		return "Classroom [buildingId=" + buildingId + ", id=" + id + ", roomName=" + roomName + ", roomType="
 				+ roomType + ", roomCapacity=" + roomCapacity + "]";
 	}
+
 }

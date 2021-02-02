@@ -2,10 +2,10 @@ package ua.com.foxminded.classtimetable.entities;
 
 public class Student {
 
-	private int facultyId;
 	private int id;
 	private String firstName;
 	private String lastName;
+	private int facultyId;
 
 	public int getFacultyId() {
 		return facultyId;

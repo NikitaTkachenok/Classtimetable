@@ -1,6 +1,6 @@
 package ua.com.foxminded.classtimetable.entities;
 
-public class Buiding {
+public class Building {
 
 	private int id;
 	private String buildingName;
@@ -38,7 +38,7 @@ public class Buiding {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Buiding other = (Buiding) obj;
+		Building other = (Building) obj;
 		if (id != other.id)
 			return false;
 		if (buildingName == null) {

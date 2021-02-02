@@ -1,11 +1,11 @@
 package ua.com.foxminded.classtimetable.entities;
 
 public class Course {
-
+	
 	private int id;
 	private String courseName;
 
-	public int getd() {
+	public int getId() {
 		return id;
 	}
 
@@ -53,4 +53,5 @@ public class Course {
 	public String toString() {
 		return "Course [id=" + id + ", courseName=" + courseName + "]";
 	}
+
 }
