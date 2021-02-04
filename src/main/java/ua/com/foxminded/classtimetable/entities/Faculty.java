@@ -1,6 +1,6 @@
 package ua.com.foxminded.classtimetable.entities;
 
-public class Faculty {
+class Faculty {
 
 	private int id;
 	private String facultyName;
