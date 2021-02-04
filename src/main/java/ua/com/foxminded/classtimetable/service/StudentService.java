@@ -21,16 +21,14 @@ public class StudentService {
 	}
 
 	public List<Lesson> receiveLessonsOnDateRange(int studentId, LocalDate beginDate, LocalDate endDate) {
-		logger.info("The income parameters is: student ID = {}, begin date = {}, end date = {}.", studentId, beginDate,
+		logger.info("receiveLessonsOnDateRange: student ID = {}, begin date = {}, end date = {}.", studentId, beginDate,
 				endDate);
 		List<Lesson> lessons = daoLesson.getLessonsForStudentOnDateRange(studentId, beginDate, endDate);
 		if (lessons.isEmpty()) {
-			logger.info("The student with ID = {} has no lessons for this date range.", studentId);
+			logger.warn("The student with ID = {} has no lessons for this date range.", studentId);
 		} else {
 			logger.info("The student with ID {} has {} lessons for this date range:", studentId, lessons.size());
-			for (Lesson lesson : lessons) {
-				logger.info("The lesson: {}", lesson);
-			}
+			logger.info("Lessons:\n {}", lessons);
 		}
 		return lessons;
 	}
