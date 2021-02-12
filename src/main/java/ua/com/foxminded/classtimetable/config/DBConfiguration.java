@@ -9,10 +9,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @ComponentScan("ua.com.foxminded.classtimetable")
 @PropertySource("classpath:dbconfig.properties")
+@EnableWebMvc
 public class DBConfiguration {
 
 	@Autowired
@@ -31,5 +34,15 @@ public class DBConfiguration {
 		dataSource.setUsername(environment.getProperty(USER));
 		dataSource.setPassword(environment.getProperty(PASSWORD));
 		return dataSource;
+	}
+
+	@Bean
+	public InternalResourceViewResolver viewResolver() {
+
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+		viewResolver.setPrefix("/");
+		viewResolver.setSuffix(".jsp");
+
+		return viewResolver;
 	}
 }
