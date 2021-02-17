@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Building</title>
+</head>
+<body>
+
+<p th:text="${building.getBuildingName()}">VALUE</p>
+<p th:text="${building.getId()}">VALUE</p>
+
+<a th:href="@{/buildings/{id}/edit(id=${building.getId()})}">Update</a>
+</br>
+<form th:method="DELETE" th:action="@{/buildings/{id}(id=${building.getId()})}">
+    <input type="submit" value="Delete!"/>
+</form>
+
+<a href="/buildings/allBuildings">Back to table</a>
+</br>
+<a href="/toolbar">Back to menu</a>
+
+</body>
+</html>

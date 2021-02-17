@@ -2,13 +2,12 @@ package ua.com.foxminded.classtimetable.database;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Paths;
 import java.sql.SQLException;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ScriptException;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
@@ -26,24 +25,25 @@ public class DBManager {
 	@PostConstruct
 	private void createAndFillTables() throws IOException, URISyntaxException, ScriptException, SQLException {
 		ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(),
-				new FileSystemResource(Paths.get(ClassLoader.getSystemResource("tablesCreation.sql").toURI())));
+				new InputStreamResource(getClass().getClassLoader().getResourceAsStream("tablesCreation.sql")));
 		ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(),
-				new FileSystemResource(Paths.get(ClassLoader.getSystemResource("buildingsFilling.sql").toURI())));
+				new InputStreamResource(getClass().getClassLoader().getResourceAsStream("buildingsFilling.sql")));
 		ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(),
-				new FileSystemResource(Paths.get(ClassLoader.getSystemResource("classroomsFilling.sql").toURI())));
+				new InputStreamResource(getClass().getClassLoader().getResourceAsStream("classroomsFilling.sql")));
 		ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(),
-				new FileSystemResource(Paths.get(ClassLoader.getSystemResource("coursesFilling.sql").toURI())));
+				new InputStreamResource(getClass().getClassLoader().getResourceAsStream("coursesFilling.sql")));
 		ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(),
-				new FileSystemResource(Paths.get(ClassLoader.getSystemResource("facultiesFilling.sql").toURI())));
+				new InputStreamResource(getClass().getClassLoader().getResourceAsStream("facultiesFilling.sql")));
 		ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(),
-				new FileSystemResource(Paths.get(ClassLoader.getSystemResource("studentsFilling.sql").toURI())));
+				new InputStreamResource(getClass().getClassLoader().getResourceAsStream("studentsFilling.sql")));
 		ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(),
-				new FileSystemResource(Paths.get(ClassLoader.getSystemResource("studentsCoursesFilling.sql").toURI())));
+				new InputStreamResource(getClass().getClassLoader().getResourceAsStream("studentsCoursesFilling.sql")));
 		ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(),
-				new FileSystemResource(Paths.get(ClassLoader.getSystemResource("teachersFilling.sql").toURI())));
+				new InputStreamResource(getClass().getClassLoader().getResourceAsStream("teachersFilling.sql")));
 		ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(),
-				new FileSystemResource(Paths.get(ClassLoader.getSystemResource("teachersCoursesFilling.sql").toURI())));
+				new InputStreamResource(getClass().getClassLoader().getResourceAsStream("teachersCoursesFilling.sql")));
 		ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(),
-				new FileSystemResource(Paths.get(ClassLoader.getSystemResource("lessonsFilling.sql").toURI())));
+				new InputStreamResource(getClass().getClassLoader().getResourceAsStream("lessonsFilling.sql")));
 	}
+
 }

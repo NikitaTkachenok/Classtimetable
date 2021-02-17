@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Form To Fill</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/buildings}" th:object="${building}">
+    <label for="buildingName">Enter name: </label>
+    <input type="text" th:field="*{buildingName}" id="buildingName"/>
+    <br/>
+    <input type="submit" value="Create!">
+</form>
+
+<a href="/buildings/allBuildings">Cancel</a>
+
+</body>
+</html>
