@@ -4,12 +4,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class ToolbarController {
+public class MenuController {
 
-	@RequestMapping(value = "/toolbar")
+	@RequestMapping(value = "/")
 	public String showToolbar() {
 
-		return "toolbar";
+		return "menu";
 	}
 
 }

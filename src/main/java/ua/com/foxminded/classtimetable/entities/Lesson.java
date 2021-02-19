@@ -1,11 +1,14 @@
 package ua.com.foxminded.classtimetable.entities;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Lesson {
 
 	private int id;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate date;
 	private LocalTime startTime;
 	private LocalTime endTime;
