@@ -1,54 +1,60 @@
 package ua.com.foxminded.classtimetable.controllers;
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ua.com.foxminded.classtimetable.dao.TeacherDao;
 import ua.com.foxminded.classtimetable.entities.Teacher;
+import ua.com.foxminded.classtimetable.service.FacultyService;
+import ua.com.foxminded.classtimetable.service.TeacherService;
 
 @Controller
 @RequestMapping("/teachers")
 public class TeacherController {
 
-    private final TeacherDao daoTeacher;
+    private final TeacherService serviceTeacher;
+    private final FacultyService serviceFaculty;
 
-    public TeacherController(TeacherDao daoTeacher) {
-        this.daoTeacher = daoTeacher;
+    public TeacherController(TeacherService serviceTeacher, FacultyService serviceFaculty) {
+        this.serviceTeacher = serviceTeacher;
+        this.serviceFaculty = serviceFaculty;
     }
 
     @GetMapping()
     public String showAll(Model model) {
-        model.addAttribute("teachers", daoTeacher.getAll());
+        model.addAttribute("teachers", serviceTeacher.getAll());
+        model.addAttribute("faculties", serviceFaculty);
         return "teachers/showAll";
     }
 
     @GetMapping("/{id}")
     public String showById(@PathVariable("id") int id, Model model) {
-        model.addAttribute("teacher", daoTeacher.getById(id));
+        model.addAttribute("teacher", serviceTeacher.getById(id))
+                .addAttribute("faculties", serviceFaculty.getAll());
         return "teachers/showById";
     }
 
-    @GetMapping("/newTeacher")
-    public String create(@ModelAttribute("teacher") Teacher teacher) {
+    @GetMapping("/new")
+    public String create(@ModelAttribute("teacher") Teacher teacher,
+                         Model model) {
+        model.addAttribute("faculties", serviceFaculty.getAll());
         return "teachers/create";
     }
 
     @PostMapping()
     public String addToDB(@ModelAttribute("teacher") Teacher teacher) {
-        daoTeacher.create(teacher);
+        serviceTeacher.create(teacher);
         return "redirect:/teachers";
     }
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     public String update(@ModelAttribute("teacher") Teacher teacher) {
-        daoTeacher.update(teacher);
+        serviceTeacher.update(teacher);
         return "redirect:/teachers";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@ModelAttribute("teacher") Teacher teacher) {
-        daoTeacher.delete(teacher);
+        serviceTeacher.delete(teacher);
         return "redirect:/teachers";
     }
 }

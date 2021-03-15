@@ -15,22 +15,22 @@ import javax.sql.DataSource;
 @PropertySource("classpath:dbconfig.properties")
 public class DBConfiguration {
 
-	@Autowired
-	Environment environment;
+    @Autowired
+    Environment environment;
 
-	private final String DRIVER = "driver";
-	private final String URL = "url";
-	private final String USER = "dbuser";
-	private final String PASSWORD = "password";
+    private final String DRIVER = "driver";
+    private final String URL = "url";
+    private final String USER = "dbuser";
+    private final String PASSWORD = "password";
 
-	@Bean
-	DataSource dataSource() {
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName(environment.getProperty(DRIVER));
-		dataSource.setUrl(environment.getProperty(URL));
-		dataSource.setUsername(environment.getProperty(USER));
-		dataSource.setPassword(environment.getProperty(PASSWORD));
-		return dataSource;
-	}
+    @Bean
+    DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(environment.getProperty(DRIVER));
+        dataSource.setUrl(environment.getProperty(URL));
+        dataSource.setUsername(environment.getProperty(USER));
+        dataSource.setPassword(environment.getProperty(PASSWORD));
+        return dataSource;
+    }
 
 }

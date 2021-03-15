@@ -3,51 +3,58 @@ package ua.com.foxminded.classtimetable.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ua.com.foxminded.classtimetable.dao.StudentDao;
 import ua.com.foxminded.classtimetable.entities.Student;
+import ua.com.foxminded.classtimetable.service.FacultyService;
+import ua.com.foxminded.classtimetable.service.StudentService;
 
 @Controller
 @RequestMapping("/students")
 public class StudentController {
 
-    private final StudentDao daoStudent;
+    private final StudentService serviceStudent;
+    private final FacultyService serviceFaculty;
 
-    public StudentController(StudentDao daoStudent) {
-        this.daoStudent = daoStudent;
+    public StudentController(StudentService serviceStudent, FacultyService serviceFaculty) {
+        this.serviceStudent = serviceStudent;
+        this.serviceFaculty = serviceFaculty;
     }
 
     @GetMapping()
     public String showAll(Model model) {
-        model.addAttribute("students", daoStudent.getAll());
+        model.addAttribute("students", serviceStudent.getAll());
+        model.addAttribute("faculties", serviceFaculty);
         return "students/showAll";
     }
 
     @GetMapping("/{id}")
     public String showById(@PathVariable("id") int id, Model model) {
-        model.addAttribute("student", daoStudent.getById(id));
+        model.addAttribute("student", serviceStudent.getById(id))
+                .addAttribute("faculties", serviceFaculty.getAll());
         return "students/showById";
     }
 
-    @GetMapping("/newStudent")
-    public String create(@ModelAttribute("student") Student student) {
+    @GetMapping("/new")
+    public String create(@ModelAttribute("student") Student student,
+                         Model model) {
+        model.addAttribute("faculties", serviceFaculty.getAll());
         return "students/create";
     }
 
     @PostMapping()
     public String addToDB(@ModelAttribute("student") Student student) {
-        daoStudent.create(student);
+        serviceStudent.create(student);
         return "redirect:/students";
     }
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     public String update(@ModelAttribute("student") Student student) {
-        daoStudent.update(student);
+        serviceStudent.update(student);
         return "redirect:/students";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@ModelAttribute("student") Student student) {
-        daoStudent.delete(student);
+        serviceStudent.delete(student);
         return "redirect:/students";
     }
 }

@@ -17,35 +17,35 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @EnableWebMvc
 public class WebConfiguration implements WebMvcConfigurer {
 
-	@Autowired
-	public WebConfiguration(ApplicationContext applicationContext) {
-		this.context = applicationContext;
-	}
+    @Autowired
+    public WebConfiguration(ApplicationContext applicationContext) {
+        this.context = applicationContext;
+    }
 
-	private final ApplicationContext context;
+    private final ApplicationContext context;
 
-	@Bean
-	public SpringResourceTemplateResolver templateResolver() {
-		SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-		templateResolver.setApplicationContext(context);
-		templateResolver.setPrefix("classpath:/templates/");
-		templateResolver.setSuffix(".html");
-		return templateResolver;
-	}
+    @Bean
+    public SpringResourceTemplateResolver templateResolver() {
+        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+        templateResolver.setApplicationContext(context);
+        templateResolver.setPrefix("classpath:/templates/");
+        templateResolver.setSuffix(".html");
+        return templateResolver;
+    }
 
-	@Bean
-	public SpringTemplateEngine templateEngine() {
-		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-		templateEngine.setTemplateResolver(templateResolver());
-		templateEngine.setEnableSpringELCompiler(true);
-		return templateEngine;
-	}
+    @Bean
+    public SpringTemplateEngine templateEngine() {
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver());
+        templateEngine.setEnableSpringELCompiler(true);
+        return templateEngine;
+    }
 
-	@Override
-	public void configureViewResolvers(ViewResolverRegistry registry) {
-		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-		resolver.setTemplateEngine(templateEngine());
-		registry.viewResolver(resolver);
-	}
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry registry) {
+        ThymeleafViewResolver resolver = new ThymeleafViewResolver();
+        resolver.setTemplateEngine(templateEngine());
+        registry.viewResolver(resolver);
+    }
 
 }

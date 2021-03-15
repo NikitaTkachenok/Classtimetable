@@ -1,53 +1,38 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Teachers</title>
+    <title>Teacher-listing</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">Class Timetable</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="/#">Tables
-                    <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="/buildings">Buildings</a></li>
-                    <li><a href="/students">Students</a></li>
-                    <li><a href="/teachers">Teachers</a></li>
-                    <li><a href="/lessons">Lessons</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-</nav>
+
+<div th:replace="~{fragments/navbar :: navbar}">Navbar
+</div>
 
 <div class="container">
+    <br/>
     <h2>Teachers</h2>
-    <table class="table table-bordered">
-        <thead>
+    <a class="btn btn-sm btn-secondary" href="/">Back to menu</a>
+    <a class="btn btn-sm btn-success" href="/teachers/new">Create new teacher</a>
+    <br/>
+    <br/>
+    <table class="table table-bordered table-hover">
+        <thead class="table-secondary">
         <tr>
-            <th>Id</th>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Faculty Id</th>
+            <th class="text-dark">First name</th>
+            <th class="text-dark">Last name</th>
+            <th class="text-dark">Faculty</th>
+            <th class="text-dark">Removal</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="teacher : ${teachers}">
-            <td>
-                <a th:href="@{/teachers/{id}(id=${teacher.getId()})}"
-                   th:text="${teacher.getId()}">teacher</a>
-            </td>
             <td>
                 <a th:href="@{/teachers/{id}(id=${teacher.getId()})}"
                    th:text="${teacher.getFirstName()}">teacher</a>
@@ -58,15 +43,16 @@
             </td>
             <td>
                 <a th:href="@{/teachers/{id}(id=${teacher.getId()})}"
-                   th:text="${teacher.getFacultyId()}">teacher</a>
+                   th:text="${faculties.getById(teacher.getFacultyId()).getFacultyName()}">teacher</a>
+            </td>
+            <td>
+                <form th:method="DELETE" th:action="@{/teachers/{id}(id=${teacher.getId()})}">
+                    <input class="btn btn-sm btn-danger" type="submit" value="Delete!"/>
+                </form>
             </td>
         </tr>
         </tbody>
     </table>
-
-    <a href="/teachers/newTeacher">Create new teacher</a>
-    <br/>
-    <a href="/">Back to menu</a>
 </div>
 </body>
 </html>

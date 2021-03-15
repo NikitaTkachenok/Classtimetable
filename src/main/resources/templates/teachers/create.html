@@ -1,49 +1,42 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Creating new teacher</title>
+    <title>Teacher-creation</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">Class Timetable</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="/#">Tables
-                    <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="/buildings">Buildings</a></li>
-                    <li><a href="/students">Students</a></li>
-                    <li><a href="/teachers">Teachers</a></li>
-                    <li><a href="/lessons">Lessons</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-</nav>
+<div th:replace="~{fragments/navbar :: navbar}">Navbar
+</div>
 
-<form th:method="POST" th:action="@{/teachers}" th:object="${teacher}">
-    <label for="firstName">Enter first name: </label>
-    <input type="text" th:field="*{firstName}" id="firstName"/>
+<div class="container">
     <br/>
-    <label for="lastName">Enter last name: </label>
-    <input type="text" th:field="*{lastName}" id="lastName"/>
+    <h2>New teacher creation page</h2>
+    <a class="btn btn-sm btn-secondary" href="/teachers">Back to table</a>
     <br/>
-    <label for="facultyId">Enter faculty ID: </label>
-    <input type="number" th:field="*{facultyId}" id="facultyId"/>
     <br/>
-    <input type="submit" value="Create!">
-</form>
+    <form th:method="POST" th:action="@{/teachers}" th:object="${teacher}">
+        <label>Enter first name:</label>
+        <input class="form-control form-control-sm" type="text" th:field="*{firstName}"/>
 
-<a href="/teachers">Cancel</a>
+        <label>Enter last name:</label>
+        <input class="form-control form-control-sm" type="text" th:field="*{lastName}"/>
+
+        <label>Select faculty:</label>
+        <select class="form-control form-control-sm" th:field="*{facultyId}">
+            <option th:each="faculty:${faculties}"
+                    th:value="${faculty.getId()}"
+                    th:text="${faculty.getFacultyName()}">
+            </option>
+        </select>
+        <br/>
+        <input type="submit" value="Create!">
+    </form>
+</div>
 </body>
 </html>
