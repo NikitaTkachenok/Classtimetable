@@ -1,7 +1,7 @@
 package ua.com.foxminded.classtimetable.controllers;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.classtimetable.entities.Classroom;
 import ua.com.foxminded.classtimetable.service.BuildingService;
@@ -24,14 +24,14 @@ public class ClassroomController {
     }
 
     @GetMapping()
-    public String showAll(Model model) {
+    public String showAll(ModelMap model) {
         model.addAttribute("classrooms", serviceClassroom.getAll());
         model.addAttribute("buildings", serviceBuilding);
         return "classrooms/showAll";
     }
 
     @GetMapping("/{id}")
-    public String showById(@PathVariable("id") int id, Model model) {
+    public String showById(@PathVariable("id") int id, ModelMap model) {
         model.addAttribute("classroom", serviceClassroom.getById(id)).
                 addAttribute("buildings", serviceBuilding.getAll()).
                 addAttribute("classroomTypes", getClassroomTypes());
@@ -40,7 +40,7 @@ public class ClassroomController {
 
     @GetMapping("/new")
     public String create(@ModelAttribute("classroom") Classroom classroom,
-                         Model model) {
+                         ModelMap model) {
         model.addAttribute("classroomTypes", getClassroomTypes())
                 .addAttribute("buildings", serviceBuilding.getAll());
         return "classrooms/create";
@@ -54,7 +54,7 @@ public class ClassroomController {
 
     @PutMapping("/{id}")
     public String update(@ModelAttribute("classroom") Classroom classroom,
-                         Model model) {
+                         ModelMap model) {
         serviceClassroom.update(classroom);
         return "redirect:/classrooms";
     }
@@ -65,7 +65,7 @@ public class ClassroomController {
         return "redirect:/classrooms";
     }
 
-    public List<String> getClassroomTypes() {
+    private List<String> getClassroomTypes() {
         List<String> typesWithDuplicates = new ArrayList<>();
         serviceClassroom.getAll().forEach(room -> typesWithDuplicates.add(room.getRoomType()));
         return typesWithDuplicates.stream().distinct().collect(Collectors.toList());

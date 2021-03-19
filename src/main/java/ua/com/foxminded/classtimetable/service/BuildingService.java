@@ -19,27 +19,29 @@ public class BuildingService {
     }
 
     public List<Building> getAll() {
-        logger.info("getAll():\n {}", daoBuilding.getAll());
-        return daoBuilding.getAll();
+        List<Building> allBuildings = daoBuilding.getAll();
+        logger.info("getAll():\n {}", allBuildings);
+        return allBuildings;
     }
 
     public Building getById(int id) {
-        logger.info("getById: building = {}", daoBuilding.getById(id));
-        return daoBuilding.getById(id);
+        Building building = daoBuilding.getById(id);
+        logger.info("getById: building = {}", building);
+        return building;
     }
 
     public void create(Building building) {
-        logger.info("create: student = {}", building);
+        logger.info("create: building = {}", building);
         daoBuilding.create(building);
     }
 
     public void update(Building building) {
-        logger.info("update: student = {}", building);
+        logger.info("update: building = {}", building);
         daoBuilding.update(building);
     }
 
     public void delete(Building building) {
-        logger.info("update: student = {}", building);
+        logger.info("update: building = {}", building);
         daoBuilding.delete(building);
     }
 

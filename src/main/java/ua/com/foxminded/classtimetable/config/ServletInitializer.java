@@ -31,7 +31,8 @@ public class ServletInitializer extends AbstractAnnotationConfigDispatcherServle
 
     private void registerHiddenFieldFilter(ServletContext aContext) {
         aContext.addFilter("hiddenHttpMethodFilter",
-                new HiddenHttpMethodFilter()).addMappingForUrlPatterns(null, true, "/*");
+                new HiddenHttpMethodFilter()).addMappingForUrlPatterns(
+                null, true, "/*");
     }
 
 }

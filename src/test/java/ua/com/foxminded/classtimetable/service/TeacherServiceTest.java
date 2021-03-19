@@ -25,7 +25,7 @@ public class TeacherServiceTest {
     private TeacherDao teacherDaoMock;
 
     @Test
-    public void should_callReceiveLessonsOnDateRangeMethodInDaoClass_when_methodArgumentsIsCorrect() {
+    public void should_callReceiveLessonsOnDateRangeMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
 
         String teacherFirstName = "Freya";
         String teacherLastName = "Shepp";

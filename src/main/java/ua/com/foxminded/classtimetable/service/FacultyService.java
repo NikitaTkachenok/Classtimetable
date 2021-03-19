@@ -18,13 +18,15 @@ public class FacultyService {
     }
 
     public List<Faculty> getAll() {
-        logger.info("getAll():\n {}", daoFaculty.getAll());
-        return daoFaculty.getAll();
+        List<Faculty> allFaculties = daoFaculty.getAll();
+        logger.info("getAll():\n {}", allFaculties);
+        return allFaculties;
     }
 
     public Faculty getById(int id) {
-        logger.info("getById: faculty = {}", daoFaculty.getById(id));
-        return daoFaculty.getById(id);
+        Faculty faculty = daoFaculty.getById(id);
+        logger.info("getById: faculty = {}", faculty);
+        return faculty;
     }
 
     public void create(Faculty faculty) {

@@ -19,13 +19,15 @@ public class LessonService {
     }
 
     public List<Lesson> getAll() {
-        logger.info("getAll():\n {}", daoLesson.getAll());
-        return daoLesson.getAll();
+        List<Lesson> allLessons = daoLesson.getAll();
+        logger.info("getAll():\n {}", allLessons);
+        return allLessons;
     }
 
     public Lesson getById(int id) {
-        logger.info("getById: lesson = {}", daoLesson.getById(id));
-        return daoLesson.getById(id);
+        Lesson lesson = daoLesson.getById(id);
+        logger.info("getById: lesson = {}", lesson);
+        return lesson;
     }
 
     public void create(Lesson lesson) {

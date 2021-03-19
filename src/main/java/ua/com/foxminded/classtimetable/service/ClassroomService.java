@@ -19,13 +19,15 @@ public class ClassroomService {
     }
 
     public List<Classroom> getAll() {
-        logger.info("getAll():\n {}", daoClassroom.getAll());
-        return daoClassroom.getAll();
+        List<Classroom> allClassrooms = daoClassroom.getAll();
+        logger.info("getAll():\n {}", allClassrooms);
+        return allClassrooms;
     }
 
     public Classroom getById(int id) {
-        logger.info("getById: classroom = {}", daoClassroom.getById(id));
-        return daoClassroom.getById(id);
+        Classroom classroom = daoClassroom.getById(id);
+        logger.info("getById: classroom = {}", classroom);
+        return classroom;
     }
 
     public void create(Classroom classroom) {

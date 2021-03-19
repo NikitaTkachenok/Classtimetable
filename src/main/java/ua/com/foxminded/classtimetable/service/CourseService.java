@@ -19,13 +19,15 @@ public class CourseService {
     }
 
     public List<Course> getAll() {
-        logger.info("getAll():\n {}", daoCourse.getAll());
-        return daoCourse.getAll();
+        List<Course> allCourses = daoCourse.getAll();
+        logger.info("getAll():\n {}", allCourses);
+        return allCourses;
     }
 
     public Course getById(int id) {
-        logger.info("getById: course = {}", daoCourse.getById(id));
-        return daoCourse.getById(id);
+        Course course = daoCourse.getById(id);
+        logger.info("getById: course = {}", course);
+        return course;
     }
 
     public void create(Course course) {

@@ -1,7 +1,7 @@
 package ua.com.foxminded.classtimetable.controllers;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.classtimetable.entities.Teacher;
 import ua.com.foxminded.classtimetable.service.FacultyService;
@@ -20,14 +20,14 @@ public class TeacherController {
     }
 
     @GetMapping()
-    public String showAll(Model model) {
+    public String showAll(ModelMap model) {
         model.addAttribute("teachers", serviceTeacher.getAll());
         model.addAttribute("faculties", serviceFaculty);
         return "teachers/showAll";
     }
 
     @GetMapping("/{id}")
-    public String showById(@PathVariable("id") int id, Model model) {
+    public String showById(@PathVariable("id") int id, ModelMap model) {
         model.addAttribute("teacher", serviceTeacher.getById(id))
                 .addAttribute("faculties", serviceFaculty.getAll());
         return "teachers/showById";
@@ -35,7 +35,7 @@ public class TeacherController {
 
     @GetMapping("/new")
     public String create(@ModelAttribute("teacher") Teacher teacher,
-                         Model model) {
+                         ModelMap model) {
         model.addAttribute("faculties", serviceFaculty.getAll());
         return "teachers/create";
     }

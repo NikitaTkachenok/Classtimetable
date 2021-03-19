@@ -2,7 +2,7 @@ package ua.com.foxminded.classtimetable.controllers;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,7 +41,7 @@ public class ScheduleController {
                                @RequestParam String lastName,
                                @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate beginDate,
                                @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
-                               Model model) {
+                               ModelMap model) {
         if (role.equals("teacher")) {
             model.addAttribute("schedule", serviceTeacher.receiveLessonsOnDateRange(
                     firstName, lastName, beginDate, endDate));

@@ -1,7 +1,7 @@
 package ua.com.foxminded.classtimetable.controllers;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.classtimetable.entities.Building;
 import ua.com.foxminded.classtimetable.service.BuildingService;
@@ -17,13 +17,13 @@ public class BuildingController {
     }
 
     @GetMapping()
-    public String showAll(Model model) {
+    public String showAll(ModelMap model) {
         model.addAttribute("buildings", serviceBuilding.getAll());
         return "buildings/showAll";
     }
 
     @GetMapping("/{id}")
-    public String showById(@PathVariable("id") int id, Model model) {
+    public String showById(@PathVariable("id") int id, ModelMap model) {
         model.addAttribute("building", serviceBuilding.getById(id));
         return "buildings/showById";
     }

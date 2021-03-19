@@ -24,13 +24,15 @@ public class StudentService {
     }
 
     public List<Student> getAll() {
-        logger.info("getAll():\n {}", daoStudent.getAll());
-        return daoStudent.getAll();
+        List<Student> allStudents = daoStudent.getAll();
+        logger.info("getAll():\n {}", allStudents);
+        return allStudents;
     }
 
     public Student getById(int id) {
-        logger.info("getById: student = {}", daoStudent.getById(id));
-        return daoStudent.getById(id);
+        Student student = daoStudent.getById(id);
+        logger.info("getById: student = {}", student);
+        return student;
     }
 
     public void create(Student student) {

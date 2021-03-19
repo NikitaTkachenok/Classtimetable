@@ -8,7 +8,6 @@ public class MenuController {
 
     @RequestMapping(value = "/")
     public String showToolbar() {
-
         return "menu";
     }
 
