@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Schedule-form</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div th:replace="~{fragments/navbar :: navbar}">Navbar
+</div>
+
+<div class="container">
+    <br/>
+    <h2>Enter your data:</h2>
+    <a class="btn btn-sm btn-secondary" href="/">Back to menu</a>
+    <br/>
+    <br/>
+    <form th:method="GET" th:action="@{/schedule/show}">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Role:</span>
+            <div class="input-group-text">
+                <input type="radio" name="role" value="teacher">
+            </div>
+            <span class="input-group-text">Teacher</span>
+            <div class="input-group-text">
+                <input type="radio" name="role" value="student">
+            </div>
+            <span class="input-group-text">Student</span>
+        </div>
+        <label for="firstName">First name: </label>
+        <input type="text" name="firstName" id="firstName"/>
+        <br/>
+        <label for="lastName">Last name: </label>
+        <input type="text" name="lastName" id="lastName"/>
+        <br/>
+        <label for="beginDate">Begin of date range: </label>
+        <input type="date" name="beginDate" id="beginDate"/>
+        <br/>
+        <label for="endDate">End of date range: </label>
+        <input type="date" name="endDate" id="endDate"/>
+        <br/>
+        <input class="btn btn-sm btn-success" type="submit" value="Get schedule!">
+    </form>
+</div>
+</body>
+</html>

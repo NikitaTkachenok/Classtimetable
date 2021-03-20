@@ -58,83 +58,63 @@ INSERT INTO students_courses (student_id, course_id) VALUES (39, 8);
 INSERT INTO students_courses (student_id, course_id) VALUES (39, 9);
 INSERT INTO students_courses (student_id, course_id) VALUES (40, 10);
 INSERT INTO students_courses (student_id, course_id) VALUES (40, 8);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (41, 1);
 INSERT INTO students_courses (student_id, course_id) VALUES (41, 2);
 INSERT INTO students_courses (student_id, course_id) VALUES (41, 3);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (42, 4);
 INSERT INTO students_courses (student_id, course_id) VALUES (42, 5);
 INSERT INTO students_courses (student_id, course_id) VALUES (42, 1);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (43, 2);
 INSERT INTO students_courses (student_id, course_id) VALUES (43, 3);
 INSERT INTO students_courses (student_id, course_id) VALUES (43, 4);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (44, 5);
 INSERT INTO students_courses (student_id, course_id) VALUES (44, 1);
 INSERT INTO students_courses (student_id, course_id) VALUES (44, 2);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (45, 3);
 INSERT INTO students_courses (student_id, course_id) VALUES (45, 4);
 INSERT INTO students_courses (student_id, course_id) VALUES (45, 5);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (46, 1);
 INSERT INTO students_courses (student_id, course_id) VALUES (46, 2);
 INSERT INTO students_courses (student_id, course_id) VALUES (46, 3);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (47, 4);
 INSERT INTO students_courses (student_id, course_id) VALUES (47, 5);
 INSERT INTO students_courses (student_id, course_id) VALUES (47, 1);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (48, 2);
 INSERT INTO students_courses (student_id, course_id) VALUES (48, 3);
 INSERT INTO students_courses (student_id, course_id) VALUES (48, 4);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (49, 5);
 INSERT INTO students_courses (student_id, course_id) VALUES (49, 1);
 INSERT INTO students_courses (student_id, course_id) VALUES (49, 2);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (50, 3);
 INSERT INTO students_courses (student_id, course_id) VALUES (50, 4);
 INSERT INTO students_courses (student_id, course_id) VALUES (50, 5);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (51, 1);
 INSERT INTO students_courses (student_id, course_id) VALUES (51, 2);
 INSERT INTO students_courses (student_id, course_id) VALUES (51, 3);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (52, 4);
 INSERT INTO students_courses (student_id, course_id) VALUES (52, 5);
 INSERT INTO students_courses (student_id, course_id) VALUES (52, 1);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (53, 2);
 INSERT INTO students_courses (student_id, course_id) VALUES (53, 3);
 INSERT INTO students_courses (student_id, course_id) VALUES (53, 4);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (54, 5);
 INSERT INTO students_courses (student_id, course_id) VALUES (54, 1);
 INSERT INTO students_courses (student_id, course_id) VALUES (54, 2);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (55, 3);
 INSERT INTO students_courses (student_id, course_id) VALUES (55, 4);
 INSERT INTO students_courses (student_id, course_id) VALUES (55, 5);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (56, 1);
 INSERT INTO students_courses (student_id, course_id) VALUES (56, 2);
 INSERT INTO students_courses (student_id, course_id) VALUES (56, 3);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (57, 4);
 INSERT INTO students_courses (student_id, course_id) VALUES (57, 5);
 INSERT INTO students_courses (student_id, course_id) VALUES (57, 1);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (58, 2);
 INSERT INTO students_courses (student_id, course_id) VALUES (58, 3);
 INSERT INTO students_courses (student_id, course_id) VALUES (58, 4);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (59, 5);
 INSERT INTO students_courses (student_id, course_id) VALUES (59, 1);
 INSERT INTO students_courses (student_id, course_id) VALUES (59, 2);
-
 INSERT INTO students_courses (student_id, course_id) VALUES (60, 3);
 INSERT INTO students_courses (student_id, course_id) VALUES (60, 4);
 INSERT INTO students_courses (student_id, course_id) VALUES (60, 5);

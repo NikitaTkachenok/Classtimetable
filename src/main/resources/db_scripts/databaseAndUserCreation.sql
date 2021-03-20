@@ -1,9 +1,3 @@
-CREATE DATABASE university_database
-    WITH 
-    OWNER = postgres
-    ENCODING = 'UTF8'
-    CONNECTION LIMIT = -1;
-   
 CREATE ROLE admin WITH
 	LOGIN
 	NOSUPERUSER
@@ -13,5 +7,11 @@ CREATE ROLE admin WITH
 	REPLICATION
 	CONNECTION LIMIT -1
 	PASSWORD 'password';
-	
+
+CREATE DATABASE university_database
+    WITH 
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    CONNECTION LIMIT = -1;
+   
 GRANT ALL PRIVILEGES ON DATABASE university_database TO admin;

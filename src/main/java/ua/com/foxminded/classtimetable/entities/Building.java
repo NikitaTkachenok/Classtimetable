@@ -2,55 +2,58 @@ package ua.com.foxminded.classtimetable.entities;
 
 public class Building {
 
-	private int id;
-	private String buildingName;
+    private int id;
+    private String buildingName;
 
-	public int getId() {
-		return id;
-	}
+    public Building() {
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public String getBuildingName() {
-		return buildingName;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setBuildingName(String buildingName) {
-		this.buildingName = buildingName;
-	}
+    public String getBuildingName() {
+        return buildingName;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		result = prime * result + ((buildingName == null) ? 0 : buildingName.hashCode());
-		return result;
-	}
+    public void setBuildingName(String buildingName) {
+        this.buildingName = buildingName;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Building other = (Building) obj;
-		if (id != other.id)
-			return false;
-		if (buildingName == null) {
-			if (other.buildingName != null)
-				return false;
-		} else if (!buildingName.equals(other.buildingName))
-			return false;
-		return true;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        result = prime * result + ((buildingName == null) ? 0 : buildingName.hashCode());
+        return result;
+    }
 
-	@Override
-	public String toString() {
-		return "Buiding [id=" + id + ", buildingName=" + buildingName + "]";
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Building other = (Building) obj;
+        if (id != other.id)
+            return false;
+        if (buildingName == null) {
+            if (other.buildingName != null)
+                return false;
+        } else if (!buildingName.equals(other.buildingName))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Buiding [id=" + id + ", buildingName=" + buildingName + "]";
+    }
 }

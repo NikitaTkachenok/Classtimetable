@@ -1,57 +1,57 @@
 package ua.com.foxminded.classtimetable.entities;
 
 public class Course {
-	
-	private int id;
-	private String courseName;
 
-	public int getId() {
-		return id;
-	}
+    private int id;
+    private String courseName;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public String getCourseName() {
-		return courseName;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setCourseName(String courseName) {
-		this.courseName = courseName;
-	}
+    public String getCourseName() {
+        return courseName;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		result = prime * result + ((courseName == null) ? 0 : courseName.hashCode());
-		return result;
-	}
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Course other = (Course) obj;
-		if (id != other.id)
-			return false;
-		if (courseName == null) {
-			if (other.courseName != null)
-				return false;
-		} else if (!courseName.equals(other.courseName))
-			return false;
-		return true;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        result = prime * result + ((courseName == null) ? 0 : courseName.hashCode());
+        return result;
+    }
 
-	@Override
-	public String toString() {
-		return "Course [id=" + id + ", courseName=" + courseName + "]";
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Course other = (Course) obj;
+        if (id != other.id)
+            return false;
+        if (courseName == null) {
+            if (other.courseName != null)
+                return false;
+        } else if (!courseName.equals(other.courseName))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Course [id=" + id + ", courseName=" + courseName + "]";
+    }
 
 }

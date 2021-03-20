@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Lesson-listing</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div th:replace="~{fragments/navbar :: navbar}">Navbar
+</div>
+
+<div class="container">
+    <br/>
+    <h2>All current lessons</h2>
+    <a class="btn btn-sm btn-secondary" href="/">Back to menu</a>
+    <a class="btn btn-sm btn-success" href="/lessons/new">Create new lesson</a>
+    <br/>
+    <br/>
+    <table class="table table-bordered table-hover">
+        <thead class="table-secondary">
+        <tr>
+            <th class="text-dark">Date</th>
+            <th class="text-dark">Start time</th>
+            <th class="text-dark">End time</th>
+            <th class="text-dark">Classroom</th>
+            <th class="text-dark">Course</th>
+            <th class="text-dark">Teacher</th>
+            <th class="text-dark">Removal</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="lesson : ${lessons}">
+            <td>
+                <a th:href="@{/lessons/{id}(id=${lesson.getId()})}"
+                   th:text="${lesson.getDate()}">lesson</a>
+            </td>
+            <td>
+                <a th:href="@{/lessons/{id}(id=${lesson.getId()})}"
+                   th:text="${lesson.getStartTime()}">lesson</a>
+            </td>
+            <td>
+                <a th:href="@{/lessons/{id}(id=${lesson.getId()})}"
+                   th:text="${lesson.getEndTime()}">lesson</a>
+            </td>
+            <td>
+                <a th:href="@{/lessons/{id}(id=${lesson.getId()})}"
+                   th:text="${classrooms.getById(lesson.getClassroomId()).getRoomName()}">classroom</a>
+            </td>
+            <td>
+                <a th:href="@{/lessons/{id}(id=${lesson.getId()})}"
+                   th:text="${courses.getById(lesson.getCourseId()).getCourseName()}">course</a>
+            </td>
+            <td>
+                <a th:href="@{/lessons/{id}(id=${lesson.getId()})}"
+                   th:text="${teachers.getById(lesson.getTeacherId()).getFirstName()} + ' '
+                   + ${teachers.getById(lesson.getTeacherId()).getLastName()}">teacher</a>
+            </td>
+            <td>
+                <form th:method="DELETE" th:action="@{/lessons/{id}(id=${lesson.getId()})}">
+                    <input class="btn btn-sm btn-danger" type="submit" value="Delete!"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
