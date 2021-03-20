@@ -6,9 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.classtimetable.entities.Faculty;
 import ua.com.foxminded.classtimetable.service.FacultyService;
 
-import static java.nio.charset.StandardCharsets.ISO_8859_1;
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 @Controller
 @RequestMapping("/faculties")
 public class FacultyController {
@@ -38,7 +35,6 @@ public class FacultyController {
 
     @PostMapping()
     public String addToDB(@ModelAttribute("faculty") Faculty faculty) {
-        faculty.setFacultyName(changeEncoding(faculty.getFacultyName()));
         serviceFaculty.create(faculty);
         return "redirect:/faculties";
     }
@@ -53,9 +49,5 @@ public class FacultyController {
     public String delete(@ModelAttribute("faculty") Faculty faculty) {
         serviceFaculty.delete(faculty);
         return "redirect:/faculties";
-    }
-
-    private String changeEncoding(String oldEncodedString) {
-        return new String(oldEncodedString.getBytes(ISO_8859_1), UTF_8);
     }
 }
