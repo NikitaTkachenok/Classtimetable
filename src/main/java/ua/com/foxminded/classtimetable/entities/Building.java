@@ -1,8 +1,16 @@
 package ua.com.foxminded.classtimetable.entities;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "buildings")
 public class Building {
 
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @Column(name = "building_name")
     private String buildingName;
 
     public Building() {
