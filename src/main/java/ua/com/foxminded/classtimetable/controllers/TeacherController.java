@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.classtimetable.entities.Teacher;
+import ua.com.foxminded.classtimetable.service.CourseService;
 import ua.com.foxminded.classtimetable.service.FacultyService;
 import ua.com.foxminded.classtimetable.service.TeacherService;
 
@@ -13,10 +14,12 @@ public class TeacherController {
 
     private final TeacherService serviceTeacher;
     private final FacultyService serviceFaculty;
+    private final CourseService serviceCourse;
 
-    public TeacherController(TeacherService serviceTeacher, FacultyService serviceFaculty) {
+    public TeacherController(TeacherService serviceTeacher, FacultyService serviceFaculty, CourseService serviceCourse) {
         this.serviceTeacher = serviceTeacher;
         this.serviceFaculty = serviceFaculty;
+        this.serviceCourse = serviceCourse;
     }
 
     @GetMapping()
@@ -34,9 +37,9 @@ public class TeacherController {
     }
 
     @GetMapping("/new")
-    public String create(@ModelAttribute("teacher") Teacher teacher,
-                         ModelMap model) {
-        model.addAttribute("faculties", serviceFaculty.getAll());
+    public String create(@ModelAttribute("teacher") Teacher teacher, ModelMap model) {
+        model.addAttribute("faculties", serviceFaculty.getAll())
+                .addAttribute("allCourses", serviceCourse.getAll());
         return "teachers/create";
     }
 

@@ -2,18 +2,31 @@ package ua.com.foxminded.classtimetable.entities;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Lesson {
+@Entity
+@Table(name = "lessons")
+public class Lesson implements Serializable {
 
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
+    @Column(name = "start_time")
     private LocalTime startTime;
+    @Column(name = "end_time")
     private LocalTime endTime;
+    @Column(name = "classroom_id")
     private int classroomId;
+    @Column(name = "course_id")
     private int courseId;
+    @Column(name = "teacher_id")
     private int teacherId;
 
     public int getId() {

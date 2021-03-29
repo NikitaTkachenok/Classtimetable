@@ -1,11 +1,23 @@
 package ua.com.foxminded.classtimetable.entities;
 
-public class Classroom {
+import javax.persistence.*;
+import java.io.Serializable;
 
+@Entity
+@Table(name = "classrooms")
+public class Classroom implements Serializable {
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "room_name")
     private String roomName;
+    @Column(name = "room_type")
     private String roomType;
+    @Column(name = "room_capacity")
     private int roomCapacity;
+    @Column(name = "building_id")
     private int buildingId;
 
     public int getBuildingId() {

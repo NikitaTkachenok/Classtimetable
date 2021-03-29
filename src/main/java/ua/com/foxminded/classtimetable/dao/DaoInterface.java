@@ -8,10 +8,10 @@ public interface DaoInterface<T> {
 
     List<T> getAll();
 
-    void create(T t);
+    void create(T entity);
 
-    void update(T t);
+    void update(T entity);
 
-    void delete(T t);
+    void delete(T entity);
 
 }

@@ -1,14 +1,15 @@
 package ua.com.foxminded.classtimetable.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "buildings")
-public class Building {
+public class Building implements Serializable {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "building_name")
     private String buildingName;
@@ -62,6 +63,6 @@ public class Building {
 
     @Override
     public String toString() {
-        return "Buiding [id=" + id + ", buildingName=" + buildingName + "]";
+        return "Building [id=" + id + ", buildingName=" + buildingName + "]";
     }
 }

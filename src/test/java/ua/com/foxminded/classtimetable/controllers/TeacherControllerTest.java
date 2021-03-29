@@ -7,9 +7,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.ui.ModelMap;
+import ua.com.foxminded.classtimetable.entities.Course;
 import ua.com.foxminded.classtimetable.entities.Teacher;
+import ua.com.foxminded.classtimetable.service.CourseService;
 import ua.com.foxminded.classtimetable.service.FacultyService;
 import ua.com.foxminded.classtimetable.service.TeacherService;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TeacherControllerTest {
@@ -22,6 +27,9 @@ public class TeacherControllerTest {
 
     @Mock
     private FacultyService facultyServiceMock;
+
+    @Mock
+    private CourseService courseServiceMock;
 
     @Test
     public void should_callGetAllMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
@@ -48,9 +56,14 @@ public class TeacherControllerTest {
     public void should_callAddToDBMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
 
         Teacher teacher = new Teacher();
+        Set<Course> teacherCourses = new HashSet<>();
+        Course course = new Course();
+        course.setCourseName("New course");
+        teacherCourses.add(course);
         teacher.setFirstName("Jeff");
         teacher.setLastName("Coff");
         teacher.setFacultyId(3);
+        teacher.setTeacherCourses(teacherCourses);
 
         teacherControllerMock.addToDB(teacher);
 

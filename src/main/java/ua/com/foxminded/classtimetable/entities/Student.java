@@ -1,10 +1,21 @@
 package ua.com.foxminded.classtimetable.entities;
 
-public class Student {
+import javax.persistence.*;
+import java.io.Serializable;
 
+@Entity
+@Table(name = "students")
+public class Student implements Serializable {
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
+    @Column(name = "faculty_id")
     private int facultyId;
 
     public int getFacultyId() {

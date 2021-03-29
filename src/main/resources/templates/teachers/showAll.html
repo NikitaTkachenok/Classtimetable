@@ -28,6 +28,7 @@
             <th class="text-dark">First name</th>
             <th class="text-dark">Last name</th>
             <th class="text-dark">Faculty</th>
+            <th class="text-dark">Course (s)</th>
             <th class="text-dark">Removal</th>
         </tr>
         </thead>
@@ -43,7 +44,14 @@
             </td>
             <td>
                 <a th:href="@{/teachers/{id}(id=${teacher.getId()})}"
-                   th:text="${faculties.getById(teacher.getFacultyId()).getFacultyName()}">teacher</a>
+                   th:text="${faculties.getById(teacher.getFacultyId()).getFacultyName()}">faculty</a>
+            </td>
+            <td>
+                <th:block th:each="course : ${teacher.getTeacherCourses()}">
+                    <a th:href="@{/teachers/{id}(id=${teacher.getId()})}"
+                       th:text="${course.getCourseName()}">courses</a>
+                    <br/>
+                </th:block>
             </td>
             <td>
                 <form th:method="DELETE" th:action="@{/teachers/{id}(id=${teacher.getId()})}">

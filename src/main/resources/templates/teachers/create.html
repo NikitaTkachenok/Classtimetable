@@ -34,8 +34,16 @@
                     th:text="${faculty.getFacultyName()}">
             </option>
         </select>
+
+        <label>Select course:</label>
+        <select class="form-control form-control-sm" th:field="*{teacherCourses}">
+            <option th:each="course:${allCourses}"
+                    th:value="${course}"
+                    th:text="${course.getCourseName()}">
+            </option>
+        </select>
         <br/>
-        <input type="submit" value="Create!">
+        <input class="btn btn-sm btn-success" type="submit" value="Create!">
     </form>
 </div>
 </body>

@@ -1,8 +1,17 @@
 package ua.com.foxminded.classtimetable.entities;
 
-public class Faculty {
+import javax.persistence.*;
+import java.io.Serializable;
 
+@Entity
+@Table(name = "faculties")
+public class Faculty implements Serializable {
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "faculty_name")
     private String facultyName;
 
     public int getId() {
