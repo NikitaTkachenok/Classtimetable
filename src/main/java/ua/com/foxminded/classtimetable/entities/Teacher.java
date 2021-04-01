@@ -14,27 +14,22 @@ public class Teacher implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(name = "first_name")
     private String firstName;
+
     @Column(name = "last_name")
     private String lastName;
-    @Column(name = "faculty_id")
-    private int facultyId;
+
+    @ManyToOne
+    private Faculty faculty;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "teachers_courses",
             joinColumns = {@JoinColumn(name = "teacher_id")},
-            inverseJoinColumns = {@JoinColumn(name = "course_id")}
-    )
+            inverseJoinColumns = {@JoinColumn(name = "course_id")})
     private Set<Course> teacherCourses = new HashSet<>();
-
-    public int getFacultyId() {
-        return facultyId;
-    }
-
-    public void setFacultyId(int facultyId) {
-        this.facultyId = facultyId;
-    }
 
     public int getId() {
         return id;
@@ -60,6 +55,14 @@ public class Teacher implements Serializable {
         this.lastName = lastName;
     }
 
+    public Faculty getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
+    }
+
     public Set<Course> getTeacherCourses() {
         return teacherCourses;
     }
@@ -68,26 +71,18 @@ public class Teacher implements Serializable {
         this.teacherCourses = teacherCourses;
     }
 
-    public void addCourse(Course course) {
-        teacherCourses.add(course);
-    }
-
-    public void removeCourse(Course course) {
-        teacherCourses.remove(course);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Teacher teacher = (Teacher) o;
-        return id == teacher.id && facultyId == teacher.facultyId &&
-                Objects.equals(firstName, teacher.firstName) && Objects.equals(lastName, teacher.lastName);
+        return id == teacher.id && Objects.equals(firstName, teacher.firstName) &&
+                Objects.equals(lastName, teacher.lastName) && Objects.equals(faculty, teacher.faculty);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, facultyId);
+        return Objects.hash(id, firstName, lastName, faculty);
     }
 
     @Override
@@ -96,7 +91,7 @@ public class Teacher implements Serializable {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", facultyId=" + facultyId +
+                ", faculty=" + faculty +
                 '}';
     }
 }

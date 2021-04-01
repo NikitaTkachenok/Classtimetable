@@ -40,6 +40,10 @@ public abstract class AbstractDao<T extends Serializable> {
         getCurrentSession().delete(entity);
     }
 
+    public void deleteById(int id) {
+        delete(getById(id));
+    }
+
     protected Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }

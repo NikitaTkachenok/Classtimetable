@@ -14,8 +14,10 @@ public class Course implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(name = "course_name")
     private String courseName;
+
     @ManyToMany(
             fetch = FetchType.EAGER,
             mappedBy = "teacherCourses")

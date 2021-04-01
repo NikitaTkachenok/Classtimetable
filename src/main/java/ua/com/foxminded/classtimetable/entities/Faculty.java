@@ -2,6 +2,7 @@ package ua.com.foxminded.classtimetable.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "faculties")
@@ -11,6 +12,7 @@ public class Faculty implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(name = "faculty_name")
     private String facultyName;
 
@@ -31,36 +33,24 @@ public class Faculty implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + id;
-        result = prime * result + ((facultyName == null) ? 0 : facultyName.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Faculty faculty = (Faculty) o;
+        return id == faculty.id && Objects.equals(facultyName, faculty.facultyName);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Faculty other = (Faculty) obj;
-        if (id != other.id)
-            return false;
-        if (facultyName == null) {
-            if (other.facultyName != null)
-                return false;
-        } else if (!facultyName.equals(other.facultyName))
-            return false;
-        return true;
+    public int hashCode() {
+        return Objects.hash(id, facultyName);
     }
 
     @Override
     public String toString() {
-        return "Faculty [id=" + id + ", facultyName=" + facultyName + "]";
+        return "Faculty{" +
+                "id=" + id +
+                ", facultyName='" + facultyName + '\'' +
+                '}';
     }
 
 }
