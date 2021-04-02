@@ -1,4 +1,4 @@
-package ua.com.foxminded.classtimetable.dao;
+package ua.com.foxminded.classtimetable.repository.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -47,4 +47,5 @@ public abstract class AbstractDao<T extends Serializable> {
     protected Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }
+
 }

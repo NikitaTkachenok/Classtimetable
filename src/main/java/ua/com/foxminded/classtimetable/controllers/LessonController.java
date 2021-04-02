@@ -3,7 +3,7 @@ package ua.com.foxminded.classtimetable.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import ua.com.foxminded.classtimetable.entities.Lesson;
+import ua.com.foxminded.classtimetable.domain.dto.LessonDto;
 import ua.com.foxminded.classtimetable.service.ClassroomService;
 import ua.com.foxminded.classtimetable.service.CourseService;
 import ua.com.foxminded.classtimetable.service.LessonService;
@@ -45,7 +45,7 @@ public class LessonController {
     }
 
     @GetMapping("/new")
-    public String create(@ModelAttribute("lesson") Lesson lesson,
+    public String create(@ModelAttribute("lesson") LessonDto lesson,
                          ModelMap model) {
         model.addAttribute("classrooms", serviceClassroom.getAll()).
                 addAttribute("courses", serviceCourse.getAll()).
@@ -54,19 +54,19 @@ public class LessonController {
     }
 
     @PostMapping()
-    public String addToDB(@ModelAttribute("lesson") Lesson lesson) {
+    public String addToDB(@ModelAttribute("lesson") LessonDto lesson) {
         serviceLesson.create(lesson);
         return "redirect:/lessons";
     }
 
     @PutMapping("/{id}")
-    public String update(@ModelAttribute("lesson") Lesson lesson) {
+    public String update(@ModelAttribute("lesson") LessonDto lesson) {
         serviceLesson.update(lesson);
         return "redirect:/lessons";
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@ModelAttribute("lesson") Lesson lesson) {
+    public String delete(@ModelAttribute("lesson") LessonDto lesson) {
         serviceLesson.delete(lesson);
         return "redirect:/lessons";
     }

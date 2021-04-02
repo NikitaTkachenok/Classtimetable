@@ -33,7 +33,7 @@ public class DBConfiguration {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("ua.com.foxminded.classtimetable.entities");
+        sessionFactory.setPackagesToScan("ua.com.foxminded.classtimetable.repository.entities");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }

@@ -3,7 +3,7 @@ package ua.com.foxminded.classtimetable.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import ua.com.foxminded.classtimetable.dto.TeacherDto;
+import ua.com.foxminded.classtimetable.domain.dto.TeacherDto;
 import ua.com.foxminded.classtimetable.service.CourseService;
 import ua.com.foxminded.classtimetable.service.FacultyService;
 import ua.com.foxminded.classtimetable.service.TeacherService;
@@ -63,4 +63,5 @@ public class TeacherController {
         serviceTeacher.deleteById(teacher.getId());
         return "redirect:/teachers";
     }
+
 }

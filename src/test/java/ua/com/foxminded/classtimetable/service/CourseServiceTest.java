@@ -6,8 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.com.foxminded.classtimetable.dao.CourseDao;
-import ua.com.foxminded.classtimetable.entities.Course;
+import ua.com.foxminded.classtimetable.repository.dao.CourseDao;
+import ua.com.foxminded.classtimetable.repository.entities.Course;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CourseServiceTest {

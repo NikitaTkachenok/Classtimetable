@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.ui.ModelMap;
-import ua.com.foxminded.classtimetable.entities.Classroom;
+import ua.com.foxminded.classtimetable.domain.dto.ClassroomDto;
 import ua.com.foxminded.classtimetable.service.BuildingService;
 import ua.com.foxminded.classtimetable.service.ClassroomService;
 
@@ -47,7 +47,7 @@ public class ClassroomControllerTest {
     @Test
     public void should_callAddToDBMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
 
-        Classroom classroom = new Classroom();
+        ClassroomDto classroom = new ClassroomDto();
         classroom.setRoomName("C-3");
         classroom.setRoomType("Class");
         classroom.setRoomCapacity(25);
@@ -62,7 +62,7 @@ public class ClassroomControllerTest {
     public void should_updateMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
 
         ModelMap model = new ModelMap();
-        Classroom classroom = new Classroom();
+        ClassroomDto classroom = new ClassroomDto();
         classroom.setRoomName("A-6");
         classroom.setRoomType("Lecture");
         classroom.setRoomCapacity(100);
@@ -78,7 +78,7 @@ public class ClassroomControllerTest {
     public void should_deleteMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
 
         ModelMap model = new ModelMap();
-        Classroom classroom = new Classroom();
+        ClassroomDto classroom = new ClassroomDto();
         classroom.setRoomName("B-10");
         classroom.setRoomType("Laboratory");
         classroom.setRoomCapacity(10);

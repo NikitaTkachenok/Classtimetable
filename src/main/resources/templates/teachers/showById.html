@@ -36,7 +36,7 @@
         </select>
 
         <label>Select course:</label>
-        <select class="form-control form-control-sm" th:field="*{coursesId}">
+        <select class="form-control form-control-sm" th:field="*{coursesId}" multiple="multiple">
             <option th:each="course:${allCourses}"
                     th:value="${course.id}"
                     th:text="${course.courseName}">

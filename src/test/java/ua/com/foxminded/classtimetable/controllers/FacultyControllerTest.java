@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.ui.ModelMap;
-import ua.com.foxminded.classtimetable.entities.Faculty;
+import ua.com.foxminded.classtimetable.repository.entities.Faculty;
 import ua.com.foxminded.classtimetable.service.FacultyService;
 
 @RunWith(MockitoJUnitRunner.class)

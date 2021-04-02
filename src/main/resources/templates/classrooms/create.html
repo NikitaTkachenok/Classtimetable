@@ -38,8 +38,8 @@
         <label>Select building:</label>
         <select class="form-control form-control-sm" th:field="*{buildingId}">
             <option th:each="building:${buildings}"
-                    th:value="${building.getId()}"
-                    th:text="${building.getBuildingName()}">
+                    th:value="${building.id}"
+                    th:text="${building.buildingName}">
             </option>
         </select>
         <br/>

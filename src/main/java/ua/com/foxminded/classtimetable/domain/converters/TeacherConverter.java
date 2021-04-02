@@ -1,11 +1,11 @@
-package ua.com.foxminded.classtimetable.converters;
+package ua.com.foxminded.classtimetable.domain.converters;
 
 import org.springframework.stereotype.Component;
-import ua.com.foxminded.classtimetable.dao.CourseDao;
-import ua.com.foxminded.classtimetable.dao.FacultyDao;
-import ua.com.foxminded.classtimetable.dto.TeacherDto;
-import ua.com.foxminded.classtimetable.entities.Course;
-import ua.com.foxminded.classtimetable.entities.Teacher;
+import ua.com.foxminded.classtimetable.domain.dto.TeacherDto;
+import ua.com.foxminded.classtimetable.repository.dao.CourseDao;
+import ua.com.foxminded.classtimetable.repository.dao.FacultyDao;
+import ua.com.foxminded.classtimetable.repository.entities.Course;
+import ua.com.foxminded.classtimetable.repository.entities.Teacher;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,7 +21,7 @@ public class TeacherConverter {
         this.daoCourse = daoCourse;
     }
 
-    public TeacherDto convertToDto(Teacher teacher) {
+    public TeacherDto toDto(Teacher teacher) {
         TeacherDto dto = new TeacherDto();
         dto.setId(teacher.getId());
         dto.setFirstName(teacher.getFirstName());
@@ -33,7 +33,7 @@ public class TeacherConverter {
         return dto;
     }
 
-    public Teacher convertToEntity(TeacherDto dto) {
+    public Teacher toEntity(TeacherDto dto) {
         Teacher teacher = new Teacher();
         teacher.setId(dto.getId());
         teacher.setFirstName(dto.getFirstName());
@@ -44,4 +44,5 @@ public class TeacherConverter {
         teacher.setTeacherCourses(courses);
         return teacher;
     }
+
 }

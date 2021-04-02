@@ -1,9 +1,9 @@
-package ua.com.foxminded.classtimetable.dto;
+package ua.com.foxminded.classtimetable.domain.dto;
 
 import java.util.Objects;
 import java.util.Set;
 
-public class TeacherDto {
+public class StudentDto {
 
     private int id;
 
@@ -59,7 +59,7 @@ public class TeacherDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TeacherDto that = (TeacherDto) o;
+        StudentDto that = (StudentDto) o;
         return id == that.id && facultyId == that.facultyId && Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName) && Objects.equals(coursesId, that.coursesId);
     }
@@ -71,7 +71,7 @@ public class TeacherDto {
 
     @Override
     public String toString() {
-        return "TeacherDto{" +
+        return "StudentDto{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

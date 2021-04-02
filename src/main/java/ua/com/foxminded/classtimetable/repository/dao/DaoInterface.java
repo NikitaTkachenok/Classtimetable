@@ -1,4 +1,4 @@
-package ua.com.foxminded.classtimetable.dao;
+package ua.com.foxminded.classtimetable.repository.dao;
 
 import java.util.List;
 

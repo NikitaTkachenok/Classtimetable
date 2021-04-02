@@ -1,4 +1,4 @@
-package ua.com.foxminded.classtimetable.entities;
+package ua.com.foxminded.classtimetable.repository.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;

@@ -30,8 +30,16 @@
         <label>Select faculty:</label>
         <select class="form-control form-control-sm" th:field="*{facultyId}">
             <option th:each="faculty:${faculties}"
-                    th:value="${faculty.getId()}"
-                    th:text="${faculty.getFacultyName()}">
+                    th:value="${faculty.id}"
+                    th:text="${faculty.facultyName}">
+            </option>
+        </select>
+
+        <label>Select course:</label>
+        <select class="form-control form-control-sm" th:field="*{coursesId}" multiple="multiple">
+            <option th:each="course:${allCourses}"
+                    th:value="${course.id}"
+                    th:text="${course.courseName}">
             </option>
         </select>
         <br/>
