@@ -5,9 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 </head>
 
 <body>
@@ -21,28 +24,45 @@
     <br/>
     <br/>
     <form th:method="GET" th:action="@{/schedule/show}">
-        <div class="input-group-prepend">
-            <span class="input-group-text">Role:</span>
-            <div class="input-group-text">
-                <input type="radio" name="role" value="teacher">
+        <label>Pick the role:</label>
+        <div class="form-check">
+            <div class="row">
+                <div class="col-sm-1">
+                    <input class="form-check-input" type="radio" name="role" value="teacher" id="teacher">
+                    <label for="teacher">Teacher</label>
+                </div>
+                <div class="col-sm-1">
+                    <input class="form-check-input" type="radio" name="role" value="student" id="student">
+                    <label for="student">Student</label>
+                </div>
             </div>
-            <span class="input-group-text">Teacher</span>
-            <div class="input-group-text">
-                <input type="radio" name="role" value="student">
-            </div>
-            <span class="input-group-text">Student</span>
         </div>
-        <label for="firstName">First name: </label>
-        <input type="text" name="firstName" id="firstName"/>
-        <br/>
-        <label for="lastName">Last name: </label>
-        <input type="text" name="lastName" id="lastName"/>
-        <br/>
-        <label for="beginDate">Begin of date range: </label>
-        <input type="date" name="beginDate" id="beginDate"/>
-        <br/>
-        <label for="endDate">End of date range: </label>
-        <input type="date" name="endDate" id="endDate"/>
+
+        <label>First name: </label>
+        <select class="form-control form-control-sm selectpicker" data-header="Enter your first name:"
+                data-dropup-auto="false" data-live-search="true" title="Please, enter your first name here"
+                name="firstName">
+            <option th:each="name:${firstNames}"
+                    th:value="${name}"
+                    th:text="${name}">
+            </option>
+        </select>
+
+        <label>Last name: </label>
+        <select class="form-control form-control-sm selectpicker" data-header="Enter your last name:"
+                data-dropup-auto="false" data-live-search="true" title="Please, enter your last name here"
+                name="lastName">
+            <option th:each="surname:${lastNames}"
+                    th:value="${surname}"
+                    th:text="${surname}">
+            </option>
+        </select>
+
+        <label>Begin of date range: </label>
+        <input class="form-control form-control-sm" type="date" name="beginDate"/>
+
+        <label>End of date range: </label>
+        <input class="form-control form-control-sm" type="date" name="endDate"/>
         <br/>
         <input class="btn btn-sm btn-success" type="submit" value="Get schedule!">
     </form>

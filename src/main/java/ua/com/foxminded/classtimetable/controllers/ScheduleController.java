@@ -12,6 +12,13 @@ import ua.com.foxminded.classtimetable.service.StudentService;
 import ua.com.foxminded.classtimetable.service.TeacherService;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Controller
 @RequestMapping("/schedule")
@@ -31,7 +38,9 @@ public class ScheduleController {
     }
 
     @GetMapping()
-    public String showForm() {
+    public String showForm(ModelMap model) {
+        model.addAttribute("firstNames", receiveUniqueNames())
+                .addAttribute("lastNames", receiveUniqueSurnames());
         return "schedule/fillData";
     }
 
@@ -44,14 +53,34 @@ public class ScheduleController {
                                ModelMap model) {
         if (role.equals("teacher")) {
             model.addAttribute("schedule", serviceTeacher.receiveLessonsOnDateRange(
-                    firstName, lastName, beginDate, endDate));
+                    changeEncoding(firstName), changeEncoding(lastName), beginDate, endDate));
         } else {
             model.addAttribute("schedule", serviceStudent.receiveLessonsOnDateRange(
-                    firstName, lastName, beginDate, endDate));
+                    changeEncoding(firstName), changeEncoding(lastName), beginDate, endDate));
         }
         model.addAttribute("classrooms", serviceClassroom);
         model.addAttribute("courses", serviceCourse);
         model.addAttribute("teachers", serviceTeacher);
         return "schedule/show";
     }
+
+    private Set<String> receiveUniqueNames() {
+        List<String> names = new ArrayList<>();
+        serviceTeacher.getAll().forEach(teacherDto -> names.add(teacherDto.getFirstName()));
+        serviceStudent.getAll().forEach(studentDto -> names.add(studentDto.getFirstName()));
+        return new HashSet<>(names);
+    }
+
+    private Set<String> receiveUniqueSurnames() {
+        List<String> surnames = new ArrayList<>();
+        serviceTeacher.getAll().forEach(teacherDto -> surnames.add(teacherDto.getLastName()));
+        serviceStudent.getAll().forEach(studentDto -> surnames.add(studentDto.getLastName()));
+        return new HashSet<>(surnames);
+    }
+
+    private String changeEncoding(String oldEncodedString) {
+        return new String(oldEncodedString.getBytes(ISO_8859_1), UTF_8);
+
+    }
+
 }
