@@ -3,8 +3,8 @@ package ua.com.foxminded.classtimetable.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.classtimetable.dao.CourseDao;
-import ua.com.foxminded.classtimetable.entities.Course;
+import ua.com.foxminded.classtimetable.repository.dao.CourseDao;
+import ua.com.foxminded.classtimetable.repository.entities.Course;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ public class CourseService {
     }
 
     public void delete(Course course) {
-        logger.info("update: course = {}", course);
+        logger.info("delete: course = {}", course);
         daoCourse.delete(course);
     }
 

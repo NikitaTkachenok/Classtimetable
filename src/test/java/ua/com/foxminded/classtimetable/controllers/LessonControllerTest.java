@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.ui.ModelMap;
-import ua.com.foxminded.classtimetable.entities.Lesson;
+import ua.com.foxminded.classtimetable.domain.dto.LessonDto;
 import ua.com.foxminded.classtimetable.service.ClassroomService;
 import ua.com.foxminded.classtimetable.service.CourseService;
 import ua.com.foxminded.classtimetable.service.LessonService;
@@ -58,7 +58,7 @@ public class LessonControllerTest {
     @Test
     public void should_callAddToDBMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
 
-        Lesson lesson = new Lesson();
+        LessonDto lesson = new LessonDto();
         lesson.setDate(LocalDate.of(2021, 07, 01));
         lesson.setStartTime(LocalTime.of(9, 20));
         lesson.setEndTime(LocalTime.of(10, 00));
@@ -74,7 +74,7 @@ public class LessonControllerTest {
     @Test
     public void should_updateMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
 
-        Lesson lesson = new Lesson();
+        LessonDto lesson = new LessonDto();
         lesson.setDate(LocalDate.of(2021, 07, 02));
         lesson.setStartTime(LocalTime.of(10, 20));
         lesson.setEndTime(LocalTime.of(12, 00));
@@ -91,7 +91,7 @@ public class LessonControllerTest {
     public void should_deleteMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
 
         ModelMap model = new ModelMap();
-        Lesson lesson = new Lesson();
+        LessonDto lesson = new LessonDto();
         lesson.setDate(LocalDate.of(2021, 7, 3));
         lesson.setStartTime(LocalTime.of(12, 20));
         lesson.setEndTime(LocalTime.of(14, 00));

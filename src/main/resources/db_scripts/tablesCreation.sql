@@ -1,4 +1,5 @@
-DROP TABLE IF EXISTS buildings, classrooms, courses, faculties, teachers, students, lessons, students_courses, teachers_courses;
+DROP TABLE IF EXISTS buildings, classrooms, courses, faculties, teachers, students, lessons,
+students_courses, teachers_courses;
 
 CREATE TABLE buildings
 (

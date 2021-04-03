@@ -3,8 +3,8 @@ package ua.com.foxminded.classtimetable.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.classtimetable.dao.BuildingDao;
-import ua.com.foxminded.classtimetable.entities.Building;
+import ua.com.foxminded.classtimetable.repository.dao.BuildingDao;
+import ua.com.foxminded.classtimetable.repository.entities.Building;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ public class BuildingService {
     }
 
     public void delete(Building building) {
-        logger.info("update: building = {}", building);
+        logger.info("delete: building = {}", building);
         daoBuilding.delete(building);
     }
 

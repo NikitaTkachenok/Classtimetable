@@ -3,7 +3,7 @@ package ua.com.foxminded.classtimetable.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import ua.com.foxminded.classtimetable.entities.Classroom;
+import ua.com.foxminded.classtimetable.domain.dto.ClassroomDto;
 import ua.com.foxminded.classtimetable.service.BuildingService;
 import ua.com.foxminded.classtimetable.service.ClassroomService;
 
@@ -39,7 +39,7 @@ public class ClassroomController {
     }
 
     @GetMapping("/new")
-    public String create(@ModelAttribute("classroom") Classroom classroom,
+    public String create(@ModelAttribute("classroom") ClassroomDto classroom,
                          ModelMap model) {
         model.addAttribute("classroomTypes", getClassroomTypes())
                 .addAttribute("buildings", serviceBuilding.getAll());
@@ -47,20 +47,20 @@ public class ClassroomController {
     }
 
     @PostMapping()
-    public String addToDB(@ModelAttribute("classroom") Classroom classroom) {
+    public String addToDB(@ModelAttribute("classroom") ClassroomDto classroom) {
         serviceClassroom.create(classroom);
         return "redirect:/classrooms";
     }
 
     @PutMapping("/{id}")
-    public String update(@ModelAttribute("classroom") Classroom classroom,
+    public String update(@ModelAttribute("classroom") ClassroomDto classroom,
                          ModelMap model) {
         serviceClassroom.update(classroom);
         return "redirect:/classrooms";
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@ModelAttribute("classroom") Classroom classroom) {
+    public String delete(@ModelAttribute("classroom") ClassroomDto classroom) {
         serviceClassroom.delete(classroom);
         return "redirect:/classrooms";
     }

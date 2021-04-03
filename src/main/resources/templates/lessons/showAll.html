@@ -36,32 +36,32 @@
         <tbody>
         <tr th:each="lesson : ${lessons}">
             <td>
-                <a th:href="@{/lessons/{id}(id=${lesson.getId()})}"
-                   th:text="${lesson.getDate()}">lesson</a>
+                <a th:href="@{/lessons/{id}(id=${lesson.id})}"
+                   th:text="${lesson.date}">lesson</a>
             </td>
             <td>
-                <a th:href="@{/lessons/{id}(id=${lesson.getId()})}"
-                   th:text="${lesson.getStartTime()}">lesson</a>
+                <a th:href="@{/lessons/{id}(id=${lesson.id})}"
+                   th:text="${lesson.startTime}">lesson</a>
             </td>
             <td>
-                <a th:href="@{/lessons/{id}(id=${lesson.getId()})}"
-                   th:text="${lesson.getEndTime()}">lesson</a>
+                <a th:href="@{/lessons/{id}(id=${lesson.id})}"
+                   th:text="${lesson.endTime}">lesson</a>
             </td>
             <td>
-                <a th:href="@{/lessons/{id}(id=${lesson.getId()})}"
-                   th:text="${classrooms.getById(lesson.getClassroomId()).getRoomName()}">classroom</a>
+                <a th:href="@{/lessons/{id}(id=${lesson.id})}"
+                   th:text="${classrooms.getById(lesson.classroomId).roomName}">classroom</a>
             </td>
             <td>
-                <a th:href="@{/lessons/{id}(id=${lesson.getId()})}"
-                   th:text="${courses.getById(lesson.getCourseId()).getCourseName()}">course</a>
+                <a th:href="@{/lessons/{id}(id=${lesson.id})}"
+                   th:text="${courses.getById(lesson.courseId).courseName}">course</a>
             </td>
             <td>
-                <a th:href="@{/lessons/{id}(id=${lesson.getId()})}"
-                   th:text="${teachers.getById(lesson.getTeacherId()).getFirstName()} + ' '
-                   + ${teachers.getById(lesson.getTeacherId()).getLastName()}">teacher</a>
+                <a th:href="@{/lessons/{id}(id=${lesson.id})}"
+                   th:text="${teachers.getById(lesson.teacherId).firstName} + ' '
+                   + ${teachers.getById(lesson.teacherId).lastName}">teacher</a>
             </td>
             <td>
-                <form th:method="DELETE" th:action="@{/lessons/{id}(id=${lesson.getId()})}">
+                <form th:method="DELETE" th:action="@{/lessons/{id}(id=${lesson.id})}">
                     <input class="btn btn-sm btn-danger" type="submit" value="Delete!"/>
                 </form>
             </td>

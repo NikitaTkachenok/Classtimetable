@@ -31,11 +31,11 @@
         <tbody>
         <tr th:each="course : ${courses}">
             <td>
-                <a th:href="@{/courses/{id}(id=${course.getId()})}"
-                   th:text="${course.getCourseName()}">course</a>
+                <a th:href="@{/courses/{id}(id=${course.id})}"
+                   th:text="${course.courseName}">course</a>
             </td>
             <td>
-                <form th:method="DELETE" th:action="@{/courses/{id}(id=${course.getId()})}">
+                <form th:method="DELETE" th:action="@{/courses/{id}(id=${course.id})}">
                     <input class="btn btn-sm btn-danger" type="submit" value="Delete!"/>
                 </form>
             </td>

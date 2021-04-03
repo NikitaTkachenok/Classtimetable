@@ -6,8 +6,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.com.foxminded.classtimetable.dao.ClassroomDao;
-import ua.com.foxminded.classtimetable.entities.Classroom;
+import ua.com.foxminded.classtimetable.domain.converters.ClassroomConverter;
+import ua.com.foxminded.classtimetable.domain.dto.ClassroomDto;
+import ua.com.foxminded.classtimetable.repository.dao.ClassroomDao;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClassroomServiceTest {
@@ -17,6 +18,9 @@ public class ClassroomServiceTest {
 
     @Mock
     private ClassroomDao classroomDaoMock;
+
+    @Mock
+    private ClassroomConverter classroomConverterMock;
 
     @Test
     public void should_callGetAllMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
@@ -39,7 +43,7 @@ public class ClassroomServiceTest {
     @Test
     public void should_callCreateMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
 
-        Classroom classroom = new Classroom();
+        ClassroomDto classroom = new ClassroomDto();
         classroom.setRoomName("C-18");
         classroom.setRoomType("Class");
         classroom.setRoomCapacity(20);
@@ -47,13 +51,13 @@ public class ClassroomServiceTest {
 
         classroomServiceMock.create(classroom);
 
-        Mockito.verify(classroomDaoMock).create(classroom);
+        Mockito.verify(classroomDaoMock).create(classroomConverterMock.toEntity(classroom));
     }
 
     @Test
     public void should_callUpdateMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
 
-        Classroom classroom = new Classroom();
+        ClassroomDto classroom = new ClassroomDto();
         classroom.setRoomName("B-50");
         classroom.setRoomType("Lecture");
         classroom.setRoomCapacity(100);
@@ -61,13 +65,13 @@ public class ClassroomServiceTest {
 
         classroomServiceMock.update(classroom);
 
-        Mockito.verify(classroomDaoMock).update(classroom);
+        Mockito.verify(classroomDaoMock).update(classroomConverterMock.toEntity(classroom));
     }
 
     @Test
     public void should_callDeleteMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
 
-        Classroom classroom = new Classroom();
+        ClassroomDto classroom = new ClassroomDto();
         classroom.setRoomName("A-20");
         classroom.setRoomType("Laboratory");
         classroom.setRoomCapacity(5);
@@ -76,7 +80,7 @@ public class ClassroomServiceTest {
         classroomServiceMock.create(classroom);
         classroomServiceMock.delete(classroom);
 
-        Mockito.verify(classroomDaoMock).delete(classroom);
+        Mockito.verify(classroomDaoMock).delete(classroomConverterMock.toEntity(classroom));
     }
 
 }

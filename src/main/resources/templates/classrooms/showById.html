@@ -20,7 +20,7 @@
     <a class="btn btn-sm btn-secondary" href="/classrooms">Back to table</a>
     <br/>
     <br/>
-    <form th:method="PUT" th:action="@{/classrooms/{id}(id=${classroom.getId()})}" th:object="${classroom}">
+    <form th:method="PUT" th:action="@{/classrooms/{id}(id=${classroom.id})}" th:object="${classroom}">
         <label>Change room name:</label>
         <input class="form-control form-control-sm" type="text" th:field="*{roomName}"/>
 
@@ -38,15 +38,15 @@
         <label>Select building:</label>
         <select class="form-control form-control-sm" th:field="*{buildingId}">
             <option th:each="building:${buildings}"
-                    th:value="${building.getId()}"
-                    th:text="${building.getBuildingName()}">
+                    th:value="${building.id}"
+                    th:text="${building.buildingName}">
             </option>
         </select>
         <br/>
         <input class="btn btn-sm btn-success" type="submit" value="Update!">
     </form>
     <br/>
-    <form th:method="DELETE" th:action="@{/classrooms/{id}(id=${classroom.getId()})}">
+    <form th:method="DELETE" th:action="@{/classrooms/{id}(id=${classroom.id})}">
         <input class="btn btn-sm btn-danger" type="submit" value="Delete!"/>
     </form>
 </div>

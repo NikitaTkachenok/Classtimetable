@@ -34,24 +34,24 @@
             <label>Select classroom:</label>
             <select class="form-control form-control-sm" th:field="*{classroomId}">
                 <option th:each="classroom:${classrooms}"
-                        th:value="${classroom.getId()}"
-                        th:text="${classroom.getRoomName()}">
+                        th:value="${classroom.id}"
+                        th:text="${classroom.roomName}">
                 </option>
             </select>
 
             <label>Select course:</label>
             <select class="form-control form-control-sm" th:field="*{courseId}">
                 <option th:each="course:${courses}"
-                        th:value="${course.getId()}"
-                        th:text="${course.getCourseName()}">
+                        th:value="${course.id}"
+                        th:text="${course.courseName}">
                 </option>
             </select>
 
             <label>Select teacher:</label>
             <select class="form-control form-control-sm" th:field="*{teacherId}">
                 <option th:each="teacher:${teachers}"
-                        th:value="${teacher.getId()}"
-                        th:text="${teacher.getFirstName()} + ' ' + ${teacher.getLastName()}">
+                        th:value="${teacher.id}"
+                        th:text="${teacher.firstName} + ' ' + ${teacher.lastName}">
                 </option>
             </select>
             <br/>

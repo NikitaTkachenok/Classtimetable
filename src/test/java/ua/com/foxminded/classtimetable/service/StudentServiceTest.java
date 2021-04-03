@@ -6,9 +6,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.com.foxminded.classtimetable.dao.LessonDao;
-import ua.com.foxminded.classtimetable.dao.StudentDao;
-import ua.com.foxminded.classtimetable.entities.Student;
+import ua.com.foxminded.classtimetable.domain.converters.StudentConverter;
+import ua.com.foxminded.classtimetable.domain.dto.StudentDto;
+import ua.com.foxminded.classtimetable.repository.dao.LessonDao;
+import ua.com.foxminded.classtimetable.repository.dao.StudentDao;
 
 import java.time.LocalDate;
 
@@ -23,6 +24,9 @@ public class StudentServiceTest {
 
     @Mock
     private StudentDao studentDaoMock;
+
+    @Mock
+    private StudentConverter studentConverterMock;
 
     @Test
     public void should_callReceiveLessonsOnDateRangeMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
@@ -59,40 +63,41 @@ public class StudentServiceTest {
     @Test
     public void should_callCreateMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
 
-        Student student = new Student();
+        StudentDto student = new StudentDto();
         student.setFirstName("Leo");
         student.setLastName("Leonberg");
-        student.setFacultyId(2);
+        student.setFacultyId(1);
 
         studentServiceMock.create(student);
 
-        Mockito.verify(studentDaoMock).create(student);
+        Mockito.verify(studentDaoMock).create(studentConverterMock.toEntity(student));
     }
 
     @Test
     public void should_callUpdateMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
 
-        Student student = new Student();
+        StudentDto student = new StudentDto();
         student.setFirstName("Johan");
         student.setLastName("Bit");
-        student.setFacultyId(1);
+        student.setFacultyId(2);
 
         studentServiceMock.update(student);
 
-        Mockito.verify(studentDaoMock).update(student);
+        Mockito.verify(studentDaoMock).update(studentConverterMock.toEntity(student));
     }
 
     @Test
-    public void should_callDeleteMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
+    public void should_callDeleteByIdMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
 
-        Student teacher = new Student();
-        teacher.setFirstName("Jack");
-        teacher.setLastName("Jackson");
-        teacher.setFacultyId(3);
+        StudentDto student = new StudentDto();
+        student.setFirstName("Joe");
+        student.setLastName("Dassin");
+        student.setFacultyId(1);
 
-        studentServiceMock.create(teacher);
-        studentServiceMock.delete(teacher);
+        studentServiceMock.create(student);
+        studentServiceMock.deleteById(student.getId());
 
-        Mockito.verify(studentDaoMock).delete(teacher);
+        Mockito.verify(studentDaoMock).deleteById(student.getId());
     }
+
 }

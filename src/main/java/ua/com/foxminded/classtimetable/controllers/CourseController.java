@@ -1,10 +1,9 @@
 package ua.com.foxminded.classtimetable.controllers;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import ua.com.foxminded.classtimetable.entities.Course;
+import ua.com.foxminded.classtimetable.repository.entities.Course;
 import ua.com.foxminded.classtimetable.service.CourseService;
 
 @Controller

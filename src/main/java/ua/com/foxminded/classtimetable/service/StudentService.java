@@ -3,12 +3,15 @@ package ua.com.foxminded.classtimetable.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.classtimetable.dao.LessonDao;
-import ua.com.foxminded.classtimetable.dao.StudentDao;
-import ua.com.foxminded.classtimetable.entities.Lesson;
-import ua.com.foxminded.classtimetable.entities.Student;
+import ua.com.foxminded.classtimetable.domain.converters.LessonConverter;
+import ua.com.foxminded.classtimetable.domain.converters.StudentConverter;
+import ua.com.foxminded.classtimetable.domain.dto.LessonDto;
+import ua.com.foxminded.classtimetable.domain.dto.StudentDto;
+import ua.com.foxminded.classtimetable.repository.dao.LessonDao;
+import ua.com.foxminded.classtimetable.repository.dao.StudentDao;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,46 +19,53 @@ public class StudentService {
 
     private final StudentDao daoStudent;
     private final LessonDao daoLesson;
+    private final StudentConverter converterStudent;
+    private final LessonConverter converterLesson;
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
-    public StudentService(StudentDao daoStudent, LessonDao daoLesson) {
+    public StudentService(StudentDao daoStudent, LessonDao daoLesson, StudentConverter converterStudent,
+                          LessonConverter converterLesson) {
         this.daoLesson = daoLesson;
         this.daoStudent = daoStudent;
+        this.converterStudent = converterStudent;
+        this.converterLesson = converterLesson;
     }
 
-    public List<Student> getAll() {
-        List<Student> allStudents = daoStudent.getAll();
+    public List<StudentDto> getAll() {
+        List<StudentDto> allStudents = new ArrayList<>();
+        daoStudent.getAll().forEach(student -> allStudents.add(converterStudent.toDto(student)));
         logger.info("getAll():\n {}", allStudents);
         return allStudents;
     }
 
-    public Student getById(int id) {
-        Student student = daoStudent.getById(id);
+    public StudentDto getById(int id) {
+        StudentDto student = converterStudent.toDto(daoStudent.getById(id));
         logger.info("getById: student = {}", student);
         return student;
     }
 
-    public void create(Student student) {
+    public void create(StudentDto student) {
         logger.info("create: student = {}", student);
-        daoStudent.create(student);
+        daoStudent.create(converterStudent.toEntity(student));
     }
 
-    public void update(Student student) {
+    public void update(StudentDto student) {
         logger.info("update: student = {}", student);
-        daoStudent.update(student);
+        daoStudent.update(converterStudent.toEntity(student));
     }
 
-    public void delete(Student student) {
-        logger.info("delete: student = {}", student);
-        daoStudent.delete(student);
+    public void deleteById(int id) {
+        logger.info("delete: student with ID = {}", id);
+        daoStudent.deleteById(id);
     }
 
-    public List<Lesson> receiveLessonsOnDateRange(
-            String studentFirstName, String studentLastName, LocalDate beginDate, LocalDate endDate) {
+    public List<LessonDto> receiveLessonsOnDateRange(String studentFirstName, String studentLastName,
+                                                     LocalDate beginDate, LocalDate endDate) {
         logger.info("receiveLessonsOnDateRange: student first name = {}, student last name = {}, begin date = {}," +
                 " end date = {}.", studentFirstName, studentLastName, beginDate, endDate);
-        List<Lesson> lessons = daoLesson.getLessonsForStudentOnDateRange(
-                studentFirstName, studentLastName, beginDate, endDate);
+        List<LessonDto> lessons = new ArrayList<>();
+        daoLesson.getLessonsForStudentOnDateRange(studentFirstName, studentLastName, beginDate, endDate)
+                .forEach(lesson -> lessons.add(converterLesson.toDto(lesson)));
         if (lessons.isEmpty()) {
             logger.warn("The student with first name = {} and last name = {} has no lessons for this date range.",
                     studentFirstName, studentLastName);
@@ -66,4 +76,5 @@ public class StudentService {
         }
         return lessons;
     }
+
 }

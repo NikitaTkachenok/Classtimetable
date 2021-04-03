@@ -3,7 +3,8 @@ package ua.com.foxminded.classtimetable.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import ua.com.foxminded.classtimetable.entities.Teacher;
+import ua.com.foxminded.classtimetable.domain.dto.TeacherDto;
+import ua.com.foxminded.classtimetable.service.CourseService;
 import ua.com.foxminded.classtimetable.service.FacultyService;
 import ua.com.foxminded.classtimetable.service.TeacherService;
 
@@ -13,48 +14,54 @@ public class TeacherController {
 
     private final TeacherService serviceTeacher;
     private final FacultyService serviceFaculty;
+    private final CourseService serviceCourse;
 
-    public TeacherController(TeacherService serviceTeacher, FacultyService serviceFaculty) {
+    public TeacherController(TeacherService serviceTeacher, FacultyService serviceFaculty,
+                             CourseService serviceCourse) {
         this.serviceTeacher = serviceTeacher;
         this.serviceFaculty = serviceFaculty;
+        this.serviceCourse = serviceCourse;
     }
 
     @GetMapping()
     public String showAll(ModelMap model) {
-        model.addAttribute("teachers", serviceTeacher.getAll());
-        model.addAttribute("faculties", serviceFaculty);
+        model.addAttribute("teachers", serviceTeacher.getAll())
+                .addAttribute("faculties", serviceFaculty)
+                .addAttribute("courses", serviceCourse);
         return "teachers/showAll";
     }
 
     @GetMapping("/{id}")
     public String showById(@PathVariable("id") int id, ModelMap model) {
         model.addAttribute("teacher", serviceTeacher.getById(id))
-                .addAttribute("faculties", serviceFaculty.getAll());
+                .addAttribute("faculties", serviceFaculty.getAll())
+                .addAttribute("allCourses", serviceCourse.getAll());
         return "teachers/showById";
     }
 
     @GetMapping("/new")
-    public String create(@ModelAttribute("teacher") Teacher teacher,
-                         ModelMap model) {
-        model.addAttribute("faculties", serviceFaculty.getAll());
+    public String create(@ModelAttribute("teacher") TeacherDto teacher, ModelMap model) {
+        model.addAttribute("faculties", serviceFaculty.getAll())
+                .addAttribute("allCourses", serviceCourse.getAll());
         return "teachers/create";
     }
 
     @PostMapping()
-    public String addToDB(@ModelAttribute("teacher") Teacher teacher) {
+    public String addToDB(@ModelAttribute("teacher") TeacherDto teacher) {
         serviceTeacher.create(teacher);
         return "redirect:/teachers";
     }
 
     @PutMapping("/{id}")
-    public String update(@ModelAttribute("teacher") Teacher teacher) {
+    public String update(@ModelAttribute("teacher") TeacherDto teacher) {
         serviceTeacher.update(teacher);
         return "redirect:/teachers";
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@ModelAttribute("teacher") Teacher teacher) {
-        serviceTeacher.delete(teacher);
+    public String delete(@ModelAttribute("teacher") TeacherDto teacher) {
+        serviceTeacher.deleteById(teacher.getId());
         return "redirect:/teachers";
     }
+
 }

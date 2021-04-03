@@ -31,11 +31,11 @@
         <tbody>
         <tr th:each="building : ${buildings}">
             <td>
-                <a th:href="@{/buildings/{id}(id=${building.getId()})}"
-                   th:text="${building.getBuildingName()}">building</a>
+                <a th:href="@{/buildings/{id}(id=${building.id})}"
+                   th:text="${building.buildingName}">building</a>
             </td>
             <td>
-                <form th:method="DELETE" th:action="@{/buildings/{id}(id=${building.getId()})}">
+                <form th:method="DELETE" th:action="@{/buildings/{id}(id=${building.id})}">
                     <input class="btn btn-sm btn-danger" type="submit" value="Delete!"/>
                 </form>
             </td>

@@ -6,8 +6,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.com.foxminded.classtimetable.dao.LessonDao;
-import ua.com.foxminded.classtimetable.entities.Lesson;
+import ua.com.foxminded.classtimetable.domain.converters.LessonConverter;
+import ua.com.foxminded.classtimetable.domain.dto.LessonDto;
+import ua.com.foxminded.classtimetable.repository.dao.LessonDao;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,6 +21,9 @@ public class LessonServiceTest {
 
     @Mock
     private LessonDao lessonDaoMock;
+
+    @Mock
+    private LessonConverter lessonConverterMock;
 
     @Test
     public void should_callGetAllMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
@@ -42,7 +46,7 @@ public class LessonServiceTest {
     @Test
     public void should_callCreateMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
 
-        Lesson lesson = new Lesson();
+        LessonDto lesson = new LessonDto();
         lesson.setDate(LocalDate.of(2021, 06, 01));
         lesson.setStartTime(LocalTime.of(9, 20));
         lesson.setEndTime(LocalTime.of(10, 00));
@@ -52,13 +56,13 @@ public class LessonServiceTest {
 
         lessonServiceMock.create(lesson);
 
-        Mockito.verify(lessonDaoMock).create(lesson);
+        Mockito.verify(lessonDaoMock).create(lessonConverterMock.toEntity(lesson));
     }
 
     @Test
     public void should_callUpdateMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
 
-        Lesson lesson = new Lesson();
+        LessonDto lesson = new LessonDto();
         lesson.setDate(LocalDate.of(2021, 06, 02));
         lesson.setStartTime(LocalTime.of(10, 10));
         lesson.setEndTime(LocalTime.of(11, 50));
@@ -68,13 +72,13 @@ public class LessonServiceTest {
 
         lessonServiceMock.update(lesson);
 
-        Mockito.verify(lessonDaoMock).update(lesson);
+        Mockito.verify(lessonDaoMock).update(lessonConverterMock.toEntity(lesson));
     }
 
     @Test
     public void should_callDeleteMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
 
-        Lesson lesson = new Lesson();
+        LessonDto lesson = new LessonDto();
         lesson.setDate(LocalDate.of(2021, 06, 03));
         lesson.setStartTime(LocalTime.of(12, 00));
         lesson.setEndTime(LocalTime.of(13, 40));
@@ -85,6 +89,6 @@ public class LessonServiceTest {
         lessonServiceMock.create(lesson);
         lessonServiceMock.delete(lesson);
 
-        Mockito.verify(lessonDaoMock).delete(lesson);
+        Mockito.verify(lessonDaoMock).delete(lessonConverterMock.toEntity(lesson));
     }
 }

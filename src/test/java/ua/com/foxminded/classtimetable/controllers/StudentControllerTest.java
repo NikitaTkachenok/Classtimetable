@@ -7,7 +7,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.ui.ModelMap;
-import ua.com.foxminded.classtimetable.entities.Student;
+import ua.com.foxminded.classtimetable.domain.dto.StudentDto;
+import ua.com.foxminded.classtimetable.service.CourseService;
 import ua.com.foxminded.classtimetable.service.FacultyService;
 import ua.com.foxminded.classtimetable.service.StudentService;
 
@@ -22,6 +23,9 @@ public class StudentControllerTest {
 
     @Mock
     private FacultyService facultyServiceMock;
+
+    @Mock
+    private CourseService courseServiceMock;
 
     @Test
     public void should_callGetAllMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
@@ -47,7 +51,7 @@ public class StudentControllerTest {
     @Test
     public void should_callAddToDBMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
 
-        Student student = new Student();
+        StudentDto student = new StudentDto();
         student.setFirstName("Jeffrey");
         student.setLastName("Coffee");
         student.setFacultyId(1);
@@ -60,7 +64,7 @@ public class StudentControllerTest {
     @Test
     public void should_updateMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
 
-        Student student = new Student();
+        StudentDto student = new StudentDto();
         student.setFirstName("Fran");
         student.setLastName("Bow");
         student.setFacultyId(2);
@@ -74,7 +78,7 @@ public class StudentControllerTest {
     public void should_deleteMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
 
         ModelMap model = new ModelMap();
-        Student student = new Student();
+        StudentDto student = new StudentDto();
         student.setFirstName("Peter");
         student.setLastName("Potter");
         student.setFacultyId(3);
@@ -82,7 +86,7 @@ public class StudentControllerTest {
         studentControllerMock.create(student, model);
         studentControllerMock.delete(student);
 
-        Mockito.verify(studentServiceMock).delete(student);
+        Mockito.verify(studentServiceMock).deleteById(student.getId());
     }
 
 }

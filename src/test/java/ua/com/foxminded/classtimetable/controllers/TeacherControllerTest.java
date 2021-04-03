@@ -7,7 +7,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.ui.ModelMap;
-import ua.com.foxminded.classtimetable.entities.Teacher;
+import ua.com.foxminded.classtimetable.domain.dto.TeacherDto;
+import ua.com.foxminded.classtimetable.service.CourseService;
 import ua.com.foxminded.classtimetable.service.FacultyService;
 import ua.com.foxminded.classtimetable.service.TeacherService;
 
@@ -22,6 +23,9 @@ public class TeacherControllerTest {
 
     @Mock
     private FacultyService facultyServiceMock;
+
+    @Mock
+    private CourseService courseServiceMock;
 
     @Test
     public void should_callGetAllMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
@@ -47,10 +51,10 @@ public class TeacherControllerTest {
     @Test
     public void should_callAddToDBMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
 
-        Teacher teacher = new Teacher();
+        TeacherDto teacher = new TeacherDto();
         teacher.setFirstName("Jeff");
         teacher.setLastName("Coff");
-        teacher.setFacultyId(3);
+        teacher.setFacultyId(1);
 
         teacherControllerMock.addToDB(teacher);
 
@@ -60,7 +64,7 @@ public class TeacherControllerTest {
     @Test
     public void should_updateMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
 
-        Teacher teacher = new Teacher();
+        TeacherDto teacher = new TeacherDto();
         teacher.setFirstName("Francesco");
         teacher.setLastName("Donni");
         teacher.setFacultyId(2);
@@ -71,18 +75,18 @@ public class TeacherControllerTest {
     }
 
     @Test
-    public void should_deleteMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
+    public void should_deleteByIdMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
 
         ModelMap model = new ModelMap();
-        Teacher teacher = new Teacher();
+        TeacherDto teacher = new TeacherDto();
         teacher.setFirstName("Pit");
         teacher.setLastName("Garrix");
-        teacher.setFacultyId(1);
+        teacher.setFacultyId(3);
 
         teacherControllerMock.create(teacher, model);
         teacherControllerMock.delete(teacher);
 
-        Mockito.verify(teacherServiceMock).delete(teacher);
+        Mockito.verify(teacherServiceMock).deleteById(teacher.getId());
     }
 
 }

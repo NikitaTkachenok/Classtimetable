@@ -6,8 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.com.foxminded.classtimetable.dao.BuildingDao;
-import ua.com.foxminded.classtimetable.entities.Building;
+import ua.com.foxminded.classtimetable.repository.dao.BuildingDao;
+import ua.com.foxminded.classtimetable.repository.entities.Building;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BuildingServiceTest {

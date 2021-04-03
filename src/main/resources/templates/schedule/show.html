@@ -34,24 +34,24 @@
         <tbody>
         <tr th:each="lesson : ${schedule}">
             <td>
-                <a th:text="${courses.getById(lesson.getCourseId()).getCourseName()}">course</a>
+                <a th:text="${courses.getById(lesson.courseId).courseName}">course</a>
             </td>
             <td>
-                <a th:text="${lesson.getDate()}">date</a>
+                <a th:text="${lesson.date}">date</a>
             </td>
             <td>
-                <a th:text="${lesson.getStartTime()}">time</a>
+                <a th:text="${lesson.startTime}">time</a>
             </td>
             <td>
-                <a th:text="${lesson.getEndTime()}">time</a>
+                <a th:text="${lesson.endTime}">time</a>
             </td>
             <td>
-                <a th:text="${classrooms.getById(lesson.getClassroomId()).getRoomName()}">classroom</a>
+                <a th:text="${classrooms.getById(lesson.classroomId).roomName}">classroom</a>
             </td>
 
             <td>
-                <a th:text="${teachers.getById(lesson.getTeacherId()).getFirstName()} + ' '
-                   + ${teachers.getById(lesson.getTeacherId()).getLastName()}">teacher</a>
+                <a th:text="${teachers.getById(lesson.teacherId).firstName} + ' '
+                   + ${teachers.getById(lesson.teacherId).lastName}">teacher</a>
             </td>
         </tr>
         </tbody>

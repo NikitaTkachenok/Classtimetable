@@ -1,8 +1,17 @@
-package ua.com.foxminded.classtimetable.entities;
+package ua.com.foxminded.classtimetable.repository.entities;
 
-public class Building {
+import javax.persistence.*;
+import java.io.Serializable;
 
+@Entity
+@Table(name = "buildings")
+public class Building implements Serializable {
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "building_name")
     private String buildingName;
 
     public Building() {
@@ -54,6 +63,6 @@ public class Building {
 
     @Override
     public String toString() {
-        return "Buiding [id=" + id + ", buildingName=" + buildingName + "]";
+        return "Building [id=" + id + ", buildingName=" + buildingName + "]";
     }
 }

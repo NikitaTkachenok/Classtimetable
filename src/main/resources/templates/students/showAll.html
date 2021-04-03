@@ -27,22 +27,30 @@
             <th class="text-dark">First name</th>
             <th class="text-dark">Last name</th>
             <th class="text-dark">Faculty</th>
+            <th class="text-dark">Course (s)</th>
             <th class="text-dark">Removal</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="student : ${students}">
             <td>
-                <a th:href="@{/students/{id}(id=${student.getId()})}"
-                   th:text="${student.getFirstName()}">student</a>
+                <a th:href="@{/students/{id}(id=${student.id})}"
+                   th:text="${student.firstName}">student</a>
             </td>
             <td>
-                <a th:href="@{/students/{id}(id=${student.getId()})}"
-                   th:text="${student.getLastName()}">student</a>
+                <a th:href="@{/students/{id}(id=${student.id})}"
+                   th:text="${student.lastName}">student</a>
             </td>
             <td>
-                <a th:href="@{/students/{id}(id=${student.getId()})}"
-                   th:text="${faculties.getById(student.getFacultyId()).getFacultyName()}">faculty</a>
+                <a th:href="@{/students/{id}(id=${student.id})}"
+                   th:text="${faculties.getById(student.facultyId).facultyName}">faculty</a>
+            </td>
+            <td>
+                <th:block th:each="id : ${student.coursesId}">
+                    <a th:href="@{/students/{id}(id=${student.id})}"
+                       th:text="${courses.getById(id).courseName}">courses</a>
+                    <br/>
+                </th:block>
             </td>
             <td>
                 <form th:method="DELETE" th:action="@{/students/{id}(id=${student.getId()})}">
