@@ -1,13 +1,18 @@
 package ua.com.foxminded.classtimetable;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.sql.SQLException;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 
+@SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
 public class Application {
 
-    public static void main(String[] args) throws IOException, URISyntaxException, SQLException {
-
+    public static void main(String[] args) {
+        try {
+            SpringApplication.run(Application.class, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

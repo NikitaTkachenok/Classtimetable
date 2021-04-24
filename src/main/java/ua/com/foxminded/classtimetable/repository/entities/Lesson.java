@@ -27,13 +27,13 @@ public class Lesson implements Serializable {
     @Column(name = "end_time")
     private LocalTime endTime;
 
-    @OneToOne
+    @ManyToOne
     private Classroom classroom;
 
-    @OneToOne
+    @ManyToOne
     private Course course;
 
-    @OneToOne
+    @ManyToOne
     private Teacher teacher;
 
     public int getId() {

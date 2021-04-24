@@ -80,7 +80,10 @@ public class ScheduleController {
 
     private String changeEncoding(String oldEncodedString) {
         return new String(oldEncodedString.getBytes(ISO_8859_1), UTF_8);
+    }
 
+    private String detachFirsName(String fullName) {
+        return fullName.split(" ")[0];
     }
 
 }
