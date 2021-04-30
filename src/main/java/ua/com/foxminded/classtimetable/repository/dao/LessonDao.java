@@ -31,28 +31,26 @@ public class LessonDao extends AbstractDao<Lesson> implements DaoInterface<Lesso
     @SuppressWarnings("unchecked")
     public List<Lesson> getLessonsForTeacherOnDateRange(String teacherFirstName, String teacherLastName,
                                                         LocalDate beginDate, LocalDate endDate) {
-        List<Lesson> lessons = getCurrentSession()
+        List<Lesson> lessons = entityManager
                 .createNativeQuery(GET_TEACHER_LESSONS_IN_DATE_RANGE)
-                .addEntity(Lesson.class)
                 .setParameter("firstName", teacherFirstName)
                 .setParameter("lastName", teacherLastName)
                 .setParameter("beginDate", beginDate)
                 .setParameter("endDate", endDate)
-                .list();
+                .getResultList();
         return lessons;
     }
 
     @SuppressWarnings("unchecked")
     public List<Lesson> getLessonsForStudentOnDateRange(String studentFirstName, String studentLastName,
                                                         LocalDate beginDate, LocalDate endDate) {
-        List<Lesson> lessons = getCurrentSession()
+        List<Lesson> lessons = entityManager
                 .createNativeQuery(GET_STUDENT_LESSONS_IN_DATE_RANGE)
-                .addEntity(Lesson.class)
                 .setParameter("firstName", studentFirstName)
                 .setParameter("lastName", studentLastName)
                 .setParameter("beginDate", beginDate)
                 .setParameter("endDate", endDate)
-                .list();
+                .getResultList();
         return lessons;
     }
 

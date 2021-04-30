@@ -1,9 +1,8 @@
 package ua.com.foxminded.classtimetable.repository.dao;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;
@@ -14,38 +13,35 @@ public abstract class AbstractDao<T extends Serializable> {
     private Class<T> clazz;
 
     @Autowired
-    private SessionFactory sessionFactory;
+    EntityManager entityManager;
 
     public void setClazz(Class<T> clazzToSet) {
         clazz = clazzToSet;
     }
 
     public T getById(int id) {
-        return (T) getCurrentSession().get(clazz, id);
+        return entityManager.find(clazz, id);
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> getAll() {
-        return getCurrentSession().createQuery("from " + clazz.getName()).list();
+        return entityManager.createQuery("from " + clazz.getName()).getResultList();
     }
 
     public void create(T entity) {
-        getCurrentSession().persist(entity);
+        entityManager.persist(entity);
     }
 
     public void update(T entity) {
-        getCurrentSession().merge(entity);
+        entityManager.merge(entity);
     }
 
     public void delete(T entity) {
-        getCurrentSession().delete(entity);
+        entityManager.remove(entity);
     }
 
     public void deleteById(int id) {
         delete(getById(id));
-    }
-
-    protected Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
     }
 
 }
