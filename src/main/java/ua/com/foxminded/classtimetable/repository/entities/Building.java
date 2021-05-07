@@ -1,28 +1,20 @@
 package ua.com.foxminded.classtimetable.repository.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "buildings")
-public class Building implements Serializable {
+public class Building extends CommonEntity {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id = getId();
+
     @Column(name = "building_name")
     private String buildingName;
 
     public Building() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getBuildingName() {

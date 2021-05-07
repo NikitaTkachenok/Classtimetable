@@ -1,16 +1,16 @@
 package ua.com.foxminded.classtimetable.repository.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import ua.com.foxminded.classtimetable.repository.entities.CommonEntity;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.io.Serializable;
 import java.util.List;
 
 @Transactional
-public abstract class AbstractDao<T extends Serializable> {
+public abstract class AbstractDao<T extends CommonEntity> {
 
-    private Class<T> clazz;
+    public Class<T> clazz;
 
     @Autowired
     EntityManager entityManager;
@@ -37,7 +37,14 @@ public abstract class AbstractDao<T extends Serializable> {
     }
 
     public void delete(T entity) {
-        entityManager.remove(entity);
+        try {
+            entityManager
+                    .createQuery("delete from " + clazz.getName() + "where id = :id")
+                    .setParameter("id", clazz.getDeclaredField("id"))
+                    .executeUpdate();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
     }
 
     public void deleteById(int id) {

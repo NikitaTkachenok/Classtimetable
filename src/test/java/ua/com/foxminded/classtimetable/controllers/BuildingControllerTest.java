@@ -1,16 +1,26 @@
 package ua.com.foxminded.classtimetable.controllers;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.ModelMap;
+import ua.com.foxminded.classtimetable.Application;
 import ua.com.foxminded.classtimetable.repository.entities.Building;
 import ua.com.foxminded.classtimetable.service.BuildingService;
 
-@RunWith(MockitoJUnitRunner.class)
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+@RunWith(SpringRunner.class)
 public class BuildingControllerTest {
 
     @InjectMocks
@@ -18,6 +28,13 @@ public class BuildingControllerTest {
 
     @Mock
     private BuildingService buildingServiceMock;
+
+    private MockMvc mockMvc;
+
+    @Before
+    public void setup() {
+        this.mockMvc = MockMvcBuilders.standaloneSetup(new MenuController()).build();
+    }
 
     @Test
     public void should_callGetAllMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
@@ -29,6 +46,18 @@ public class BuildingControllerTest {
         Mockito.verify(buildingServiceMock).getAll();
     }
 
+//    @Test
+//    public void should_getListOfBuildings_when_controllerClassCallsGetAllMethod() throws Exception {
+//        this.mockMvc.perform(MockMvcRequestBuilders
+//                .get("/buildings"))
+//                .andExpect(status().isOk())
+//                .andExpect(view().name("create"))
+//                .andDo(MockMvcResultHandlers.print())
+//                .andReturn();
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.buildings").exists())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.buildings[*].id").isNotEmpty());
+//    }
+
     @Test
     public void should_callShowByIdMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
 
@@ -38,7 +67,6 @@ public class BuildingControllerTest {
         buildingControllerMock.showById(id, model);
 
         Mockito.verify(buildingServiceMock).getById(id);
-
     }
 
     @Test

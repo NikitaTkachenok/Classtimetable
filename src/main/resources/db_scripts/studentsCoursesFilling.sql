@@ -118,3 +118,4 @@ INSERT INTO students_courses (student_id, course_id) VALUES (59, 2);
 INSERT INTO students_courses (student_id, course_id) VALUES (60, 3);
 INSERT INTO students_courses (student_id, course_id) VALUES (60, 4);
 INSERT INTO students_courses (student_id, course_id) VALUES (60, 5);
+COMMIT;

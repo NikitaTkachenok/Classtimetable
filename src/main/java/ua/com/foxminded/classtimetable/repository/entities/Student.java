@@ -8,12 +8,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "students")
-public class Student implements Serializable {
+public class Student extends CommonEntity {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id = getId();
 
     @Column(name = "first_name")
     private String firstName;
@@ -30,14 +30,6 @@ public class Student implements Serializable {
             joinColumns = {@JoinColumn(name = "student_id")},
             inverseJoinColumns = {@JoinColumn(name = "course_id")})
     private Set<Course> studentCourses = new HashSet<>();
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getFirstName() {
         return firstName;

@@ -6,12 +6,12 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "classrooms")
-public class Classroom implements Serializable {
+public class Classroom extends CommonEntity {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id = getId();
 
     @Column(name = "room_name")
     private String roomName;
@@ -24,14 +24,6 @@ public class Classroom implements Serializable {
 
     @ManyToOne
     private Building building;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getRoomName() {
         return roomName;

@@ -8,12 +8,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "courses")
-public class Course implements Serializable {
+public class Course extends CommonEntity {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id = getId();
 
     @Column(name = "course_name")
     private String courseName;
@@ -22,14 +22,6 @@ public class Course implements Serializable {
             fetch = FetchType.EAGER,
             mappedBy = "teacherCourses")
     private Set<Teacher> courseTeachers = new HashSet<>();
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getCourseName() {
         return courseName;

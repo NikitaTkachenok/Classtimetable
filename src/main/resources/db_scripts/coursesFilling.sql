@@ -8,3 +8,4 @@ INSERT INTO courses (course_name) VALUES ('Chemistry');
 INSERT INTO courses (course_name) VALUES ('Mathematics');
 INSERT INTO courses (course_name) VALUES ('Physics');
 INSERT INTO courses (course_name) VALUES ('Geometry');
+COMMIT;

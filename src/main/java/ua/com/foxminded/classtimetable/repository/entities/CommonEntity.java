@@ -1,0 +1,20 @@
+package ua.com.foxminded.classtimetable.repository.entities;
+
+import javax.persistence.*;
+import java.io.Serializable;
+
+@MappedSuperclass
+public abstract class CommonEntity implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+}

@@ -10,3 +10,4 @@ INSERT INTO teachers_courses (teacher_id, course_id) VALUES (9, 7);
 INSERT INTO teachers_courses (teacher_id, course_id) VALUES (10, 8);
 INSERT INTO teachers_courses (teacher_id, course_id) VALUES (11, 9);
 INSERT INTO teachers_courses (teacher_id, course_id) VALUES (12, 10);
+COMMIT;

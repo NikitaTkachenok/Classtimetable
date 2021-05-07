@@ -58,3 +58,4 @@ INSERT INTO students (first_name, last_name, faculty_id) VALUES ('Jack', 'Sykes'
 INSERT INTO students (first_name, last_name, faculty_id) VALUES ('Jack', 'Eve', 3);
 INSERT INTO students (first_name, last_name, faculty_id) VALUES ('Jack', 'King', 3);
 INSERT INTO students (first_name, last_name, faculty_id) VALUES ('Jack', 'Tucci', 3);
+COMMIT;

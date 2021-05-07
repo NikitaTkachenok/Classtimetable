@@ -10,12 +10,12 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "lessons")
-public class Lesson implements Serializable {
+public class Lesson extends CommonEntity {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id = getId();
 
     @Column(name = "date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -35,14 +35,6 @@ public class Lesson implements Serializable {
 
     @ManyToOne
     private Teacher teacher;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public LocalDate getDate() {
         return date;

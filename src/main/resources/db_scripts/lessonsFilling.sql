@@ -624,3 +624,4 @@ INSERT INTO lessons (date, start_time, end_time, classroom_id, course_id, teache
 INSERT INTO lessons (date, start_time, end_time, classroom_id, course_id, teacher_id) VALUES ('2021-03-05', '13:00:00', '14:40:00', 13, 8, 10);
 INSERT INTO lessons (date, start_time, end_time, classroom_id, course_id, teacher_id) VALUES ('2021-03-05', '14:50:00', '16:30:00', 15, 9, 11);
 INSERT INTO lessons (date, start_time, end_time, classroom_id, course_id, teacher_id) VALUES ('2021-03-05', '16:40:00', '18:20:00', 15, 10, 12);
+COMMIT;

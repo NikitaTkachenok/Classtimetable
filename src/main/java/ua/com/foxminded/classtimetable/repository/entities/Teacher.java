@@ -1,19 +1,18 @@
 package ua.com.foxminded.classtimetable.repository.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "teachers")
-public class Teacher implements Serializable {
+public class Teacher extends CommonEntity {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id = getId();
 
     @Column(name = "first_name")
     private String firstName;
@@ -30,14 +29,6 @@ public class Teacher implements Serializable {
             joinColumns = {@JoinColumn(name = "teacher_id")},
             inverseJoinColumns = {@JoinColumn(name = "course_id")})
     private Set<Course> teacherCourses = new HashSet<>();
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getFirstName() {
         return firstName;

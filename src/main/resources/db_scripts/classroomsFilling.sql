@@ -13,3 +13,4 @@ INSERT INTO classrooms (room_name, room_type, room_capacity, building_id) VALUES
 INSERT INTO classrooms (room_name, room_type, room_capacity, building_id) VALUES ('C-3', 'Class', 30, 3);
 INSERT INTO classrooms (room_name, room_type, room_capacity, building_id) VALUES ('C-4', 'Lecture', 50, 3);
 INSERT INTO classrooms (room_name, room_type, room_capacity, building_id) VALUES ('C-5', 'Laboratory', 10, 3);
+COMMIT;

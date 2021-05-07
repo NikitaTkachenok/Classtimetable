@@ -10,3 +10,4 @@ INSERT INTO teachers (first_name, last_name, faculty_id) VALUES ('Albert', 'Hill
 INSERT INTO teachers (first_name, last_name, faculty_id) VALUES ('Joshua', 'Eve', 2);
 INSERT INTO teachers (first_name, last_name, faculty_id) VALUES ('Sophia', 'Roos', 2);
 INSERT INTO teachers (first_name, last_name, faculty_id) VALUES ('Mia', 'Brown', 2);
+COMMIT;

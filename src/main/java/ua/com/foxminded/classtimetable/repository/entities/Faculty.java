@@ -6,23 +6,15 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "faculties")
-public class Faculty implements Serializable {
+public class Faculty extends CommonEntity {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id = getId();
 
     @Column(name = "faculty_name")
     private String facultyName;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getFacultyName() {
         return facultyName;
