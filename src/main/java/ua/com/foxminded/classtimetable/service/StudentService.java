@@ -13,6 +13,7 @@ import ua.com.foxminded.classtimetable.repository.dao.StudentDao;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -59,19 +60,17 @@ public class StudentService {
         daoStudent.deleteById(id);
     }
 
-    public List<LessonDto> receiveLessonsOnDateRange(String studentFirstName, String studentLastName,
-                                                     LocalDate beginDate, LocalDate endDate) {
-        logger.info("receiveLessonsOnDateRange: student first name = {}, student last name = {}, begin date = {}," +
-                " end date = {}.", studentFirstName, studentLastName, beginDate, endDate);
-        List<LessonDto> lessons = new ArrayList<>();
-        daoLesson.getLessonsForStudentOnDateRange(studentFirstName, studentLastName, beginDate, endDate)
-                .forEach(lesson -> lessons.add(converterLesson.toDto(lesson)));
+    public List<LessonDto> receiveLessonsOnDateRange(int id, LocalDate beginDate, LocalDate endDate) {
+        logger.info("receiveLessonsOnDateRange: student id = {}, begin date = {}," +
+                " end date = {}.", id, beginDate, endDate);
+        List<LessonDto> lessons = daoLesson.getLessonsForStudentOnDateRange(id, beginDate, endDate)
+                .stream()
+                .map(converterLesson::toDto)
+                .collect(Collectors.toList());
         if (lessons.isEmpty()) {
-            logger.warn("The student with first name = {} and last name = {} has no lessons for this date range.",
-                    studentFirstName, studentLastName);
+            logger.warn("The student with id = {} has no lessons for this date range.", id);
         } else {
-            logger.info("The student with first name = {} and last name = {} has {} lessons for this date range:",
-                    studentFirstName, studentLastName, lessons.size());
+            logger.info("The student with id = {} has {} lessons for this date range:", id, lessons.size());
             logger.info("Lessons:\n {}", lessons);
         }
         return lessons;

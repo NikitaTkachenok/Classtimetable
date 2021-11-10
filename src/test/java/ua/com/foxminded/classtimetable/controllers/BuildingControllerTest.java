@@ -3,105 +3,113 @@ package ua.com.foxminded.classtimetable.controllers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.ModelMap;
-import ua.com.foxminded.classtimetable.Application;
+import org.springframework.web.context.WebApplicationContext;
 import ua.com.foxminded.classtimetable.repository.entities.Building;
 import ua.com.foxminded.classtimetable.service.BuildingService;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@SpringBootTest
 @RunWith(SpringRunner.class)
 public class BuildingControllerTest {
 
-    @InjectMocks
-    private BuildingController buildingControllerMock;
-
-    @Mock
-    private BuildingService buildingServiceMock;
-
     private MockMvc mockMvc;
+
+    @Autowired
+    private WebApplicationContext context;
+
+    @Autowired
+    private BuildingService buildingService;
 
     @Before
     public void setup() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(new MenuController()).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @Test
-    public void should_callGetAllMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
+    public void should_getListOfBuildings_when_controllerCallsShowAllMethod() throws Exception {
 
-        ModelMap model = new ModelMap();
-
-        buildingControllerMock.showAll(model);
-
-        Mockito.verify(buildingServiceMock).getAll();
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/buildings"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("buildings/showAll"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(model().attribute("buildings", buildingService.getAll()))
+                .andReturn();
     }
 
-//    @Test
-//    public void should_getListOfBuildings_when_controllerClassCallsGetAllMethod() throws Exception {
-//        this.mockMvc.perform(MockMvcRequestBuilders
-//                .get("/buildings"))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("create"))
-//                .andDo(MockMvcResultHandlers.print())
-//                .andReturn();
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.buildings").exists())
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.buildings[*].id").isNotEmpty());
-//    }
-
     @Test
-    public void should_callShowByIdMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
+    public void should_getOneBuilding_when_controllerCallsShowByIdMethod() throws Exception {
 
         int id = 1;
-        ModelMap model = new ModelMap();
 
-        buildingControllerMock.showById(id, model);
-
-        Mockito.verify(buildingServiceMock).getById(id);
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/buildings/{id}", id))
+                .andExpect(status().isOk())
+                .andExpect(view().name("buildings/showById"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(model().attribute("building", buildingService.getById(id)))
+                .andReturn();
     }
 
     @Test
-    public void should_callAddToDBMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
+    public void should_showCreationView_when_controllerCallsCreateMethod() throws Exception {
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/buildings/new"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("buildings/create"))
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void should_addNewBuildingToDatabase_when_controllerCallsAddToDBMethod() throws Exception {
 
         Building building = new Building();
         building.setBuildingName("D");
 
-        buildingControllerMock.addToDB(building);
-
-        Mockito.verify(buildingServiceMock).create(building);
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/buildings")
+                        .param("buildingName", building.getBuildingName()))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/buildings"))
+                .andExpect(redirectedUrl("/buildings"))
+                .andReturn();
     }
 
     @Test
-    public void should_updateMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
+    public void should_updateBuildingInDatabase_when_controllerCallsUpdateMethod() throws Exception {
 
         Building building = new Building();
-        building.setBuildingName("P");
+        building.setId(2);
+        building.setBuildingName("E");
 
-        buildingControllerMock.update(building);
-
-        Mockito.verify(buildingServiceMock).update(building);
-
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/buildings/{id}", building.getId())
+                        .param("id", Integer.toString(building.getId()))
+                        .param("buildingName", building.getBuildingName()))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/buildings"))
+                .andExpect(redirectedUrl("/buildings"))
+                .andReturn();
     }
 
-    @Test
-    public void should_deleteMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
-
-        Building building = new Building();
-        building.setBuildingName("L");
-
-        buildingControllerMock.create(building);
-        buildingControllerMock.delete(building);
-
-        Mockito.verify(buildingServiceMock).delete(building);
-
-    }
+//    @Test
+//    public void should_deleteBuildingFromDatabase_when_controllerCallsDeleteMethod() throws Exception {
+//
+//        Building building = new Building();
+//        building.setId(2);
+//        building.setBuildingName("E");
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.delete("/buildings/{id}", building.getId())
+//                        .param("id", Integer.toString(building.getId()))
+//                        .param("buildingName", building.getBuildingName()))
+//                .andExpect(status().isFound())
+//                .andExpect(view().name("redirect:/buildings"))
+//                .andExpect(redirectedUrl("/buildings"))
+//                .andReturn();
+//    }
 }

@@ -3,7 +3,6 @@ package ua.com.foxminded.classtimetable.repository.entities;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
@@ -15,16 +14,18 @@ public class Lesson extends CommonEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id = getId();
+    private int id;
 
     @Column(name = "date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     @Column(name = "start_time")
+    @DateTimeFormat(pattern = "hh:mm")
     private LocalTime startTime;
 
     @Column(name = "end_time")
+    @DateTimeFormat(pattern = "hh:mm")
     private LocalTime endTime;
 
     @ManyToOne
@@ -35,6 +36,16 @@ public class Lesson extends CommonEntity {
 
     @ManyToOne
     private Teacher teacher;
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public LocalDate getDate() {
         return date;

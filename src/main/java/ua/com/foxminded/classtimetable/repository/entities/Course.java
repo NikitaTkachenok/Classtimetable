@@ -1,7 +1,6 @@
 package ua.com.foxminded.classtimetable.repository.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -13,7 +12,7 @@ public class Course extends CommonEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id = getId();
+    private int id;
 
     @Column(name = "course_name")
     private String courseName;
@@ -22,6 +21,14 @@ public class Course extends CommonEntity {
             fetch = FetchType.EAGER,
             mappedBy = "teacherCourses")
     private Set<Teacher> courseTeachers = new HashSet<>();
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getCourseName() {
         return courseName;

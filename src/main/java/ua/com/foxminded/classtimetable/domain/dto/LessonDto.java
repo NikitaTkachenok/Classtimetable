@@ -1,5 +1,7 @@
 package ua.com.foxminded.classtimetable.domain.dto;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
@@ -8,10 +10,13 @@ public class LessonDto {
 
     private int id;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
+    @DateTimeFormat(pattern = "hh:mm")
     private LocalTime startTime;
 
+    @DateTimeFormat(pattern = "hh:mm")
     private LocalTime endTime;
 
     private int classroomId;

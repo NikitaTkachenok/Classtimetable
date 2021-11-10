@@ -13,7 +13,7 @@ public class Student extends CommonEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id = getId();
+    private int id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -30,6 +30,16 @@ public class Student extends CommonEntity {
             joinColumns = {@JoinColumn(name = "student_id")},
             inverseJoinColumns = {@JoinColumn(name = "course_id")})
     private Set<Course> studentCourses = new HashSet<>();
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;

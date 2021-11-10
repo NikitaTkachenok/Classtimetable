@@ -5,12 +5,12 @@
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>${DIRECTORY}/classtimetable.log</file>
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            <pattern>%d{dd MMM;HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
             </pattern>
         </encoder>
     </appender>
 
-    <root level="INFO">
+    <root level="WARN">
         <appender-ref ref="FILE"/>
     </root>
 

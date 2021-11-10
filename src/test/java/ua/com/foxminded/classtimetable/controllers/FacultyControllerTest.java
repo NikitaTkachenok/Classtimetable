@@ -1,80 +1,100 @@
 package ua.com.foxminded.classtimetable.controllers;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.ui.ModelMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import ua.com.foxminded.classtimetable.repository.entities.Faculty;
 import ua.com.foxminded.classtimetable.service.FacultyService;
 
-@RunWith(MockitoJUnitRunner.class)
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@SpringBootTest
+@RunWith(SpringRunner.class)
 public class FacultyControllerTest {
 
-    @InjectMocks
-    private FacultyController facultyControllerMock;
+    private MockMvc mockMvc;
 
-    @Mock
-    private FacultyService facultyServiceMock;
+    @Autowired
+    private WebApplicationContext context;
 
-    @Test
-    public void should_callGetAllMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
+    @Autowired
+    private FacultyService service;
 
-        ModelMap model = new ModelMap();
-
-        facultyControllerMock.showAll(model);
-
-        Mockito.verify(facultyServiceMock).getAll();
+    @Before
+    public void setup() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @Test
-    public void should_callShowByIdMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
+    public void should_getListOfFaculties_when_controllerCallsShowAllMethod() throws Exception {
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/faculties"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("faculties/showAll"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(model().attribute("faculties", service.getAll()))
+                .andReturn();
+    }
+
+    @Test
+    public void should_getOneFaculty_when_controllerCallsShowByIdMethod() throws Exception {
 
         int id = 1;
-        ModelMap model = new ModelMap();
 
-        facultyControllerMock.showById(id, model);
-
-        Mockito.verify(facultyServiceMock).getById(id);
-
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/faculties/{id}", id))
+                .andExpect(status().isOk())
+                .andExpect(view().name("faculties/showById"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(model().attribute("faculty", service.getById(id)))
+                .andReturn();
     }
 
     @Test
-    public void should_callAddToDBMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
+    public void should_showCreationView_when_controllerCallsCreateMethod() throws Exception {
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/faculties/new"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("faculties/create"))
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void should_addNewFacultyToDatabase_when_controllerCallsAddToDBMethod() throws Exception {
 
         Faculty faculty = new Faculty();
         faculty.setFacultyName("Faculty name");
 
-        facultyControllerMock.addToDB(faculty);
-
-        Mockito.verify(facultyServiceMock).create(faculty);
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/faculties")
+                        .param("facultyName", faculty.getFacultyName()))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/faculties"))
+                .andExpect(redirectedUrl("/faculties"))
+                .andReturn();
     }
 
     @Test
-    public void should_updateMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
+    public void should_updateFacultyInDatabase_when_controllerCallsUpdateMethod() throws Exception {
 
         Faculty faculty = new Faculty();
-        faculty.setFacultyName("Another faculty name");
+        faculty.setId(2);
+        faculty.setFacultyName("Changed faculty name");
 
-        facultyControllerMock.update(faculty);
-
-        Mockito.verify(facultyServiceMock).update(faculty);
-
-    }
-
-    @Test
-    public void should_deleteMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
-
-        Faculty faculty = new Faculty();
-        faculty.setFacultyName("And another faculty name");
-
-        facultyControllerMock.create(faculty);
-        facultyControllerMock.delete(faculty);
-
-        Mockito.verify(facultyServiceMock).delete(faculty);
-
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/faculties/{id}", faculty.getId())
+                        .param("id", Integer.toString(faculty.getId()))
+                        .param("facultyName", faculty.getFacultyName()))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/faculties"))
+                .andExpect(redirectedUrl("/faculties"))
+                .andReturn();
     }
 
 }

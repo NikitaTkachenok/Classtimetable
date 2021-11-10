@@ -1,15 +1,13 @@
 package ua.com.foxminded.classtimetable.repository.entities;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.util.Objects;
 
 @Entity
 @Table(name = "buildings")
 public class Building extends CommonEntity {
-
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id = getId();
 
     @Column(name = "building_name")
     private String buildingName;
@@ -26,35 +24,23 @@ public class Building extends CommonEntity {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + id;
-        result = prime * result + ((buildingName == null) ? 0 : buildingName.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Building)) return false;
+        Building building = (Building) o;
+        return buildingName.equals(building.buildingName);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Building other = (Building) obj;
-        if (id != other.id)
-            return false;
-        if (buildingName == null) {
-            if (other.buildingName != null)
-                return false;
-        } else if (!buildingName.equals(other.buildingName))
-            return false;
-        return true;
+    public int hashCode() {
+        return Objects.hash(buildingName);
     }
 
     @Override
     public String toString() {
-        return "Building [id=" + id + ", buildingName=" + buildingName + "]";
+        return "Building{" +
+                "id=" + getId() +
+                ", buildingName='" + buildingName + '\'' +
+                '}';
     }
 }

@@ -1,17 +1,14 @@
 package ua.com.foxminded.classtimetable.repository.entities;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
 @Table(name = "classrooms")
 public class Classroom extends CommonEntity {
-
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id = getId();
 
     @Column(name = "room_name")
     private String roomName;
@@ -60,20 +57,21 @@ public class Classroom extends CommonEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Classroom)) return false;
         Classroom classroom = (Classroom) o;
-        return id == classroom.id && roomCapacity == classroom.roomCapacity && Objects.equals(roomName, classroom.roomName) && Objects.equals(roomType, classroom.roomType) && Objects.equals(building, classroom.building);
+        return roomCapacity == classroom.roomCapacity && Objects.equals(roomName, classroom.roomName)
+                && Objects.equals(roomType, classroom.roomType) && Objects.equals(building, classroom.building);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, roomName, roomType, roomCapacity, building);
+        return Objects.hash(roomName, roomType, roomCapacity, building);
     }
 
     @Override
     public String toString() {
         return "Classroom{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", roomName='" + roomName + '\'' +
                 ", roomType='" + roomType + '\'' +
                 ", roomCapacity=" + roomCapacity +

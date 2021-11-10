@@ -7,6 +7,7 @@ import java.io.Serializable;
 public abstract class CommonEntity implements Serializable {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 

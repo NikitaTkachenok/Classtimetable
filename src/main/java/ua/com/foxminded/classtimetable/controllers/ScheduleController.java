@@ -12,13 +12,6 @@ import ua.com.foxminded.classtimetable.service.StudentService;
 import ua.com.foxminded.classtimetable.service.TeacherService;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import static java.nio.charset.StandardCharsets.ISO_8859_1;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Controller
 @RequestMapping("/schedule")
@@ -39,51 +32,27 @@ public class ScheduleController {
 
     @GetMapping()
     public String showForm(ModelMap model) {
-        model.addAttribute("firstNames", receiveUniqueNames())
-                .addAttribute("lastNames", receiveUniqueSurnames());
+        model.addAttribute("teachers", serviceTeacher.getAll())
+                .addAttribute("students", serviceStudent.getAll());
         return "schedule/fillData";
     }
 
     @GetMapping("/show")
     public String showSchedule(@RequestParam String role,
-                               @RequestParam String firstName,
-                               @RequestParam String lastName,
+                               @RequestParam int id,
                                @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate beginDate,
                                @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
                                ModelMap model) {
         if (role.equals("teacher")) {
-            model.addAttribute("schedule", serviceTeacher.receiveLessonsOnDateRange(
-                    changeEncoding(firstName), changeEncoding(lastName), beginDate, endDate));
+            model.addAttribute("schedule",
+                    serviceTeacher.receiveLessonsOnDateRange(id, beginDate, endDate));
         } else {
-            model.addAttribute("schedule", serviceStudent.receiveLessonsOnDateRange(
-                    changeEncoding(firstName), changeEncoding(lastName), beginDate, endDate));
+            model.addAttribute("schedule",
+                    serviceStudent.receiveLessonsOnDateRange(id, beginDate, endDate));
         }
         model.addAttribute("classrooms", serviceClassroom);
         model.addAttribute("courses", serviceCourse);
         model.addAttribute("teachers", serviceTeacher);
         return "schedule/show";
     }
-
-    private Set<String> receiveUniqueNames() {
-        List<String> names = new ArrayList<>();
-        serviceTeacher.getAll().forEach(teacherDto -> names.add(teacherDto.getFirstName()));
-        serviceStudent.getAll().forEach(studentDto -> names.add(studentDto.getFirstName()));
-        return new HashSet<>(names);
-    }
-
-    private Set<String> receiveUniqueSurnames() {
-        List<String> surnames = new ArrayList<>();
-        serviceTeacher.getAll().forEach(teacherDto -> surnames.add(teacherDto.getLastName()));
-        serviceStudent.getAll().forEach(studentDto -> surnames.add(studentDto.getLastName()));
-        return new HashSet<>(surnames);
-    }
-
-    private String changeEncoding(String oldEncodedString) {
-        return new String(oldEncodedString.getBytes(ISO_8859_1), UTF_8);
-    }
-
-    private String detachFirsName(String fullName) {
-        return fullName.split(" ")[0];
-    }
-
 }

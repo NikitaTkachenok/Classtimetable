@@ -1,79 +1,100 @@
 package ua.com.foxminded.classtimetable.controllers;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.ui.ModelMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import ua.com.foxminded.classtimetable.repository.entities.Course;
 import ua.com.foxminded.classtimetable.service.CourseService;
 
-@RunWith(MockitoJUnitRunner.class)
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@SpringBootTest
+@RunWith(SpringRunner.class)
 public class CourseControllerTest {
 
-    @InjectMocks
-    private CourseController courseControllerMock;
+    private MockMvc mockMvc;
 
-    @Mock
-    private CourseService courseServiceMock;
+    @Autowired
+    private WebApplicationContext context;
 
-    @Test
-    public void should_callGetAllMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
+    @Autowired
+    private CourseService service;
 
-        ModelMap model = new ModelMap();
-
-        courseControllerMock.showAll(model);
-
-        Mockito.verify(courseServiceMock).getAll();
+    @Before
+    public void setup() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @Test
-    public void should_callShowByIdMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
+    public void should_getListOfCourses_when_controllerCallsShowAllMethod() throws Exception {
 
-        int id = 7;
-        ModelMap model = new ModelMap();
-
-        courseControllerMock.showById(id, model);
-
-        Mockito.verify(courseServiceMock).getById(id);
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/courses"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("courses/showAll"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(model().attribute("courses", service.getAll()))
+                .andReturn();
     }
 
     @Test
-    public void should_callAddToDBMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
+    public void should_getOneCourse_when_controllerCallsShowByIdMethod() throws Exception {
+
+        int id = 8;
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/courses/{id}", id))
+                .andExpect(status().isOk())
+                .andExpect(view().name("courses/showById"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(model().attribute("course", service.getById(id)))
+                .andReturn();
+    }
+
+    @Test
+    public void should_showCreationView_when_controllerCallsCreateMethod() throws Exception {
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/courses/new"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("courses/create"))
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void should_addNewCourseToDatabase_when_controllerCallsAddToDBMethod() throws Exception {
 
         Course course = new Course();
         course.setCourseName("Course's name");
 
-        courseControllerMock.addToDB(course);
-
-        Mockito.verify(courseServiceMock).create(course);
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/courses")
+                        .param("courseName", course.getCourseName()))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/courses"))
+                .andExpect(redirectedUrl("/courses"))
+                .andReturn();
     }
 
     @Test
-    public void should_updateMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
+    public void should_updateCourseInDatabase_when_controllerCallsUpdateMethod() throws Exception {
 
         Course course = new Course();
+        course.setId(3);
         course.setCourseName("Another course's name");
 
-        courseControllerMock.update(course);
-
-        Mockito.verify(courseServiceMock).update(course);
-
-    }
-
-    @Test
-    public void should_deleteMethodInServiceClass_when_controllerClassCallsAppropriateMethod() {
-
-        Course course = new Course();
-        course.setCourseName("And another course's name");
-
-        courseControllerMock.create(course);
-        courseControllerMock.delete(course);
-
-        Mockito.verify(courseServiceMock).delete(course);
-
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/courses/{id}", course.getId())
+                        .param("id", Integer.toString(course.getId()))
+                        .param("courseName", course.getCourseName()))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/courses"))
+                .andExpect(redirectedUrl("/courses"))
+                .andReturn();
     }
 
 }

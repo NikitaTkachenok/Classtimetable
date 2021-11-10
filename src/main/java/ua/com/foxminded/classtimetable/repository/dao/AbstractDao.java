@@ -37,14 +37,7 @@ public abstract class AbstractDao<T extends CommonEntity> {
     }
 
     public void delete(T entity) {
-        try {
-            entityManager
-                    .createQuery("delete from " + clazz.getName() + "where id = :id")
-                    .setParameter("id", clazz.getDeclaredField("id"))
-                    .executeUpdate();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
+        entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
     }
 
     public void deleteById(int id) {

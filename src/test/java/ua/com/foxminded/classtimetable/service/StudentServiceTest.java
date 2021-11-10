@@ -6,12 +6,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import ua.com.foxminded.classtimetable.domain.converters.LessonConverter;
 import ua.com.foxminded.classtimetable.domain.converters.StudentConverter;
 import ua.com.foxminded.classtimetable.domain.dto.StudentDto;
 import ua.com.foxminded.classtimetable.repository.dao.LessonDao;
 import ua.com.foxminded.classtimetable.repository.dao.StudentDao;
 
 import java.time.LocalDate;
+import java.util.stream.Collectors;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StudentServiceTest {
@@ -28,18 +30,22 @@ public class StudentServiceTest {
     @Mock
     private StudentConverter studentConverterMock;
 
+    @Mock
+    private LessonConverter lessonConverterMock;
+
     @Test
     public void should_callReceiveLessonsOnDateRangeMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
 
-        String studentFirstName = "Ellie";
-        String studentLastName = "Tucci";
+        int id = 7;
         LocalDate beginDate = LocalDate.of(2021, 2, 15);
         LocalDate endDate = LocalDate.of(2021, 2, 21);
 
-        studentServiceMock.receiveLessonsOnDateRange(studentFirstName, studentLastName, beginDate, endDate);
+        studentServiceMock.receiveLessonsOnDateRange(id, beginDate, endDate)
+                .stream()
+                .map(lessonConverterMock::toEntity)
+                .collect(Collectors.toList());
 
-        Mockito.verify(lessonDaoMock).getLessonsForStudentOnDateRange(
-                studentFirstName, studentLastName, beginDate, endDate);
+        Mockito.verify(lessonDaoMock).getLessonsForStudentOnDateRange(id, beginDate, endDate);
     }
 
     @Test
