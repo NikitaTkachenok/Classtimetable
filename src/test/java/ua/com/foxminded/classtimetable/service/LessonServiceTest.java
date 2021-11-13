@@ -8,7 +8,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import ua.com.foxminded.classtimetable.domain.converters.LessonConverter;
 import ua.com.foxminded.classtimetable.domain.dto.LessonDto;
-import ua.com.foxminded.classtimetable.repository.dao.LessonDao;
+import ua.com.foxminded.classtimetable.repository.dao.LessonRepository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,7 +20,7 @@ public class LessonServiceTest {
     private LessonService lessonServiceMock;
 
     @Mock
-    private LessonDao lessonDaoMock;
+    private LessonRepository lessonRepositoryMock;
 
     @Mock
     private LessonConverter lessonConverterMock;
@@ -30,7 +30,7 @@ public class LessonServiceTest {
 
         lessonServiceMock.getAll();
 
-        Mockito.verify(lessonDaoMock).getAll();
+        Mockito.verify(lessonRepositoryMock).findAll();
     }
 
     @Test
@@ -38,9 +38,9 @@ public class LessonServiceTest {
 
         int id = 164;
 
-        lessonServiceMock.getById(id);
+        lessonServiceMock.getByIdAsDto(id);
 
-        Mockito.verify(lessonDaoMock).getById(id);
+        Mockito.verify(lessonRepositoryMock).findById(id);
     }
 
     @Test
@@ -54,9 +54,9 @@ public class LessonServiceTest {
         lesson.setTeacherId(3);
         lesson.setClassroomId(15);
 
-        lessonServiceMock.create(lesson);
+        lessonServiceMock.createFromDto(lesson);
 
-        Mockito.verify(lessonDaoMock).create(lessonConverterMock.toEntity(lesson));
+        Mockito.verify(lessonRepositoryMock).saveAndFlush(lessonConverterMock.toEntity(lesson));
     }
 
     @Test
@@ -70,9 +70,9 @@ public class LessonServiceTest {
         lesson.setTeacherId(4);
         lesson.setClassroomId(16);
 
-        lessonServiceMock.update(lesson);
+        lessonServiceMock.updateFromDto(lesson);
 
-        Mockito.verify(lessonDaoMock).update(lessonConverterMock.toEntity(lesson));
+        Mockito.verify(lessonRepositoryMock).saveAndFlush(lessonConverterMock.toEntity(lesson));
     }
 
     @Test
@@ -86,9 +86,9 @@ public class LessonServiceTest {
         lesson.setTeacherId(6);
         lesson.setClassroomId(20);
 
-        lessonServiceMock.create(lesson);
-        lessonServiceMock.delete(lesson);
+        lessonServiceMock.createFromDto(lesson);
+        lessonServiceMock.deleteFromDto(lesson);
 
-        Mockito.verify(lessonDaoMock).delete(lessonConverterMock.toEntity(lesson));
+        Mockito.verify(lessonRepositoryMock).delete(lessonConverterMock.toEntity(lesson));
     }
 }

@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.com.foxminded.classtimetable.repository.dao.CourseDao;
+import ua.com.foxminded.classtimetable.repository.dao.CourseRepository;
 import ua.com.foxminded.classtimetable.repository.entities.Course;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -16,14 +16,14 @@ public class CourseServiceTest {
     private CourseService courseServiceMock;
 
     @Mock
-    private CourseDao courseDaoMock;
+    private CourseRepository courseRepositoryMock;
 
     @Test
     public void should_callGetAllMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
 
         courseServiceMock.getAll();
 
-        Mockito.verify(courseDaoMock).getAll();
+        Mockito.verify(courseRepositoryMock).findAll();
     }
 
     @Test
@@ -33,7 +33,7 @@ public class CourseServiceTest {
 
         courseServiceMock.getById(id);
 
-        Mockito.verify(courseDaoMock).getById(id);
+        Mockito.verify(courseRepositoryMock).findById(id);
     }
 
     @Test
@@ -44,7 +44,7 @@ public class CourseServiceTest {
 
         courseServiceMock.create(course);
 
-        Mockito.verify(courseDaoMock).create(course);
+        Mockito.verify(courseRepositoryMock).saveAndFlush(course);
     }
 
     @Test
@@ -55,7 +55,7 @@ public class CourseServiceTest {
 
         courseServiceMock.update(course);
 
-        Mockito.verify(courseDaoMock).update(course);
+        Mockito.verify(courseRepositoryMock).saveAndFlush(course);
     }
 
     @Test
@@ -67,6 +67,6 @@ public class CourseServiceTest {
         courseServiceMock.create(course);
         courseServiceMock.delete(course);
 
-        Mockito.verify(courseDaoMock).delete(course);
+        Mockito.verify(courseRepositoryMock).delete(course);
     }
 }

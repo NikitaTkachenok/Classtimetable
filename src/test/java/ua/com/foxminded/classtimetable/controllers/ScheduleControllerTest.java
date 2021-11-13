@@ -54,8 +54,8 @@ public class ScheduleControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("schedule/fillData"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("teachers", teacherService.getAll()))
-                .andExpect(model().attribute("students", studentService.getAll()))
+                .andExpect(model().attribute("teachers", teacherService.getAllAsDto()))
+                .andExpect(model().attribute("students", studentService.getAllAsDto()))
                 .andReturn();
     }
 

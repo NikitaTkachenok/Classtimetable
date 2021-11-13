@@ -48,7 +48,7 @@ public class ClassroomControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("classrooms/showAll"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("classrooms", classroomService.getAll()))
+                .andExpect(model().attribute("classrooms", classroomService.getAllAsDto()))
                 .andExpect(model().attribute("buildings", buildingService))
                 .andReturn();
     }
@@ -62,7 +62,7 @@ public class ClassroomControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("classrooms/showById"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("classroom", classroomService.getById(id)))
+                .andExpect(model().attribute("classroom", classroomService.getByIdAsDto(id)))
                 .andExpect(model().attribute("buildings", buildingService.getAll()))
                 .andExpect(model().attribute("classroomTypes", getClassroomTypes()))
                 .andReturn();

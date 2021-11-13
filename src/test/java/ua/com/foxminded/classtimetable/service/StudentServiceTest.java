@@ -9,8 +9,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import ua.com.foxminded.classtimetable.domain.converters.LessonConverter;
 import ua.com.foxminded.classtimetable.domain.converters.StudentConverter;
 import ua.com.foxminded.classtimetable.domain.dto.StudentDto;
-import ua.com.foxminded.classtimetable.repository.dao.LessonDao;
-import ua.com.foxminded.classtimetable.repository.dao.StudentDao;
+import ua.com.foxminded.classtimetable.repository.dao.LessonRepository;
+import ua.com.foxminded.classtimetable.repository.dao.StudentRepository;
 
 import java.time.LocalDate;
 import java.util.stream.Collectors;
@@ -22,10 +22,10 @@ public class StudentServiceTest {
     private StudentService studentServiceMock;
 
     @Mock
-    private LessonDao lessonDaoMock;
+    private LessonRepository lessonRepositoryMock;
 
     @Mock
-    private StudentDao studentDaoMock;
+    private StudentRepository studentRepositoryMock;
 
     @Mock
     private StudentConverter studentConverterMock;
@@ -45,15 +45,15 @@ public class StudentServiceTest {
                 .map(lessonConverterMock::toEntity)
                 .collect(Collectors.toList());
 
-        Mockito.verify(lessonDaoMock).getLessonsForStudentOnDateRange(id, beginDate, endDate);
+        Mockito.verify(lessonRepositoryMock).getLessonsForStudentOnDateRange(id, beginDate, endDate);
     }
 
     @Test
     public void should_callGetAllMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
 
-        studentServiceMock.getAll();
+        studentServiceMock.getAllAsDto();
 
-        Mockito.verify(studentDaoMock).getAll();
+        Mockito.verify(studentRepositoryMock).findAll();
     }
 
     @Test
@@ -61,9 +61,9 @@ public class StudentServiceTest {
 
         int id = 16;
 
-        studentServiceMock.getById(id);
+        studentServiceMock.getByIdAsDto(id);
 
-        Mockito.verify(studentDaoMock).getById(id);
+        Mockito.verify(studentRepositoryMock).findById(id);
     }
 
     @Test
@@ -74,9 +74,9 @@ public class StudentServiceTest {
         student.setLastName("Leonberg");
         student.setFacultyId(1);
 
-        studentServiceMock.create(student);
+        studentServiceMock.createFromDto(student);
 
-        Mockito.verify(studentDaoMock).create(studentConverterMock.toEntity(student));
+        Mockito.verify(studentRepositoryMock).saveAndFlush(studentConverterMock.toEntity(student));
     }
 
     @Test
@@ -87,9 +87,9 @@ public class StudentServiceTest {
         student.setLastName("Bit");
         student.setFacultyId(2);
 
-        studentServiceMock.update(student);
+        studentServiceMock.updateFromDto(student);
 
-        Mockito.verify(studentDaoMock).update(studentConverterMock.toEntity(student));
+        Mockito.verify(studentRepositoryMock).saveAndFlush(studentConverterMock.toEntity(student));
     }
 
     @Test
@@ -100,10 +100,10 @@ public class StudentServiceTest {
         student.setLastName("Dassin");
         student.setFacultyId(1);
 
-        studentServiceMock.create(student);
+        studentServiceMock.createFromDto(student);
         studentServiceMock.deleteById(student.getId());
 
-        Mockito.verify(studentDaoMock).deleteById(student.getId());
+        Mockito.verify(studentRepositoryMock).deleteById(student.getId());
     }
 
 }

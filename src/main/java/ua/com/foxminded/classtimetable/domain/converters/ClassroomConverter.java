@@ -2,16 +2,16 @@ package ua.com.foxminded.classtimetable.domain.converters;
 
 import org.springframework.stereotype.Component;
 import ua.com.foxminded.classtimetable.domain.dto.ClassroomDto;
-import ua.com.foxminded.classtimetable.repository.dao.BuildingDao;
+import ua.com.foxminded.classtimetable.repository.dao.BuildingRepository;
 import ua.com.foxminded.classtimetable.repository.entities.Classroom;
 
 @Component
 public class ClassroomConverter {
 
-    private final BuildingDao daoBuilding;
+    private final BuildingRepository buildingRepository;
 
-    public ClassroomConverter(BuildingDao daoBuilding) {
-        this.daoBuilding = daoBuilding;
+    public ClassroomConverter(BuildingRepository buildingRepository) {
+        this.buildingRepository = buildingRepository;
     }
 
     public ClassroomDto toDto(Classroom classroom) {
@@ -30,7 +30,7 @@ public class ClassroomConverter {
         classroom.setRoomName(dto.getRoomName());
         classroom.setRoomType(dto.getRoomType());
         classroom.setRoomCapacity(dto.getRoomCapacity());
-        classroom.setBuilding(daoBuilding.getById(dto.getBuildingId()));
+        classroom.setBuilding(buildingRepository.findById(dto.getBuildingId()).orElse(null));
         return classroom;
     }
 

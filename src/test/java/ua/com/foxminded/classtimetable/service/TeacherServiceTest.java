@@ -9,8 +9,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import ua.com.foxminded.classtimetable.domain.converters.LessonConverter;
 import ua.com.foxminded.classtimetable.domain.converters.TeacherConverter;
 import ua.com.foxminded.classtimetable.domain.dto.TeacherDto;
-import ua.com.foxminded.classtimetable.repository.dao.LessonDao;
-import ua.com.foxminded.classtimetable.repository.dao.TeacherDao;
+import ua.com.foxminded.classtimetable.repository.dao.LessonRepository;
+import ua.com.foxminded.classtimetable.repository.dao.TeacherRepository;
 import ua.com.foxminded.classtimetable.repository.entities.Faculty;
 
 import java.time.LocalDate;
@@ -23,10 +23,10 @@ public class TeacherServiceTest {
     private TeacherService teacherServiceMock;
 
     @Mock
-    private LessonDao lessonDaoMock;
+    private LessonRepository lessonRepositoryMock;
 
     @Mock
-    private TeacherDao teacherDaoMock;
+    private TeacherRepository teacherRepositoryMock;
 
     @Mock
     private TeacherConverter teacherConverterMock;
@@ -43,18 +43,18 @@ public class TeacherServiceTest {
 
         teacherServiceMock.receiveLessonsOnDateRange(id, beginDate, endDate)
                 .stream()
-                .map(lessonConverterMock :: toEntity)
+                .map(lessonConverterMock::toEntity)
                 .collect(Collectors.toList());
 
-        Mockito.verify(lessonDaoMock).getLessonsForTeacherOnDateRange(id, beginDate, endDate);
+        Mockito.verify(lessonRepositoryMock).getLessonsForTeacherOnDateRange(id, beginDate, endDate);
     }
 
     @Test
     public void should_callGetAllMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
 
-        teacherServiceMock.getAll();
+        teacherServiceMock.getAllAsDto();
 
-        Mockito.verify(teacherDaoMock).getAll();
+        Mockito.verify(teacherRepositoryMock).findAll();
     }
 
     @Test
@@ -62,9 +62,9 @@ public class TeacherServiceTest {
 
         int id = 7;
 
-        teacherServiceMock.getById(id);
+        teacherServiceMock.getByIdAsDto(id);
 
-        Mockito.verify(teacherDaoMock).getById(id);
+        Mockito.verify(teacherRepositoryMock).findById(id);
     }
 
     @Test
@@ -76,9 +76,9 @@ public class TeacherServiceTest {
         teacher.setLastName("Galt");
         teacher.setFacultyId(1);
 
-        teacherServiceMock.create(teacher);
+        teacherServiceMock.createFromDto(teacher);
 
-        Mockito.verify(teacherDaoMock).create(teacherConverterMock.toEntity(teacher));
+        Mockito.verify(teacherRepositoryMock).saveAndFlush(teacherConverterMock.toEntity(teacher));
     }
 
     @Test
@@ -90,9 +90,9 @@ public class TeacherServiceTest {
         teacher.setLastName("Belt");
         teacher.setFacultyId(2);
 
-        teacherServiceMock.update(teacher);
+        teacherServiceMock.updateFromDto(teacher);
 
-        Mockito.verify(teacherDaoMock).update(teacherConverterMock.toEntity(teacher));
+        Mockito.verify(teacherRepositoryMock).saveAndFlush(teacherConverterMock.toEntity(teacher));
     }
 
     @Test
@@ -104,10 +104,10 @@ public class TeacherServiceTest {
         teacher.setLastName("Peters");
         teacher.setFacultyId(3);
 
-        teacherServiceMock.create(teacher);
+        teacherServiceMock.createFromDto(teacher);
         teacherServiceMock.deleteById(teacher.getId());
 
-        Mockito.verify(teacherDaoMock).deleteById(teacher.getId());
+        Mockito.verify(teacherRepositoryMock).deleteById(teacher.getId());
     }
 
 }

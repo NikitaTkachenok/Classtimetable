@@ -5,9 +5,13 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.internal.matchers.NotNull;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.com.foxminded.classtimetable.repository.dao.BuildingDao;
+import ua.com.foxminded.classtimetable.repository.dao.BuildingRepository;
 import ua.com.foxminded.classtimetable.repository.entities.Building;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BuildingServiceTest {
@@ -16,24 +20,25 @@ public class BuildingServiceTest {
     private BuildingService buildingServiceMock;
 
     @Mock
-    private BuildingDao buildingDaoMock;
+    private BuildingRepository buildingRepositoryMock;
 
     @Test
     public void should_callGetAllMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
 
         buildingServiceMock.getAll();
 
-        Mockito.verify(buildingDaoMock).getAll();
+        Mockito.verify(buildingRepositoryMock).findAll();
     }
 
     @Test
     public void should_callGetByIdMethodInDaoClass_when_serviceClassCallsAppropriateMethod() {
 
+        Optional<Building> building = Optional.of(new Building());
         int id = 1;
 
-        buildingServiceMock.getById(id);
+        Building returnedBuilding = buildingServiceMock.getById(id);
 
-        Mockito.verify(buildingDaoMock).getById(id);
+        Mockito.verify(buildingRepositoryMock).findById(id);
     }
 
     @Test
@@ -44,7 +49,7 @@ public class BuildingServiceTest {
 
         buildingServiceMock.create(building);
 
-        Mockito.verify(buildingDaoMock).create(building);
+        Mockito.verify(buildingRepositoryMock).saveAndFlush(building);
     }
 
     @Test
@@ -55,7 +60,7 @@ public class BuildingServiceTest {
 
         buildingServiceMock.update(building);
 
-        Mockito.verify(buildingDaoMock).update(building);
+        Mockito.verify(buildingRepositoryMock).saveAndFlush(building);
     }
 
     @Test
@@ -67,7 +72,7 @@ public class BuildingServiceTest {
         buildingServiceMock.create(building);
         buildingServiceMock.delete(building);
 
-        Mockito.verify(buildingDaoMock).delete(building);
+        Mockito.verify(buildingRepositoryMock).delete(building);
     }
 
 }

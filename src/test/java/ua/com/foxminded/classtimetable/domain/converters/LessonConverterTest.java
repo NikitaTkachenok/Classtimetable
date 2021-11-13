@@ -8,9 +8,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import ua.com.foxminded.classtimetable.domain.dto.LessonDto;
-import ua.com.foxminded.classtimetable.repository.dao.ClassroomDao;
-import ua.com.foxminded.classtimetable.repository.dao.CourseDao;
-import ua.com.foxminded.classtimetable.repository.dao.TeacherDao;
+import ua.com.foxminded.classtimetable.repository.dao.ClassroomRepository;
+import ua.com.foxminded.classtimetable.repository.dao.CourseRepository;
+import ua.com.foxminded.classtimetable.repository.dao.TeacherRepository;
 import ua.com.foxminded.classtimetable.repository.entities.Classroom;
 import ua.com.foxminded.classtimetable.repository.entities.Course;
 import ua.com.foxminded.classtimetable.repository.entities.Lesson;
@@ -26,13 +26,13 @@ public class LessonConverterTest {
     private LessonConverter lessonConverterMock;
 
     @Mock
-    private ClassroomDao classroomDaoMock;
+    private ClassroomRepository classroomRepositoryMock;
 
     @Mock
-    private CourseDao courseDaoMock;
+    private CourseRepository courseRepositoryMock;
 
     @Mock
-    private TeacherDao teacherDaoMock;
+    private TeacherRepository teacherRepositoryMock;
 
     @Test
     public void should_returnDto_when_argumentOfMethodIsEntity() {
@@ -79,9 +79,9 @@ public class LessonConverterTest {
         lesson.setDate(LocalDate.of(2021, 5, 20));
         lesson.setStartTime(LocalTime.of(12, 20));
         lesson.setEndTime(LocalTime.of(14, 0));
-        lesson.setClassroom(classroomDaoMock.getById(4));
-        lesson.setCourse(courseDaoMock.getById(4));
-        lesson.setTeacher(teacherDaoMock.getById(4));
+        lesson.setClassroom(classroomRepositoryMock.findById(4).orElse(null));
+        lesson.setCourse(courseRepositoryMock.findById(4).orElse(null));
+        lesson.setTeacher(teacherRepositoryMock.findById(4).orElse(null));
 
         Assert.assertEquals(lesson, lessonConverterMock.toEntity(dto));
     }
@@ -99,9 +99,9 @@ public class LessonConverterTest {
 
         lessonConverterMock.toEntity(dto);
 
-        Mockito.verify(classroomDaoMock).getById(dto.getClassroomId());
-        Mockito.verify(courseDaoMock).getById(dto.getCourseId());
-        Mockito.verify(teacherDaoMock).getById(dto.getTeacherId());
+        Mockito.verify(classroomRepositoryMock).findById(dto.getClassroomId());
+        Mockito.verify(courseRepositoryMock).findById(dto.getCourseId());
+        Mockito.verify(teacherRepositoryMock).findById(dto.getTeacherId());
     }
 
 }

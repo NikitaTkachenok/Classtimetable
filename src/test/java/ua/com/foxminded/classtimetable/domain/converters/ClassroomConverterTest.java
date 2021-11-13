@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import ua.com.foxminded.classtimetable.domain.dto.ClassroomDto;
-import ua.com.foxminded.classtimetable.repository.dao.BuildingDao;
+import ua.com.foxminded.classtimetable.repository.dao.BuildingRepository;
 import ua.com.foxminded.classtimetable.repository.entities.Building;
 import ua.com.foxminded.classtimetable.repository.entities.Classroom;
 
@@ -19,7 +19,7 @@ public class ClassroomConverterTest {
     private ClassroomConverter classroomConverterMock;
 
     @Mock
-    private BuildingDao buildingDaoMock;
+    private BuildingRepository buildingRepositoryMock;
 
     @Test
     public void should_returnDto_when_argumentOfMethodIsEntity() {
@@ -56,7 +56,7 @@ public class ClassroomConverterTest {
         classroom.setRoomName("name");
         classroom.setRoomType("type");
         classroom.setRoomCapacity(50);
-        classroom.setBuilding(buildingDaoMock.getById(2));
+        classroom.setBuilding(buildingRepositoryMock.findById(2).orElse(null));
 
         Assert.assertEquals(classroom, classroomConverterMock.toEntity(dto));
     }
@@ -72,7 +72,7 @@ public class ClassroomConverterTest {
 
         classroomConverterMock.toEntity(dto);
 
-        Mockito.verify(buildingDaoMock).getById(dto.getBuildingId());
+        Mockito.verify(buildingRepositoryMock).findById(dto.getBuildingId());
     }
 
 }

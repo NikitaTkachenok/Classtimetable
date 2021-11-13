@@ -8,7 +8,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import ua.com.foxminded.classtimetable.domain.converters.ClassroomConverter;
 import ua.com.foxminded.classtimetable.domain.dto.ClassroomDto;
-import ua.com.foxminded.classtimetable.repository.dao.ClassroomDao;
+import ua.com.foxminded.classtimetable.repository.dao.ClassroomRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClassroomServiceTest {
@@ -17,7 +17,7 @@ public class ClassroomServiceTest {
     private ClassroomService classroomServiceMock;
 
     @Mock
-    private ClassroomDao classroomDaoMock;
+    private ClassroomRepository classroomRepositoryMock;
 
     @Mock
     private ClassroomConverter classroomConverterMock;
@@ -27,7 +27,7 @@ public class ClassroomServiceTest {
 
         classroomServiceMock.getAll();
 
-        Mockito.verify(classroomDaoMock).getAll();
+        Mockito.verify(classroomRepositoryMock).findAll();
     }
 
     @Test
@@ -35,9 +35,9 @@ public class ClassroomServiceTest {
 
         int id = 4;
 
-        classroomServiceMock.getById(id);
+        classroomServiceMock.getByIdAsDto(id);
 
-        Mockito.verify(classroomDaoMock).getById(id);
+        Mockito.verify(classroomRepositoryMock).findById(id);
     }
 
     @Test
@@ -49,9 +49,9 @@ public class ClassroomServiceTest {
         classroom.setRoomCapacity(20);
         classroom.setBuildingId(3);
 
-        classroomServiceMock.create(classroom);
+        classroomServiceMock.createUseDto(classroom);
 
-        Mockito.verify(classroomDaoMock).create(classroomConverterMock.toEntity(classroom));
+        Mockito.verify(classroomRepositoryMock).saveAndFlush(classroomConverterMock.toEntity(classroom));
     }
 
     @Test
@@ -63,9 +63,9 @@ public class ClassroomServiceTest {
         classroom.setRoomCapacity(100);
         classroom.setBuildingId(2);
 
-        classroomServiceMock.update(classroom);
+        classroomServiceMock.updateUseDto(classroom);
 
-        Mockito.verify(classroomDaoMock).update(classroomConverterMock.toEntity(classroom));
+        Mockito.verify(classroomRepositoryMock).saveAndFlush(classroomConverterMock.toEntity(classroom));
     }
 
     @Test
@@ -77,10 +77,10 @@ public class ClassroomServiceTest {
         classroom.setRoomCapacity(5);
         classroom.setBuildingId(1);
 
-        classroomServiceMock.create(classroom);
-        classroomServiceMock.delete(classroom);
+        classroomServiceMock.createUseDto(classroom);
+        classroomServiceMock.deleteUseDto(classroom);
 
-        Mockito.verify(classroomDaoMock).delete(classroomConverterMock.toEntity(classroom));
+        Mockito.verify(classroomRepositoryMock).delete(classroomConverterMock.toEntity(classroom));
     }
 
 }

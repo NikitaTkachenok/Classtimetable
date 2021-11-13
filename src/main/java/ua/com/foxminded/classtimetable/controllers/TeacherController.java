@@ -25,7 +25,7 @@ public class TeacherController {
 
     @GetMapping()
     public String showAll(ModelMap model) {
-        model.addAttribute("teachers", serviceTeacher.getAll())
+        model.addAttribute("teachers", serviceTeacher.getAllAsDto())
                 .addAttribute("faculties", serviceFaculty)
                 .addAttribute("courses", serviceCourse);
         return "teachers/showAll";
@@ -33,7 +33,7 @@ public class TeacherController {
 
     @GetMapping("/{id}")
     public String showById(@PathVariable("id") int id, ModelMap model) {
-        model.addAttribute("teacher", serviceTeacher.getById(id))
+        model.addAttribute("teacher", serviceTeacher.getByIdAsDto(id))
                 .addAttribute("faculties", serviceFaculty.getAll())
                 .addAttribute("allCourses", serviceCourse.getAll());
         return "teachers/showById";
@@ -48,13 +48,13 @@ public class TeacherController {
 
     @PostMapping()
     public String addToDB(@ModelAttribute("teacher") TeacherDto teacher) {
-        serviceTeacher.create(teacher);
+        serviceTeacher.createFromDto(teacher);
         return "redirect:/teachers";
     }
 
     @PutMapping("/{id}")
     public String update(@ModelAttribute("teacher") TeacherDto teacher) {
-        serviceTeacher.update(teacher);
+        serviceTeacher.updateFromDto(teacher);
         return "redirect:/teachers";
     }
 

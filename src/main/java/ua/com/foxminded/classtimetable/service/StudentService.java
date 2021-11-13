@@ -7,63 +7,93 @@ import ua.com.foxminded.classtimetable.domain.converters.LessonConverter;
 import ua.com.foxminded.classtimetable.domain.converters.StudentConverter;
 import ua.com.foxminded.classtimetable.domain.dto.LessonDto;
 import ua.com.foxminded.classtimetable.domain.dto.StudentDto;
-import ua.com.foxminded.classtimetable.repository.dao.LessonDao;
-import ua.com.foxminded.classtimetable.repository.dao.StudentDao;
+import ua.com.foxminded.classtimetable.repository.dao.LessonRepository;
+import ua.com.foxminded.classtimetable.repository.dao.StudentRepository;
+import ua.com.foxminded.classtimetable.repository.entities.Student;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class StudentService {
+public class StudentService implements ServiceInterface<Student> {
 
-    private final StudentDao daoStudent;
-    private final LessonDao daoLesson;
+    private final StudentRepository studentRepository;
+    private final LessonRepository lessonRepository;
     private final StudentConverter converterStudent;
     private final LessonConverter converterLesson;
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
-    public StudentService(StudentDao daoStudent, LessonDao daoLesson, StudentConverter converterStudent,
-                          LessonConverter converterLesson) {
-        this.daoLesson = daoLesson;
-        this.daoStudent = daoStudent;
+    public StudentService(StudentRepository studentRepository, LessonRepository lessonRepository,
+                          StudentConverter converterStudent, LessonConverter converterLesson) {
+        this.lessonRepository = lessonRepository;
+        this.studentRepository = studentRepository;
         this.converterStudent = converterStudent;
         this.converterLesson = converterLesson;
     }
 
-    public List<StudentDto> getAll() {
-        List<StudentDto> allStudents = new ArrayList<>();
-        daoStudent.getAll().forEach(student -> allStudents.add(converterStudent.toDto(student)));
+    @Override
+    public List<Student> getAll() {
+        List<Student> allStudents;
+        allStudents = studentRepository.findAll();
         logger.info("getAll():\n {}", allStudents);
         return allStudents;
     }
 
-    public StudentDto getById(int id) {
-        StudentDto student = converterStudent.toDto(daoStudent.getById(id));
+    public List<StudentDto> getAllAsDto() {
+        return getAll()
+                .stream()
+                .map(converterStudent::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Student getById(int id) {
+        Student student = studentRepository.findById(id).orElse(null);
         logger.info("getById: student = {}", student);
         return student;
     }
 
-    public void create(StudentDto student) {
+    public StudentDto getByIdAsDto(int id) {
+        return converterStudent.toDto(getById(id));
+    }
+
+    @Override
+    public void create(Student student) {
         logger.info("create: student = {}", student);
-        daoStudent.create(converterStudent.toEntity(student));
+        studentRepository.saveAndFlush(student);
     }
 
-    public void update(StudentDto student) {
+    public void createFromDto(StudentDto student) {
+        create(converterStudent.toEntity(student));
+    }
+
+    @Override
+    public void update(Student student) {
         logger.info("update: student = {}", student);
-        daoStudent.update(converterStudent.toEntity(student));
+        studentRepository.saveAndFlush(student);
     }
 
+    public void updateFromDto(StudentDto student) {
+        update(converterStudent.toEntity(student));
+    }
+
+    @Override
+    public void delete(Student student) {
+        logger.info("delete: student = {}", student);
+        studentRepository.delete(student);
+    }
+
+    @Override
     public void deleteById(int id) {
         logger.info("delete: student with ID = {}", id);
-        daoStudent.deleteById(id);
+        studentRepository.deleteById(id);
     }
 
     public List<LessonDto> receiveLessonsOnDateRange(int id, LocalDate beginDate, LocalDate endDate) {
         logger.info("receiveLessonsOnDateRange: student id = {}, begin date = {}," +
                 " end date = {}.", id, beginDate, endDate);
-        List<LessonDto> lessons = daoLesson.getLessonsForStudentOnDateRange(id, beginDate, endDate)
+        List<LessonDto> lessons = lessonRepository.getLessonsForStudentOnDateRange(id, beginDate, endDate)
                 .stream()
                 .map(converterLesson::toDto)
                 .collect(Collectors.toList());

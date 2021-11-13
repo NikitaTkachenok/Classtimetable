@@ -2,22 +2,23 @@ package ua.com.foxminded.classtimetable.domain.converters;
 
 import org.springframework.stereotype.Component;
 import ua.com.foxminded.classtimetable.domain.dto.LessonDto;
-import ua.com.foxminded.classtimetable.repository.dao.ClassroomDao;
-import ua.com.foxminded.classtimetable.repository.dao.CourseDao;
-import ua.com.foxminded.classtimetable.repository.dao.TeacherDao;
+import ua.com.foxminded.classtimetable.repository.dao.ClassroomRepository;
+import ua.com.foxminded.classtimetable.repository.dao.CourseRepository;
+import ua.com.foxminded.classtimetable.repository.dao.TeacherRepository;
 import ua.com.foxminded.classtimetable.repository.entities.Lesson;
 
 @Component
 public class LessonConverter {
 
-    private final ClassroomDao daoClassroom;
-    private final CourseDao daoCourse;
-    private final TeacherDao daoTeacher;
+    private final ClassroomRepository classroomRepository;
+    private final CourseRepository courseRepository;
+    private final TeacherRepository teacherRepository;
 
-    public LessonConverter(ClassroomDao daoClassroom, CourseDao daoCourse, TeacherDao daoTeacher) {
-        this.daoClassroom = daoClassroom;
-        this.daoCourse = daoCourse;
-        this.daoTeacher = daoTeacher;
+    public LessonConverter(ClassroomRepository classroomRepository, CourseRepository courseRepository,
+                           TeacherRepository teacherRepository) {
+        this.classroomRepository = classroomRepository;
+        this.courseRepository = courseRepository;
+        this.teacherRepository = teacherRepository;
     }
 
     public LessonDto toDto(Lesson lesson) {
@@ -38,9 +39,9 @@ public class LessonConverter {
         lesson.setDate(dto.getDate());
         lesson.setStartTime(dto.getStartTime());
         lesson.setEndTime(dto.getEndTime());
-        lesson.setClassroom(daoClassroom.getById(dto.getClassroomId()));
-        lesson.setCourse(daoCourse.getById(dto.getCourseId()));
-        lesson.setTeacher(daoTeacher.getById(dto.getTeacherId()));
+        lesson.setClassroom(classroomRepository.findById(dto.getClassroomId()).orElse(null));
+        lesson.setCourse(courseRepository.findById(dto.getCourseId()).orElse(null));
+        lesson.setTeacher(teacherRepository.findById(dto.getTeacherId()).orElse(null));
         return lesson;
     }
 

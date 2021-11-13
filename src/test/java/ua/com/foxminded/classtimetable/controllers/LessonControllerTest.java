@@ -56,7 +56,7 @@ public class LessonControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("lessons/showAll"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("lessons", lessonService.getAll()))
+                .andExpect(model().attribute("lessons", lessonService.getAllAsDto()))
                 .andExpect(model().attribute("classrooms", classroomService))
                 .andExpect(model().attribute("courses", courseService))
                 .andExpect(model().attribute("teachers", teacherService))
@@ -72,10 +72,10 @@ public class LessonControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("lessons/showById"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("lesson", lessonService.getById(id)))
-                .andExpect(model().attribute("classrooms", classroomService.getAll()))
+                .andExpect(model().attribute("lesson", lessonService.getByIdAsDto(id)))
+                .andExpect(model().attribute("classrooms", classroomService.getAllAsDto()))
                 .andExpect(model().attribute("courses", courseService.getAll()))
-                .andExpect(model().attribute("teachers", teacherService.getAll()))
+                .andExpect(model().attribute("teachers", teacherService.getAllAsDto()))
                 .andReturn();
     }
 
@@ -86,9 +86,9 @@ public class LessonControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("lessons/create"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("classrooms", classroomService.getAll()))
+                .andExpect(model().attribute("classrooms", classroomService.getAllAsDto()))
                 .andExpect(model().attribute("courses", courseService.getAll()))
-                .andExpect(model().attribute("teachers", teacherService.getAll()))
+                .andExpect(model().attribute("teachers", teacherService.getAllAsDto()))
                 .andReturn();
     }
 

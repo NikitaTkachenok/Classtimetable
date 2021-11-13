@@ -17,15 +17,15 @@ public class Lesson extends CommonEntity {
     private int id;
 
     @Column(name = "date")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate date;
 
     @Column(name = "start_time")
-    @DateTimeFormat(pattern = "hh:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime startTime;
 
     @Column(name = "end_time")
-    @DateTimeFormat(pattern = "hh:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime endTime;
 
     @ManyToOne

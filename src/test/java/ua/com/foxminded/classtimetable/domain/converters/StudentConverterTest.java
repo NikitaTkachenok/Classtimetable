@@ -8,8 +8,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import ua.com.foxminded.classtimetable.domain.dto.StudentDto;
-import ua.com.foxminded.classtimetable.repository.dao.CourseDao;
-import ua.com.foxminded.classtimetable.repository.dao.FacultyDao;
+import ua.com.foxminded.classtimetable.repository.dao.CourseRepository;
+import ua.com.foxminded.classtimetable.repository.dao.FacultyRepository;
 import ua.com.foxminded.classtimetable.repository.entities.Course;
 import ua.com.foxminded.classtimetable.repository.entities.Faculty;
 import ua.com.foxminded.classtimetable.repository.entities.Student;
@@ -24,10 +24,10 @@ public class StudentConverterTest {
     private StudentConverter studentConverterMock;
 
     @Mock
-    private FacultyDao facultyDaoMock;
+    private FacultyRepository facultyRepositoryMock;
 
     @Mock
-    private CourseDao courseDaoMock;
+    private CourseRepository courseRepositoryMock;
 
     @Test
     public void should_returnDto_when_argumentOfMethodIsEntity() {
@@ -73,13 +73,13 @@ public class StudentConverterTest {
         dto.setFacultyId(2);
         dto.setCoursesId(coursesId);
         Set<Course> courses = new HashSet<>();
-        courses.add(courseDaoMock.getById(3));
-        courses.add(courseDaoMock.getById(4));
+        courses.add(courseRepositoryMock.findById(3).orElse(null));
+        courses.add(courseRepositoryMock.findById(4).orElse(null));
         Student student = new Student();
         student.setId(2);
         student.setFirstName("firstName");
         student.setLastName("lastName");
-        student.setFaculty(facultyDaoMock.getById(2));
+        student.setFaculty(facultyRepositoryMock.findById(2).orElse(null));
         student.setStudentCourses(courses);
 
         Assert.assertEquals(student, studentConverterMock.toEntity(dto));
@@ -100,9 +100,9 @@ public class StudentConverterTest {
 
         studentConverterMock.toEntity(dto);
 
-        Mockito.verify(facultyDaoMock).getById(dto.getFacultyId());
-        Mockito.verify(courseDaoMock).getById(1);
-        Mockito.verify(courseDaoMock).getById(4);
+        Mockito.verify(facultyRepositoryMock).findById(dto.getFacultyId());
+        Mockito.verify(courseRepositoryMock).findById(1);
+        Mockito.verify(courseRepositoryMock).findById(4);
     }
 
 }

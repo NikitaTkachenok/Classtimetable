@@ -28,7 +28,7 @@ public class LessonController {
 
     @GetMapping()
     public String showAll(ModelMap model) {
-        model.addAttribute("lessons", serviceLesson.getAll());
+        model.addAttribute("lessons", serviceLesson.getAllAsDto());
         model.addAttribute("classrooms", serviceClassroom);
         model.addAttribute("courses", serviceCourse);
         model.addAttribute("teachers", serviceTeacher);
@@ -37,37 +37,37 @@ public class LessonController {
 
     @GetMapping("/{id}")
     public String showById(@PathVariable("id") int id, ModelMap model) {
-        model.addAttribute("lesson", serviceLesson.getById(id)).
-                addAttribute("classrooms", serviceClassroom.getAll()).
+        model.addAttribute("lesson", serviceLesson.getByIdAsDto(id)).
+                addAttribute("classrooms", serviceClassroom.getAllAsDto()).
                 addAttribute("courses", serviceCourse.getAll()).
-                addAttribute("teachers", serviceTeacher.getAll());
+                addAttribute("teachers", serviceTeacher.getAllAsDto());
         return "lessons/showById";
     }
 
     @GetMapping("/new")
     public String create(@ModelAttribute("lesson") LessonDto lesson,
                          ModelMap model) {
-        model.addAttribute("classrooms", serviceClassroom.getAll()).
+        model.addAttribute("classrooms", serviceClassroom.getAllAsDto()).
                 addAttribute("courses", serviceCourse.getAll()).
-                addAttribute("teachers", serviceTeacher.getAll());
+                addAttribute("teachers", serviceTeacher.getAllAsDto());
         return "lessons/create";
     }
 
     @PostMapping()
     public String addToDB(@ModelAttribute("lesson") LessonDto lesson) {
-        serviceLesson.create(lesson);
+        serviceLesson.createFromDto(lesson);
         return "redirect:/lessons";
     }
 
     @PutMapping("/{id}")
     public String update(@ModelAttribute("lesson") LessonDto lesson) {
-        serviceLesson.update(lesson);
+        serviceLesson.updateFromDto(lesson);
         return "redirect:/lessons";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@ModelAttribute("lesson") LessonDto lesson) {
-        serviceLesson.delete(lesson);
+        serviceLesson.deleteFromDto(lesson);
         return "redirect:/lessons";
     }
 }

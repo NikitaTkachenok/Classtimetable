@@ -10,13 +10,13 @@ public class LessonDto {
 
     private int id;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate date;
 
-    @DateTimeFormat(pattern = "hh:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime startTime;
 
-    @DateTimeFormat(pattern = "hh:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime endTime;
 
     private int classroomId;

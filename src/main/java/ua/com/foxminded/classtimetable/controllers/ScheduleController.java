@@ -32,8 +32,8 @@ public class ScheduleController {
 
     @GetMapping()
     public String showForm(ModelMap model) {
-        model.addAttribute("teachers", serviceTeacher.getAll())
-                .addAttribute("students", serviceStudent.getAll());
+        model.addAttribute("teachers", serviceTeacher.getAllAsDto())
+                .addAttribute("students", serviceStudent.getAllAsDto());
         return "schedule/fillData";
     }
 
