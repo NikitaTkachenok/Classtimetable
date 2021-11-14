@@ -38,17 +38,18 @@ public class ScheduleController {
     }
 
     @GetMapping("/show")
-    public String showSchedule(@RequestParam String role,
-                               @RequestParam int id,
+    public String showSchedule(@RequestParam Object person,
                                @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate beginDate,
                                @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
                                ModelMap model) {
-        if (role.equals("teacher")) {
+        String id = person.toString().substring(
+                person.toString().indexOf("id=") + 3, person.toString().indexOf("id=") + 4);
+        if (person.toString().contains("Teacher")) {
             model.addAttribute("schedule",
-                    serviceTeacher.receiveLessonsOnDateRange(id, beginDate, endDate));
+                    serviceTeacher.receiveLessonsOnDateRange(Integer.parseInt(id), beginDate, endDate));
         } else {
             model.addAttribute("schedule",
-                    serviceStudent.receiveLessonsOnDateRange(id, beginDate, endDate));
+                    serviceStudent.receiveLessonsOnDateRange(Integer.parseInt(id), beginDate, endDate));
         }
         model.addAttribute("classrooms", serviceClassroom);
         model.addAttribute("courses", serviceCourse);

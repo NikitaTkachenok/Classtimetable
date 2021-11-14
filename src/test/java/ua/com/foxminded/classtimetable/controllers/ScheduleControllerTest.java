@@ -11,6 +11,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import ua.com.foxminded.classtimetable.domain.dto.StudentDto;
+import ua.com.foxminded.classtimetable.domain.dto.TeacherDto;
 import ua.com.foxminded.classtimetable.service.ClassroomService;
 import ua.com.foxminded.classtimetable.service.CourseService;
 import ua.com.foxminded.classtimetable.service.StudentService;
@@ -62,14 +64,12 @@ public class ScheduleControllerTest {
     @Test
     public void should_giveLessonsForTeacherOnDateRange_when_controllerCallsShowScheduleMethod() throws Exception {
 
-        String role = "teacher";
-        int id = 7;
+        Object person = new TeacherDto();
         LocalDate beginDate = LocalDate.of(2021, 03, 01);
         LocalDate endDate = LocalDate.of(2021, 03, 31);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/schedule/show", id)
-                        .param("role", role)
-                        .param("id", Integer.toString(id))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/schedule/show")
+                        .param("person", person.toString())
                         .param("beginDate", convertDateToString(beginDate))
                         .param("endDate", convertDateToString(endDate)))
                 .andExpect(status().isOk())
@@ -84,14 +84,12 @@ public class ScheduleControllerTest {
     @Test
     public void should_giveLessonsForStudentOnDateRange_when_controllerCallsShowScheduleMethod() throws Exception {
 
-        String role = "student";
-        int id = 13;
+        Object person = new StudentDto();
         LocalDate beginDate = LocalDate.of(2021, 03, 01);
         LocalDate endDate = LocalDate.of(2021, 03, 31);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/schedule/show", id)
-                        .param("role", role)
-                        .param("id", Integer.toString(id))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/schedule/show")
+                        .param("person", person.toString())
                         .param("beginDate", convertDateToString(beginDate))
                         .param("endDate", convertDateToString(endDate)))
                 .andExpect(status().isOk())
