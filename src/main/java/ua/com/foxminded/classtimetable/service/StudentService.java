@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class StudentService implements ServiceInterface<Student> {
+public class StudentService {
 
     private final StudentRepository studentRepository;
     private final LessonRepository lessonRepository;
@@ -32,7 +32,6 @@ public class StudentService implements ServiceInterface<Student> {
         this.converterLesson = converterLesson;
     }
 
-    @Override
     public List<Student> getAll() {
         List<Student> allStudents;
         allStudents = studentRepository.findAll();
@@ -47,7 +46,6 @@ public class StudentService implements ServiceInterface<Student> {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public Student getById(int id) {
         Student student = studentRepository.findById(id).orElse(null);
         logger.info("getById: student = {}", student);
@@ -58,7 +56,6 @@ public class StudentService implements ServiceInterface<Student> {
         return converterStudent.toDto(getById(id));
     }
 
-    @Override
     public void create(Student student) {
         logger.info("create: student = {}", student);
         studentRepository.saveAndFlush(student);
@@ -68,7 +65,6 @@ public class StudentService implements ServiceInterface<Student> {
         create(converterStudent.toEntity(student));
     }
 
-    @Override
     public void update(Student student) {
         logger.info("update: student = {}", student);
         studentRepository.saveAndFlush(student);
@@ -78,13 +74,15 @@ public class StudentService implements ServiceInterface<Student> {
         update(converterStudent.toEntity(student));
     }
 
-    @Override
     public void delete(Student student) {
         logger.info("delete: student = {}", student);
         studentRepository.delete(student);
     }
 
-    @Override
+    public void deleteFromDto(StudentDto student) {
+        delete(converterStudent.toEntity(student));
+    }
+
     public void deleteById(int id) {
         logger.info("delete: student with ID = {}", id);
         studentRepository.deleteById(id);

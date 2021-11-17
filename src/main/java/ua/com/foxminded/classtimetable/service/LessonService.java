@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class LessonService implements ServiceInterface<Lesson> {
+public class LessonService {
 
     private final LessonRepository lessonRepository;
     private final LessonConverter converterLesson;
@@ -23,7 +23,6 @@ public class LessonService implements ServiceInterface<Lesson> {
         this.converterLesson = converterLesson;
     }
 
-    @Override
     public List<Lesson> getAll() {
         List<Lesson> allLessons;
         allLessons = lessonRepository.findAll();
@@ -38,7 +37,6 @@ public class LessonService implements ServiceInterface<Lesson> {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public Lesson getById(int id) {
         Lesson lesson = lessonRepository.findById(id).orElse(null);
         logger.info("getById: lesson = {}", lesson);
@@ -49,7 +47,6 @@ public class LessonService implements ServiceInterface<Lesson> {
         return converterLesson.toDto(getById(id));
     }
 
-    @Override
     public void create(Lesson lesson) {
         logger.info("create: lesson = {}", lesson);
         lessonRepository.saveAndFlush(lesson);
@@ -59,7 +56,6 @@ public class LessonService implements ServiceInterface<Lesson> {
         create(converterLesson.toEntity(lesson));
     }
 
-    @Override
     public void update(Lesson lesson) {
         logger.info("update: lesson = {}", lesson);
         lessonRepository.saveAndFlush(lesson);
@@ -69,7 +65,6 @@ public class LessonService implements ServiceInterface<Lesson> {
         update(converterLesson.toEntity(lesson));
     }
 
-    @Override
     public void delete(Lesson lesson) {
         logger.info("delete: lesson = {}", lesson);
         lessonRepository.delete(lesson);
@@ -79,7 +74,6 @@ public class LessonService implements ServiceInterface<Lesson> {
         delete(converterLesson.toEntity(lesson));
     }
 
-    @Override
     public void deleteById(int id) {
         logger.info("delete: lesson with ID = {}", id);
         lessonRepository.deleteById(id);

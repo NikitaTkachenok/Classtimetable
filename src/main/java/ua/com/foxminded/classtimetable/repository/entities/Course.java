@@ -1,6 +1,7 @@
 package ua.com.foxminded.classtimetable.repository.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -15,6 +16,7 @@ public class Course extends CommonEntity {
     private int id;
 
     @Column(name = "course_name")
+    @NotBlank(message = "Name is mandatory")
     private String courseName;
 
     @ManyToMany(

@@ -1,17 +1,24 @@
 package ua.com.foxminded.classtimetable.domain.dto;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class ClassroomDto {
 
     private int id;
 
+    @NotBlank(message = "Name is mandatory")
     private String roomName;
 
+    @NotNull(message = "Classroom should have a specified type")
     private String roomType;
 
+    @Min(value = 1, message = "The classroom should have at least one workplace")
     private int roomCapacity;
 
+    @Min(value = 0, message = "The classroom must be located in a specific building")
     private int buildingId;
 
     public int getId() {

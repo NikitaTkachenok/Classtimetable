@@ -2,6 +2,8 @@ package ua.com.foxminded.classtimetable.domain.dto;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
@@ -11,18 +13,24 @@ public class LessonDto {
     private int id;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @NotNull(message = "Date is mandatory for a lesson")
     private LocalDate date;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @NotNull(message = "Time of start is mandatory for a lesson")
     private LocalTime startTime;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @NotNull(message = "Time of finish is mandatory for a lesson")
     private LocalTime endTime;
 
+    @Min(value = 0, message = "The lesson must be located in a specific room")
     private int classroomId;
 
+    @Min(value = 0, message = "The lesson must be is specified course")
     private int courseId;
 
+    @Min(value = 0, message = "A teacher should be assigned to the lesson")
     private int teacherId;
 
     public int getId() {

@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 @Entity
@@ -11,12 +13,14 @@ import java.util.Objects;
 public class Classroom extends CommonEntity {
 
     @Column(name = "room_name")
+    @NotBlank(message = "Name is mandatory")
     private String roomName;
 
     @Column(name = "room_type")
     private String roomType;
 
     @Column(name = "room_capacity")
+    @Min(value = 1, message = "The classroom should have at least one workplace")
     private int roomCapacity;
 
     @ManyToOne

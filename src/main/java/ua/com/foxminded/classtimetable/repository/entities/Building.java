@@ -3,6 +3,8 @@ package ua.com.foxminded.classtimetable.repository.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -10,6 +12,7 @@ import java.util.Objects;
 public class Building extends CommonEntity {
 
     @Column(name = "building_name")
+    @NotBlank(message = "Name is mandatory")
     private String buildingName;
 
     public Building() {

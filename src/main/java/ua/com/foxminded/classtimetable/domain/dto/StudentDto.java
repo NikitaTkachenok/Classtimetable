@@ -1,5 +1,7 @@
 package ua.com.foxminded.classtimetable.domain.dto;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 import java.util.Set;
 
@@ -7,10 +9,12 @@ public class StudentDto {
 
     private int id;
 
+    @NotBlank(message = "A student should has at least the first name")
     private String firstName;
 
     private String lastName;
 
+    @Min(value = 0, message = "The student must be enrolled in a specific faculty")
     private int facultyId;
 
     private Set<Integer> coursesId;

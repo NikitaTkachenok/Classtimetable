@@ -8,12 +8,11 @@ import ua.com.foxminded.classtimetable.domain.dto.ClassroomDto;
 import ua.com.foxminded.classtimetable.repository.dao.ClassroomRepository;
 import ua.com.foxminded.classtimetable.repository.entities.Classroom;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ClassroomService implements ServiceInterface<Classroom> {
+public class ClassroomService {
 
     private final ClassroomRepository classroomRepository;
     private final ClassroomConverter converterClassroom;
@@ -24,7 +23,6 @@ public class ClassroomService implements ServiceInterface<Classroom> {
         this.converterClassroom = converterClassroom;
     }
 
-    @Override
     public List<Classroom> getAll() {
         List<Classroom> allClassrooms;
         allClassrooms = classroomRepository.findAll();
@@ -39,7 +37,6 @@ public class ClassroomService implements ServiceInterface<Classroom> {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public Classroom getById(int id) {
         Classroom classroom = classroomRepository.findById(id).orElse(null);
         logger.info("getById: classroom = {}", classroom);
@@ -50,7 +47,6 @@ public class ClassroomService implements ServiceInterface<Classroom> {
         return converterClassroom.toDto(getById(id));
     }
 
-    @Override
     public void create(Classroom classroom) {
         logger.info("create: classroom = {}", classroom);
         classroomRepository.saveAndFlush(classroom);
@@ -60,7 +56,6 @@ public class ClassroomService implements ServiceInterface<Classroom> {
         create(converterClassroom.toEntity(classroom));
     }
 
-    @Override
     public void update(Classroom classroom) {
         logger.info("update: classroom = {}", classroom);
         classroomRepository.saveAndFlush(classroom);
@@ -70,7 +65,6 @@ public class ClassroomService implements ServiceInterface<Classroom> {
         update(converterClassroom.toEntity(classroom));
     }
 
-    @Override
     public void delete(Classroom classroom) {
         logger.info("delete: classroom = {}", classroom);
         classroomRepository.delete(classroom);
@@ -80,11 +74,9 @@ public class ClassroomService implements ServiceInterface<Classroom> {
         delete(converterClassroom.toEntity(classroom));
     }
 
-    @Override
     public void deleteById(int id) {
         logger.info("delete: classroom with ID = {}", id);
         classroomRepository.deleteById(id);
-
     }
 
 }

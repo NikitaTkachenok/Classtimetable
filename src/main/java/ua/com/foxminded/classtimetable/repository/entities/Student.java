@@ -1,7 +1,7 @@
 package ua.com.foxminded.classtimetable.repository.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -16,6 +16,7 @@ public class Student extends CommonEntity {
     private int id;
 
     @Column(name = "first_name")
+    @NotBlank(message = "A student should has at least the first name")
     private String firstName;
 
     @Column(name = "last_name")

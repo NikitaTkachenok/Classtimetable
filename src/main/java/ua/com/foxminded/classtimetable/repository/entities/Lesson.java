@@ -3,6 +3,7 @@ package ua.com.foxminded.classtimetable.repository.entities;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
@@ -18,23 +19,29 @@ public class Lesson extends CommonEntity {
 
     @Column(name = "date")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @NotNull(message = "Date is mandatory for a lesson")
     private LocalDate date;
 
     @Column(name = "start_time")
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @NotNull(message = "Time of start is mandatory for a lesson")
     private LocalTime startTime;
 
     @Column(name = "end_time")
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @NotNull(message = "Time of finish is mandatory for a lesson")
     private LocalTime endTime;
 
     @ManyToOne
+    @NotNull(message = "The lesson must be located in a specific room")
     private Classroom classroom;
 
     @ManyToOne
+    @NotNull(message = "The lesson must be is specified course")
     private Course course;
 
     @ManyToOne
+    @NotNull(message = "A teacher should be assigned to the lesson")
     private Teacher teacher;
 
     @Override

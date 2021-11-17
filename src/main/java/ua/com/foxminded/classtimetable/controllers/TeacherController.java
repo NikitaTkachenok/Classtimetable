@@ -2,13 +2,19 @@ package ua.com.foxminded.classtimetable.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.classtimetable.domain.dto.TeacherDto;
 import ua.com.foxminded.classtimetable.service.CourseService;
 import ua.com.foxminded.classtimetable.service.FacultyService;
 import ua.com.foxminded.classtimetable.service.TeacherService;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 @Controller
+@Validated
 @RequestMapping("/teachers")
 public class TeacherController {
 
@@ -32,7 +38,8 @@ public class TeacherController {
     }
 
     @GetMapping("/{id}")
-    public String showById(@PathVariable("id") int id, ModelMap model) {
+    public String showById(@PathVariable("id") @Min(0) int id,
+                           ModelMap model) {
         model.addAttribute("teacher", serviceTeacher.getByIdAsDto(id))
                 .addAttribute("faculties", serviceFaculty.getAll())
                 .addAttribute("allCourses", serviceCourse.getAll());
@@ -40,26 +47,27 @@ public class TeacherController {
     }
 
     @GetMapping("/new")
-    public String create(@ModelAttribute("teacher") TeacherDto teacher, ModelMap model) {
+    public String create(@ModelAttribute("teacher") @NotNull TeacherDto teacher,
+                         ModelMap model) {
         model.addAttribute("faculties", serviceFaculty.getAll())
                 .addAttribute("allCourses", serviceCourse.getAll());
         return "teachers/create";
     }
 
     @PostMapping()
-    public String addToDB(@ModelAttribute("teacher") TeacherDto teacher) {
+    public String addToDB(@Valid @ModelAttribute("teacher") TeacherDto teacher) {
         serviceTeacher.createFromDto(teacher);
         return "redirect:/teachers";
     }
 
     @PutMapping("/{id}")
-    public String update(@ModelAttribute("teacher") TeacherDto teacher) {
+    public String update(@Valid @ModelAttribute("teacher") TeacherDto teacher) {
         serviceTeacher.updateFromDto(teacher);
         return "redirect:/teachers";
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@ModelAttribute("teacher") TeacherDto teacher) {
+    public String delete(@Valid @ModelAttribute("teacher") TeacherDto teacher) {
         serviceTeacher.deleteById(teacher.getId());
         return "redirect:/teachers";
     }

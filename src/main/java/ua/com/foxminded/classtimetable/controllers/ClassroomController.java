@@ -2,17 +2,21 @@ package ua.com.foxminded.classtimetable.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ua.com.foxminded.classtimetable.domain.dto.ClassroomDto;
 import ua.com.foxminded.classtimetable.repository.entities.Classroom;
 import ua.com.foxminded.classtimetable.service.BuildingService;
 import ua.com.foxminded.classtimetable.service.ClassroomService;
 
-import java.util.ArrayList;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@Validated
 @RequestMapping("/classrooms")
 public class ClassroomController {
 
@@ -32,7 +36,8 @@ public class ClassroomController {
     }
 
     @GetMapping("/{id}")
-    public String showById(@PathVariable("id") int id, ModelMap model) {
+    public String showById(@PathVariable("id") @Min(0) int id,
+                           ModelMap model) {
         model.addAttribute("classroom", serviceClassroom.getByIdAsDto(id)).
                 addAttribute("buildings", serviceBuilding.getAll()).
                 addAttribute("classroomTypes", getClassroomTypes());
@@ -40,7 +45,7 @@ public class ClassroomController {
     }
 
     @GetMapping("/new")
-    public String create(@ModelAttribute("classroom") ClassroomDto classroom,
+    public String create(@ModelAttribute("classroom") @NotNull ClassroomDto classroom,
                          ModelMap model) {
         model.addAttribute("classroomTypes", getClassroomTypes())
                 .addAttribute("buildings", serviceBuilding.getAll());
@@ -48,20 +53,20 @@ public class ClassroomController {
     }
 
     @PostMapping()
-    public String addToDB(@ModelAttribute("classroom") ClassroomDto classroom) {
+    public String addToDB(@Valid @ModelAttribute("classroom") ClassroomDto classroom) {
         serviceClassroom.createUseDto(classroom);
         return "redirect:/classrooms";
     }
 
     @PutMapping("/{id}")
-    public String update(@ModelAttribute("classroom") ClassroomDto classroom,
+    public String update(@Valid @ModelAttribute("classroom") ClassroomDto classroom,
                          ModelMap model) {
         serviceClassroom.updateUseDto(classroom);
         return "redirect:/classrooms";
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@ModelAttribute("classroom") ClassroomDto classroom) {
+    public String delete(@Valid @ModelAttribute("classroom") ClassroomDto classroom) {
         serviceClassroom.deleteUseDto(classroom);
         return "redirect:/classrooms";
     }

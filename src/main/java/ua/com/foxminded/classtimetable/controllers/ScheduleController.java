@@ -3,6 +3,7 @@ package ua.com.foxminded.classtimetable.controllers;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,9 +12,11 @@ import ua.com.foxminded.classtimetable.service.CourseService;
 import ua.com.foxminded.classtimetable.service.StudentService;
 import ua.com.foxminded.classtimetable.service.TeacherService;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Controller
+@Validated
 @RequestMapping("/schedule")
 public class ScheduleController {
 
@@ -38,9 +41,9 @@ public class ScheduleController {
     }
 
     @GetMapping("/show")
-    public String showSchedule(@RequestParam Object person,
-                               @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate beginDate,
-                               @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+    public String showSchedule(@RequestParam @NotNull Object person,
+                               @RequestParam @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate beginDate,
+                               @RequestParam @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
                                ModelMap model) {
         String id = person.toString().substring(
                 person.toString().indexOf("id=") + 3, person.toString().indexOf("id=") + 4);

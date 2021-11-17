@@ -3,6 +3,7 @@ package ua.com.foxminded.classtimetable.repository.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 @Entity
@@ -10,6 +11,7 @@ import java.util.Objects;
 public class Faculty extends CommonEntity {
 
     @Column(name = "faculty_name")
+    @NotBlank(message = "Name is mandatory")
     private String facultyName;
 
     public String getFacultyName() {

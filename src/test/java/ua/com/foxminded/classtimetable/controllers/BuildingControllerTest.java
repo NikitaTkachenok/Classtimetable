@@ -14,6 +14,8 @@ import org.springframework.web.context.WebApplicationContext;
 import ua.com.foxminded.classtimetable.repository.entities.Building;
 import ua.com.foxminded.classtimetable.service.BuildingService;
 
+import java.util.Objects;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -68,7 +70,7 @@ public class BuildingControllerTest {
     }
 
     @Test
-    public void should_addNewBuildingToDatabase_when_controllerCallsAddToDBMethod() throws Exception {
+    public void should_addNewBuildingToDatabase_when_controllerCallsAddToDBMethodWithValidData() throws Exception {
 
         Building building = new Building();
         building.setBuildingName("D");
@@ -79,6 +81,21 @@ public class BuildingControllerTest {
                 .andExpect(view().name("redirect:/buildings"))
                 .andExpect(redirectedUrl("/buildings"))
                 .andReturn();
+    }
+
+    @Test
+    public void should_addNewBuildingToDatabase_when_controllerCallsAddToDBMethodWithInvalidData() throws Exception {
+
+        Building building = new Building();
+        building.setBuildingName(null);
+
+        String errorMessage = Objects.requireNonNull(this.mockMvc.perform(MockMvcRequestBuilders
+                        .post("/buildings")
+                        .param("buildingName", building.getBuildingName()))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResolvedException()).getMessage();
+
+        assert errorMessage.contains("Name is mandatory");
     }
 
     @Test
