@@ -12,6 +12,7 @@ public class Application {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+        System.out.println("The application started");
     }
 
 }
