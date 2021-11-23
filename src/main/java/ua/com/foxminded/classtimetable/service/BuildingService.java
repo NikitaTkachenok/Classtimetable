@@ -3,6 +3,7 @@ package ua.com.foxminded.classtimetable.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import ua.com.foxminded.classtimetable.repository.dao.BuildingRepository;
 import ua.com.foxminded.classtimetable.repository.entities.Building;
 

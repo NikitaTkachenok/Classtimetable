@@ -1,12 +1,17 @@
 package ua.com.foxminded.classtimetable.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import ua.com.foxminded.classtimetable.controllers.exceptions.IndelibleEntityException;
 import ua.com.foxminded.classtimetable.repository.entities.Building;
 import ua.com.foxminded.classtimetable.service.BuildingService;
+import ua.com.foxminded.classtimetable.validators.BuildingValidator;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -15,6 +20,9 @@ import javax.validation.constraints.NotNull;
 @Validated
 @RequestMapping("/buildings")
 public class BuildingController {
+
+    @Autowired
+    private BuildingValidator validatorBuilding;
 
     private final BuildingService serviceBuilding;
 
@@ -53,8 +61,25 @@ public class BuildingController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@Valid @ModelAttribute("building") Building building) {
+    public String delete(@Valid @ModelAttribute("building") Building building, HttpServletRequest request) {
+        validatorBuilding.checkForDeletion(building, request);
         serviceBuilding.delete(building);
         return "redirect:/buildings";
+    }
+
+    @ExceptionHandler({IndelibleEntityException.class})
+    public ModelAndView handleException(IndelibleEntityException exception) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("errorMessage", exception.getMessage());
+        String thrownOutUrl = exception.getThrownOutUrl();
+        if (thrownOutUrl.contains("buildings/")) {
+            modelAndView.addObject("building",
+                    serviceBuilding.getById(Integer.parseInt(thrownOutUrl.substring(thrownOutUrl.length() - 1))));
+            modelAndView.setViewName("buildings/showById");
+        } else {
+            modelAndView.addObject("buildings", serviceBuilding.getAll());
+            modelAndView.setViewName("buildings/showAll");
+        }
+        return modelAndView;
     }
 }

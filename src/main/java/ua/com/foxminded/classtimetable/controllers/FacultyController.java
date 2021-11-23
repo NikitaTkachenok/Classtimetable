@@ -1,12 +1,17 @@
 package ua.com.foxminded.classtimetable.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import ua.com.foxminded.classtimetable.controllers.exceptions.IndelibleEntityException;
 import ua.com.foxminded.classtimetable.repository.entities.Faculty;
 import ua.com.foxminded.classtimetable.service.FacultyService;
+import ua.com.foxminded.classtimetable.validators.FacultyValidator;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -15,6 +20,9 @@ import javax.validation.constraints.NotNull;
 @Validated
 @RequestMapping("/faculties")
 public class FacultyController {
+
+    @Autowired
+    private FacultyValidator validatorFaculty;
 
     private final FacultyService serviceFaculty;
 
@@ -53,8 +61,26 @@ public class FacultyController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@Valid @ModelAttribute("faculty") Faculty faculty) {
+    public String delete(@Valid @ModelAttribute("faculty") Faculty faculty, HttpServletRequest request) {
+        validatorFaculty.checkForDeletion(faculty, request);
         serviceFaculty.delete(faculty);
         return "redirect:/faculties";
     }
+
+    @ExceptionHandler({IndelibleEntityException.class})
+    public ModelAndView handleException(IndelibleEntityException exception) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("errorMessage", exception.getMessage());
+        String thrownOutUrl = exception.getThrownOutUrl();
+        if (thrownOutUrl.contains("faculties/")) {
+            modelAndView.addObject("faculty",
+                    serviceFaculty.getById(Integer.parseInt(thrownOutUrl.substring(thrownOutUrl.length() - 1))));
+            modelAndView.setViewName("faculties/showById");
+        } else {
+            modelAndView.addObject("faculties", serviceFaculty.getAll());
+            modelAndView.setViewName("faculties/showAll");
+        }
+        return modelAndView;
+    }
+
 }

@@ -16,7 +16,10 @@
 
 <div class="container">
     <br/>
-    <h2>Faculty-listing</h2>
+    <h2>Faculties</h2>
+    <p style="color:red">
+        <a th:text="${errorMessage}"></a>
+    </p>
     <a class="btn btn-sm btn-secondary" href="/">Back to menu</a>
     <a class="btn btn-sm btn-success" href="/faculties/new">Create new faculty</a>
     <br/>
@@ -35,7 +38,9 @@
                    th:text="${faculty.facultyName}">faculty</a>
             </td>
             <td>
-                <form th:method="DELETE" th:action="@{/faculties/{id}(id=${faculty.id})}">
+                <form th:method="DELETE" th:action="@{/faculties/{id}(
+                id=${faculty.id},
+                facultyName=${faculty.facultyName})}">
                     <input class="btn btn-sm btn-danger" type="submit" value="Delete!"/>
                 </form>
             </td>

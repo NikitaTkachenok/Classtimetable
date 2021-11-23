@@ -53,9 +53,18 @@
                     th:text="${teacher.firstName} + ' ' + ${teacher.lastName}">
             </option>
         </select>
+        <br/>
+        <input class="btn btn-sm btn-success" type="submit" value="Update!">
     </form>
     <br/>
-    <form th:method="DELETE" th:action="@{/lessons/{id}(id=${lesson.id})}">
+    <form th:method="DELETE" th:action="@{/lessons/{id}(
+                id=${lesson.id},
+                date=${lesson.date},
+                startTime=${lesson.startTime},
+                endTime=${lesson.endTime},
+                roomName=${lesson.classroomId},
+                courseName=${lesson.courseId},
+                teacher=${lesson.teacherId})}">
         <input class="btn btn-sm btn-danger" type="submit" value="Delete!"/>
     </form>
 </div>

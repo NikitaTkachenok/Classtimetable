@@ -17,6 +17,9 @@
 <div class="container">
     <br/>
     <h2>Classroom changing page</h2>
+    <p style="color:red">
+        <a th:text="${errorMessage}"></a>
+    </p>
     <a class="btn btn-sm btn-secondary" href="/classrooms">Back to table</a>
     <br/>
     <br/>
@@ -46,7 +49,12 @@
         <input class="btn btn-sm btn-success" type="submit" value="Update!">
     </form>
     <br/>
-    <form th:method="DELETE" th:action="@{/classrooms/{id}(id=${classroom.id})}">
+    <form th:method="DELETE" th:action="@{/classrooms/{id}(
+                id=${classroom.id},
+                roomName=${classroom.roomName},
+                roomType=${classroom.roomType},
+                roomCapacity=${classroom.roomCapacity},
+                building=${classroom.buildingId})}">
         <input class="btn btn-sm btn-danger" type="submit" value="Delete!"/>
     </form>
 </div>

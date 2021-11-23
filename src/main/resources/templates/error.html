@@ -14,21 +14,12 @@
 <div class="container">
     <br/>
     <h1>Something went wrong! </h1>
-    </br>
-    <a class="btn btn-sm btn-secondary" href="/">Back to menu</a>
     <br/>
-    </br>
-    <h2>Error status:</h2>
-    <a th:text="${status}"></a>
-    </br>
     <h2>Error message:</h2>
-    <a th:text="${message}"></a>
-    <h2>Additional info</h2>
-    </br>
-    <a th:text="${error}"></a>
+    <a th:text="${errorMessage}"></a>
     </br>
     </br>
-    <a class="btn btn-sm btn-secondary" href="/">Back to menu</a>
+    <a class="btn btn-sm btn-secondary" href="${previousPage}">Go back</a>
 </div>
 </body>
 </html>

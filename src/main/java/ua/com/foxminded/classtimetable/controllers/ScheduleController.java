@@ -12,6 +12,7 @@ import ua.com.foxminded.classtimetable.service.CourseService;
 import ua.com.foxminded.classtimetable.service.StudentService;
 import ua.com.foxminded.classtimetable.service.TeacherService;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -41,9 +42,12 @@ public class ScheduleController {
     }
 
     @GetMapping("/show")
-    public String showSchedule(@RequestParam @NotNull Object person,
-                               @RequestParam @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate beginDate,
-                               @RequestParam @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+    public String showSchedule(@NotNull(message = "A person's selection is mandatory!")
+                               @RequestParam Object person,
+                               @NotNull(message = "The beginning of the date range is mandatory!")
+                               @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate beginDate,
+                               @NotNull(message = "The end of the date range is mandatory!")
+                               @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
                                ModelMap model) {
         String id = person.toString().substring(
                 person.toString().indexOf("id=") + 3, person.toString().indexOf("id=") + 4);

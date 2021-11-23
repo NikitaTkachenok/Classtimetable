@@ -17,6 +17,9 @@
 <div class="container">
     <br/>
     <h2>Classrooms</h2>
+    <p style="color:red">
+        <a th:text="${errorMessage}"></a>
+    </p>
     <a class="btn btn-sm btn-secondary" href="/">Back to menu</a>
     <a class="btn btn-sm btn-success" href="/classrooms/new">Create new classroom</a>
     <br/>
@@ -50,7 +53,12 @@
                    th:text="${buildings.getById(classroom.buildingId).buildingName}">building</a>
             </td>
             <td>
-                <form th:method="DELETE" th:action="@{/classrooms/{id}(id=${classroom.id})}">
+                <form th:method="DELETE" th:action="@{/classrooms/{id}(
+                id=${classroom.id},
+                roomName=${classroom.roomName},
+                roomType=${classroom.roomType},
+                roomCapacity=${classroom.roomCapacity},
+                building=${classroom.buildingId})}">
                     <input class="btn btn-sm btn-danger" type="submit" value="Delete!"/>
                 </form>
             </td>

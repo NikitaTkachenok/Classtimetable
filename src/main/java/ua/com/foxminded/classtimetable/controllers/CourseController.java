@@ -1,12 +1,17 @@
 package ua.com.foxminded.classtimetable.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import ua.com.foxminded.classtimetable.controllers.exceptions.IndelibleEntityException;
 import ua.com.foxminded.classtimetable.repository.entities.Course;
 import ua.com.foxminded.classtimetable.service.CourseService;
+import ua.com.foxminded.classtimetable.validators.CourseValidator;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -15,6 +20,9 @@ import javax.validation.constraints.NotNull;
 @Validated
 @RequestMapping("/courses")
 public class CourseController {
+
+    @Autowired
+    private CourseValidator validatorCourse;
 
     private final CourseService serviceCourse;
 
@@ -53,8 +61,25 @@ public class CourseController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@Valid @ModelAttribute("course") Course course) {
+    public String delete(@Valid @ModelAttribute("course") Course course, HttpServletRequest request) {
+        validatorCourse.checkForDeletion(course,request);
         serviceCourse.delete(course);
         return "redirect:/courses";
+    }
+
+    @ExceptionHandler({IndelibleEntityException.class})
+    public ModelAndView handleException(IndelibleEntityException exception) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("errorMessage", exception.getMessage());
+        String thrownOutUrl = exception.getThrownOutUrl();
+        if (thrownOutUrl.contains("courses/")) {
+            modelAndView.addObject("course",
+                    serviceCourse.getById(Integer.parseInt(thrownOutUrl.substring(thrownOutUrl.length() - 1))));
+            modelAndView.setViewName("courses/showById");
+        } else {
+            modelAndView.addObject("courses", serviceCourse.getAll());
+            modelAndView.setViewName("courses/showAll");
+        }
+        return modelAndView;
     }
 }

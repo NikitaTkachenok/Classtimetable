@@ -1,14 +1,19 @@
 package ua.com.foxminded.classtimetable.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import ua.com.foxminded.classtimetable.controllers.exceptions.IndelibleEntityException;
 import ua.com.foxminded.classtimetable.domain.dto.ClassroomDto;
 import ua.com.foxminded.classtimetable.repository.entities.Classroom;
 import ua.com.foxminded.classtimetable.service.BuildingService;
 import ua.com.foxminded.classtimetable.service.ClassroomService;
+import ua.com.foxminded.classtimetable.validators.ClassroomValidator;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -19,6 +24,9 @@ import java.util.stream.Collectors;
 @Validated
 @RequestMapping("/classrooms")
 public class ClassroomController {
+
+    @Autowired
+    private ClassroomValidator validatorClassroom;
 
     private final ClassroomService serviceClassroom;
     private final BuildingService serviceBuilding;
@@ -66,9 +74,29 @@ public class ClassroomController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@Valid @ModelAttribute("classroom") ClassroomDto classroom) {
+    public String delete(@Valid @ModelAttribute("classroom") ClassroomDto classroom, HttpServletRequest request) {
+        validatorClassroom.checkForDeletion(classroom, request);
         serviceClassroom.deleteUseDto(classroom);
         return "redirect:/classrooms";
+    }
+
+    @ExceptionHandler({IndelibleEntityException.class})
+    public ModelAndView handleException(IndelibleEntityException exception) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("errorMessage", exception.getMessage());
+        String thrownOutUrl = exception.getThrownOutUrl();
+        if (thrownOutUrl.contains("classrooms/")) {
+            modelAndView.addObject("classroom",
+                    serviceClassroom.getByIdAsDto(Integer.parseInt(thrownOutUrl.substring(thrownOutUrl.length() - 1))));
+            modelAndView.addObject("buildings", serviceBuilding.getAll());
+            modelAndView.addObject("classroomTypes", getClassroomTypes());
+            modelAndView.setViewName("classrooms/showById");
+        } else {
+            modelAndView.addObject("classrooms", serviceClassroom.getAllAsDto());
+            modelAndView.addObject("buildings", serviceBuilding);
+            modelAndView.setViewName("classrooms/showAll");
+        }
+        return modelAndView;
     }
 
     private List<String> getClassroomTypes() {

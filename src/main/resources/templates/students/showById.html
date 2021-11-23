@@ -51,7 +51,12 @@
         <input class="btn btn-sm btn-success" type="submit" value="Update!">
     </form>
     <br/>
-    <form th:method="DELETE" th:action="@{/students/{id}(id=${student.getId()})}">
+    <form th:method="DELETE" th:action="@{/students/{id}(
+                id=${student.getId()},
+                firstName=${student.firstName},
+                lastName=${student.lastName},
+                faculty=${student.facultyId},
+                studentCourses=${student.coursesId})}">
         <input class="btn btn-sm btn-danger" type="submit" value="Delete!"/>
     </form>
 </div>
