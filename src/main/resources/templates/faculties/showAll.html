@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Faculty</title>
+    <title>Faculty-listing</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -38,9 +38,7 @@
                    th:text="${faculty.facultyName}">faculty</a>
             </td>
             <td>
-                <form th:method="DELETE" th:action="@{/faculties/{id}(
-                id=${faculty.id},
-                facultyName=${faculty.facultyName})}">
+                <form th:method="DELETE" th:action="@{/faculties/{id} (id=${faculty.id})}">
                     <input class="btn btn-sm btn-danger" type="submit" value="Delete!"/>
                 </form>
             </td>

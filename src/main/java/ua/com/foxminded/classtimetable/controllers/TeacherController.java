@@ -1,14 +1,19 @@
 package ua.com.foxminded.classtimetable.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import ua.com.foxminded.classtimetable.controllers.exceptions.IndelibleEntityException;
 import ua.com.foxminded.classtimetable.domain.dto.TeacherDto;
 import ua.com.foxminded.classtimetable.service.CourseService;
 import ua.com.foxminded.classtimetable.service.FacultyService;
 import ua.com.foxminded.classtimetable.service.TeacherService;
+import ua.com.foxminded.classtimetable.validators.TeacherValidator;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -17,6 +22,9 @@ import javax.validation.constraints.NotNull;
 @Validated
 @RequestMapping("/teachers")
 public class TeacherController {
+
+    @Autowired
+    TeacherValidator validatorTeacher;
 
     private final TeacherService serviceTeacher;
     private final FacultyService serviceFaculty;
@@ -67,9 +75,29 @@ public class TeacherController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@Valid @ModelAttribute("teacher") TeacherDto teacher) {
+    public String delete(@NotNull @ModelAttribute("teacher") TeacherDto teacher, HttpServletRequest request) {
+        validatorTeacher.checkForDeletion(teacher, request);
         serviceTeacher.deleteById(teacher.getId());
         return "redirect:/teachers";
     }
 
+    @ExceptionHandler({IndelibleEntityException.class})
+    public ModelAndView handleException(IndelibleEntityException exception) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("errorMessage", exception.getMessage());
+        String thrownOutUrl = exception.getThrownOutUrl();
+        if (thrownOutUrl.contains("teachers/")) {
+            modelAndView.addObject("teacher",
+                            serviceTeacher.getByIdAsDto(Integer.parseInt(thrownOutUrl.substring(thrownOutUrl.length() - 1))))
+                    .addObject("faculties", serviceFaculty.getAll())
+                    .addObject("allCourses", serviceCourse.getAll())
+                    .setViewName("teachers/showById");
+        } else {
+            modelAndView.addObject("teachers", serviceTeacher.getAllAsDto())
+                    .addObject("faculties", serviceFaculty)
+                    .addObject("courses", serviceCourse)
+                    .setViewName("teachers/showAll");
+        }
+        return modelAndView;
+    }
 }

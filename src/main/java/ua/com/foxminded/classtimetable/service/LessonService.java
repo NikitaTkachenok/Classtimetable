@@ -8,6 +8,8 @@ import ua.com.foxminded.classtimetable.domain.dto.LessonDto;
 import ua.com.foxminded.classtimetable.repository.dao.LessonRepository;
 import ua.com.foxminded.classtimetable.repository.entities.Lesson;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -77,6 +79,11 @@ public class LessonService {
     public void deleteById(int id) {
         logger.info("delete: lesson with ID = {}", id);
         lessonRepository.deleteById(id);
+    }
+
+    public List<Lesson> getLessonsByTemporalConditions(
+            LocalDate date, LocalTime beginningOfRange, LocalTime endOfRange) {
+        return lessonRepository.getLessonsByTemporalConditions(date, beginningOfRange, endOfRange);
     }
 
 }

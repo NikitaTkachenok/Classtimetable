@@ -61,7 +61,7 @@ public class FacultyController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@Valid @ModelAttribute("faculty") Faculty faculty, HttpServletRequest request) {
+    public String delete(@NotNull @ModelAttribute("faculty") Faculty faculty, HttpServletRequest request) {
         validatorFaculty.checkForDeletion(faculty, request);
         serviceFaculty.delete(faculty);
         return "redirect:/faculties";

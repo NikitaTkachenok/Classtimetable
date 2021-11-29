@@ -31,13 +31,16 @@ public class StudentControllerTest {
     private WebApplicationContext context;
 
     @Autowired
-    private StudentService studentService;
+    private StudentService serviceLesson;
 
     @Autowired
-    private FacultyService facultyService;
+    private FacultyService serviceFaculty;
 
     @Autowired
-    private CourseService courseService;
+    private CourseService serviceCourse;
+
+    @Autowired
+    private StudentService serviceStudent;
 
     @Before
     public void setup() {
@@ -51,9 +54,9 @@ public class StudentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("students/showAll"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("students", studentService.getAllAsDto()))
-                .andExpect(model().attribute("faculties", facultyService))
-                .andExpect(model().attribute("courses", courseService))
+                .andExpect(model().attribute("students", serviceLesson.getAllAsDto()))
+                .andExpect(model().attribute("faculties", serviceFaculty))
+                .andExpect(model().attribute("courses", serviceCourse))
                 .andReturn();
     }
 
@@ -66,9 +69,9 @@ public class StudentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("students/showById"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("student", studentService.getByIdAsDto(id)))
-                .andExpect(model().attribute("faculties", facultyService.getAll()))
-                .andExpect(model().attribute("allCourses", courseService.getAll()))
+                .andExpect(model().attribute("student", serviceLesson.getByIdAsDto(id)))
+                .andExpect(model().attribute("faculties", serviceFaculty.getAll()))
+                .andExpect(model().attribute("allCourses", serviceCourse.getAll()))
                 .andReturn();
     }
 
@@ -79,8 +82,8 @@ public class StudentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("students/create"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("faculties", facultyService.getAll()))
-                .andExpect(model().attribute("allCourses", courseService.getAll()))
+                .andExpect(model().attribute("faculties", serviceFaculty.getAll()))
+                .andExpect(model().attribute("allCourses", serviceCourse.getAll()))
                 .andReturn();
     }
 
@@ -124,6 +127,35 @@ public class StudentControllerTest {
         student.setCoursesId(studentCourses);
 
         this.mockMvc.perform(MockMvcRequestBuilders.put("/students/{id}", student.getId())
+                        .param("id", Integer.toString(student.getId()))
+                        .param("firstName", student.getFirstName())
+                        .param("lastName", student.getLastName())
+                        .param("facultyId", Integer.toString(student.getFacultyId()))
+                        .param("coursesId", createStringOfValues(studentCourses)))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/students"))
+                .andExpect(redirectedUrl("/students"))
+                .andReturn();
+    }
+
+    @Test
+    public void should_deleteStudentFromDatabase_when_controllerCallsDeleteMethodForDeletableEntity()
+            throws Exception {
+
+        Set<Integer> studentCourses = new HashSet<>();
+        studentCourses.add(1);
+        studentCourses.add(2);
+        studentCourses.add(3);
+
+        StudentDto student = new StudentDto();
+        student.setId(61);
+        student.setFirstName("Frank");
+        student.setLastName("Bowman");
+        student.setFacultyId(1);
+        student.setCoursesId(studentCourses);
+        serviceStudent.createFromDto(student);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/students/{id}", student.getId())
                         .param("id", Integer.toString(student.getId()))
                         .param("firstName", student.getFirstName())
                         .param("lastName", student.getLastName())

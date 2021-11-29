@@ -1,10 +1,9 @@
 package ua.com.foxminded.classtimetable.controllers.exceptions;
 
-public class IndelibleEntityException extends RuntimeException {
-
-    private String thrownOutUrl;
+public class IndelibleEntityException extends CommonCustomException {
 
     public IndelibleEntityException() {
+        super();
     }
 
     public IndelibleEntityException(String message) {
@@ -12,16 +11,6 @@ public class IndelibleEntityException extends RuntimeException {
     }
 
     public IndelibleEntityException(String message, String thrownOutUrl) {
-        super(message);
-        this.thrownOutUrl = thrownOutUrl;
-    }
-
-
-    public String getThrownOutUrl() {
-        return thrownOutUrl;
-    }
-
-    public void setThrownOutUrl(String thrownOutUrl) {
-        this.thrownOutUrl = thrownOutUrl;
+        super(message, thrownOutUrl);
     }
 }

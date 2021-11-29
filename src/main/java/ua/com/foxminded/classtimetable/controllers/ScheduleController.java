@@ -12,7 +12,6 @@ import ua.com.foxminded.classtimetable.service.CourseService;
 import ua.com.foxminded.classtimetable.service.StudentService;
 import ua.com.foxminded.classtimetable.service.TeacherService;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 

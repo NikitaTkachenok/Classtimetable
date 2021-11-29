@@ -1,5 +1,7 @@
 package ua.com.foxminded.classtimetable.validators;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ua.com.foxminded.classtimetable.controllers.exceptions.IndelibleEntityException;
 import ua.com.foxminded.classtimetable.repository.entities.Building;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 public class BuildingValidator {
 
     private final ClassroomService serviceClassroom;
+    private final Logger logger = LoggerFactory.getLogger(BuildingValidator.class);
 
     public BuildingValidator(ClassroomService serviceClassroom) {
         this.serviceClassroom = serviceClassroom;
@@ -23,12 +26,14 @@ public class BuildingValidator {
                 .stream()
                 .map(Classroom::getBuilding)
                 .map(Building::getId)
+                .distinct()
                 .collect(Collectors.toList())
                 .contains(building.getId());
         if (undeletable) {
-            throw new IndelibleEntityException
-                    ("The building cannot be deleted because it still contains classrooms that weren't deleted",
-                            request.getHeader("Referer"));
+            logger.error("checkForDeletion failed: building = {}", building);
+            throw new IndelibleEntityException(
+                    "The building cannot be deleted because it still contains classrooms that weren't deleted",
+                    request.getHeader("Referer"));
         }
     }
 }

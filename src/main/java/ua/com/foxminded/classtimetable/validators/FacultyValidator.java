@@ -1,5 +1,7 @@
 package ua.com.foxminded.classtimetable.validators;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ua.com.foxminded.classtimetable.controllers.exceptions.IndelibleEntityException;
 import ua.com.foxminded.classtimetable.domain.dto.StudentDto;
@@ -16,6 +18,7 @@ public class FacultyValidator {
 
     private final TeacherService serviceTeacher;
     private final StudentService serviceStudent;
+    private final Logger logger = LoggerFactory.getLogger(BuildingValidator.class);
 
     public FacultyValidator(TeacherService serviceTeacher, StudentService serviceStudent) {
         this.serviceTeacher = serviceTeacher;
@@ -24,11 +27,13 @@ public class FacultyValidator {
 
     public boolean checkForDeletion(Faculty faculty, HttpServletRequest request) {
         if (checkForTeacherUsing(faculty)) {
+            logger.error("checkForDeletion failed: faculty = {}", faculty);
             throw new IndelibleEntityException
                     ("The faculty cannot be deleted because still there are teachers which use it",
                             request.getHeader("Referer"));
         }
         if (checkForStudentUsing(faculty)) {
+            logger.error("checkForDeletion failed: faculty = {}", faculty);
             throw new IndelibleEntityException
                     ("The faculty cannot be deleted because still there are students which use it",
                             request.getHeader("Referer"));

@@ -67,8 +67,8 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@Valid @ModelAttribute("student") StudentDto student) {
-        serviceStudent.deleteFromDto(student);
+    public String delete(@NotNull @ModelAttribute("student") StudentDto student) {
+        serviceStudent.deleteById(student.getId());
         return "redirect:/students";
     }
 

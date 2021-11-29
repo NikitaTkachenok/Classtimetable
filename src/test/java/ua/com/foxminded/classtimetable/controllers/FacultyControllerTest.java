@@ -26,7 +26,7 @@ public class FacultyControllerTest {
     private WebApplicationContext context;
 
     @Autowired
-    private FacultyService service;
+    private FacultyService serviceFaculty;
 
     @Before
     public void setup() {
@@ -40,7 +40,7 @@ public class FacultyControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("faculties/showAll"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("faculties", service.getAll()))
+                .andExpect(model().attribute("faculties", serviceFaculty.getAll()))
                 .andReturn();
     }
 
@@ -53,7 +53,7 @@ public class FacultyControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("faculties/showById"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("faculty", service.getById(id)))
+                .andExpect(model().attribute("faculty", serviceFaculty.getById(id)))
                 .andReturn();
     }
 
@@ -90,6 +90,22 @@ public class FacultyControllerTest {
 
         this.mockMvc.perform(MockMvcRequestBuilders.put("/faculties/{id}", faculty.getId())
                         .param("id", Integer.toString(faculty.getId()))
+                        .param("facultyName", faculty.getFacultyName()))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/faculties"))
+                .andExpect(redirectedUrl("/faculties"))
+                .andReturn();
+    }
+
+    @Test
+    public void should_deleteFacultyFromDatabase_when_controllerCallsDeleteMethodForDeletableEntity()
+            throws Exception {
+
+        Faculty faculty = new Faculty();
+        faculty.setFacultyName("Name of faculty");
+        serviceFaculty.create(faculty);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/faculties/{id}", faculty.getId())
                         .param("facultyName", faculty.getFacultyName()))
                 .andExpect(status().isFound())
                 .andExpect(view().name("redirect:/faculties"))

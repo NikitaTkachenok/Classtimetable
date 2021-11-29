@@ -14,8 +14,6 @@ import org.springframework.web.context.WebApplicationContext;
 import ua.com.foxminded.classtimetable.repository.entities.Building;
 import ua.com.foxminded.classtimetable.service.BuildingService;
 
-import java.util.Objects;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -28,11 +26,14 @@ public class BuildingControllerTest {
     private WebApplicationContext context;
 
     @Autowired
-    private BuildingService buildingService;
+    private BuildingService serviceBuilding;
+
+    @Autowired
+    private BuildingController controllerBuilding;
 
     @Before
     public void setup() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context).build();
     }
 
     @Test
@@ -42,7 +43,7 @@ public class BuildingControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("buildings/showAll"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("buildings", buildingService.getAll()))
+                .andExpect(model().attribute("buildings", serviceBuilding.getAll()))
                 .andReturn();
     }
 
@@ -55,7 +56,7 @@ public class BuildingControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("buildings/showById"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("building", buildingService.getById(id)))
+                .andExpect(model().attribute("building", serviceBuilding.getById(id)))
                 .andReturn();
     }
 
@@ -84,21 +85,6 @@ public class BuildingControllerTest {
     }
 
     @Test
-    public void should_addNewBuildingToDatabase_when_controllerCallsAddToDBMethodWithInvalidData() throws Exception {
-
-        Building building = new Building();
-        building.setBuildingName(null);
-
-        String errorMessage = Objects.requireNonNull(this.mockMvc.perform(MockMvcRequestBuilders
-                        .post("/buildings")
-                        .param("buildingName", building.getBuildingName()))
-                .andExpect(status().isBadRequest())
-                .andReturn().getResolvedException()).getMessage();
-
-        assert errorMessage.contains("Name is mandatory");
-    }
-
-    @Test
     public void should_updateBuildingInDatabase_when_controllerCallsUpdateMethod() throws Exception {
 
         Building building = new Building();
@@ -114,19 +100,20 @@ public class BuildingControllerTest {
                 .andReturn();
     }
 
-//    @Test
-//    public void should_deleteBuildingFromDatabase_when_controllerCallsDeleteMethod() throws Exception {
-//
-//        Building building = new Building();
-//        building.setId(2);
-//        building.setBuildingName("E");
-//
-//        this.mockMvc.perform(MockMvcRequestBuilders.delete("/buildings/{id}", building.getId())
-//                        .param("id", Integer.toString(building.getId()))
-//                        .param("buildingName", building.getBuildingName()))
-//                .andExpect(status().isFound())
-//                .andExpect(view().name("redirect:/buildings"))
-//                .andExpect(redirectedUrl("/buildings"))
-//                .andReturn();
-//    }
+    @Test
+    public void should_deleteBuildingFromDatabase_when_controllerCallsDeleteMethodForDeletableEntity()
+            throws Exception {
+
+        Building building = new Building();
+        building.setBuildingName("P");
+        serviceBuilding.create(building);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/buildings/{id}", building.getId())
+                        .param("buildingName", building.getBuildingName()))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/buildings"))
+                .andExpect(redirectedUrl("/buildings"))
+                .andReturn();
+    }
+
 }

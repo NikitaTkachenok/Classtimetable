@@ -31,9 +31,7 @@
     </form>
     <br/>
     <form th:method="DELETE"
-          th:action="@{/buildings/{id}(
-          id=${building.id},
-          buildingName=${building.buildingName})}">
+          th:action="@{/buildings/{id}(id=${building.id})}">
         <input class="btn btn-sm btn-danger" type="submit" value="Delete!"/>
     </form>
 </div>

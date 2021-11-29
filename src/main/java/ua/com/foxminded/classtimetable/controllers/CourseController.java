@@ -61,7 +61,7 @@ public class CourseController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@Valid @ModelAttribute("course") Course course, HttpServletRequest request) {
+    public String delete(@NotNull @ModelAttribute("course") Course course, HttpServletRequest request) {
         validatorCourse.checkForDeletion(course,request);
         serviceCourse.delete(course);
         return "redirect:/courses";

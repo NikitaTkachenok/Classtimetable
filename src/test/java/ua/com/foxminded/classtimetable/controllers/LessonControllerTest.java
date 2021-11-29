@@ -33,16 +33,16 @@ public class LessonControllerTest {
     private WebApplicationContext context;
 
     @Autowired
-    private LessonService lessonService;
+    private LessonService serviceLesson;
 
     @Autowired
-    private ClassroomService classroomService;
+    private ClassroomService serviceClassroom;
 
     @Autowired
-    private CourseService courseService;
+    private CourseService serviceCourse;
 
     @Autowired
-    private TeacherService teacherService;
+    private TeacherService serviceTeacher;
 
     @Before
     public void setup() {
@@ -56,10 +56,10 @@ public class LessonControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("lessons/showAll"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("lessons", lessonService.getAllAsDto()))
-                .andExpect(model().attribute("classrooms", classroomService))
-                .andExpect(model().attribute("courses", courseService))
-                .andExpect(model().attribute("teachers", teacherService))
+                .andExpect(model().attribute("lessons", serviceLesson.getAllAsDto()))
+                .andExpect(model().attribute("classrooms", serviceClassroom))
+                .andExpect(model().attribute("courses", serviceCourse))
+                .andExpect(model().attribute("teachers", serviceTeacher))
                 .andReturn();
     }
 
@@ -72,10 +72,10 @@ public class LessonControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("lessons/showById"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("lesson", lessonService.getByIdAsDto(id)))
-                .andExpect(model().attribute("classrooms", classroomService.getAllAsDto()))
-                .andExpect(model().attribute("courses", courseService.getAll()))
-                .andExpect(model().attribute("teachers", teacherService.getAllAsDto()))
+                .andExpect(model().attribute("lesson", serviceLesson.getByIdAsDto(id)))
+                .andExpect(model().attribute("classrooms", serviceClassroom.getAllAsDto()))
+                .andExpect(model().attribute("courses", serviceCourse.getAll()))
+                .andExpect(model().attribute("teachers", serviceTeacher.getAllAsDto()))
                 .andReturn();
     }
 
@@ -86,9 +86,9 @@ public class LessonControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("lessons/create"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("classrooms", classroomService.getAllAsDto()))
-                .andExpect(model().attribute("courses", courseService.getAll()))
-                .andExpect(model().attribute("teachers", teacherService.getAllAsDto()))
+                .andExpect(model().attribute("classrooms", serviceClassroom.getAllAsDto()))
+                .andExpect(model().attribute("courses", serviceCourse.getAll()))
+                .andExpect(model().attribute("teachers", serviceTeacher.getAllAsDto()))
                 .andReturn();
     }
 
@@ -96,12 +96,12 @@ public class LessonControllerTest {
     public void should_addNewLessonToDatabase_when_controllerCallsAddToDBMethod() throws Exception {
 
         LessonDto lesson = new LessonDto();
-        lesson.setDate(LocalDate.of(2021, 07, 01));
+        lesson.setDate(LocalDate.of(2021, 7, 1));
         lesson.setStartTime(LocalTime.of(9, 20));
-        lesson.setEndTime(LocalTime.of(10, 00));
+        lesson.setEndTime(LocalTime.of(10, 0));
         lesson.setCourseId(1);
         lesson.setTeacherId(1);
-        lesson.setClassroomId(5);
+        lesson.setClassroomId(4);
 
         this.mockMvc.perform(MockMvcRequestBuilders.post("/lessons")
                         .param("date", convertDateToString(lesson.getDate()))
@@ -121,8 +121,8 @@ public class LessonControllerTest {
 
         LessonDto lesson = new LessonDto();
         lesson.setId(203);
-        lesson.setDate(LocalDate.of(2021, 06, 15));
-        lesson.setStartTime(LocalTime.of(14, 00));
+        lesson.setDate(LocalDate.of(2021, 6, 15));
+        lesson.setStartTime(LocalTime.of(14, 0));
         lesson.setEndTime(LocalTime.of(15, 40));
         lesson.setCourseId(3);
         lesson.setTeacherId(5);
@@ -130,6 +130,32 @@ public class LessonControllerTest {
 
         this.mockMvc.perform(MockMvcRequestBuilders.put("/lessons/{id}", lesson.getId())
                         .param("id", Integer.toString(lesson.getId()))
+                        .param("date", convertDateToString(lesson.getDate()))
+                        .param("startTime", convertTimeToString(lesson.getStartTime()))
+                        .param("endTime", convertTimeToString(lesson.getEndTime()))
+                        .param("classroomId", Integer.toString(lesson.getClassroomId()))
+                        .param("courseId", Integer.toString(lesson.getCourseId()))
+                        .param("teacherId", Integer.toString(lesson.getTeacherId())))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/lessons"))
+                .andExpect(redirectedUrl("/lessons"))
+                .andReturn();
+    }
+
+    @Test
+    public void should_deleteLessonFromDatabase_when_controllerCallsDeleteMethodForDeletableEntity()
+            throws Exception {
+
+        LessonDto lesson = new LessonDto();
+        lesson.setDate(LocalDate.of(2021, 8, 2));
+        lesson.setStartTime(LocalTime.of(14, 0));
+        lesson.setEndTime(LocalTime.of(15, 40));
+        lesson.setCourseId(2);
+        lesson.setTeacherId(2);
+        lesson.setClassroomId(9);
+        serviceLesson.createFromDto(lesson);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/lessons/{id}", lesson.getId())
                         .param("date", convertDateToString(lesson.getDate()))
                         .param("startTime", convertTimeToString(lesson.getStartTime()))
                         .param("endTime", convertTimeToString(lesson.getEndTime()))

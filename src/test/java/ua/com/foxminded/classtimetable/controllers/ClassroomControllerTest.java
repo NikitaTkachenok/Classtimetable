@@ -31,10 +31,10 @@ public class ClassroomControllerTest {
     private WebApplicationContext context;
 
     @Autowired
-    private ClassroomService classroomService;
+    private ClassroomService serviceClassroom;
 
     @Autowired
-    private BuildingService buildingService;
+    private BuildingService serviceBuilding;
 
     @Before
     public void setup() {
@@ -48,8 +48,8 @@ public class ClassroomControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("classrooms/showAll"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("classrooms", classroomService.getAllAsDto()))
-                .andExpect(model().attribute("buildings", buildingService))
+                .andExpect(model().attribute("classrooms", serviceClassroom.getAllAsDto()))
+                .andExpect(model().attribute("buildings", serviceBuilding))
                 .andReturn();
     }
 
@@ -62,8 +62,8 @@ public class ClassroomControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("classrooms/showById"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("classroom", classroomService.getByIdAsDto(id)))
-                .andExpect(model().attribute("buildings", buildingService.getAll()))
+                .andExpect(model().attribute("classroom", serviceClassroom.getByIdAsDto(id)))
+                .andExpect(model().attribute("buildings", serviceBuilding.getAll()))
                 .andExpect(model().attribute("classroomTypes", getClassroomTypes()))
                 .andReturn();
     }
@@ -119,9 +119,32 @@ public class ClassroomControllerTest {
                 .andReturn();
     }
 
+    @Test
+    public void should_deleteClassroomFromDatabase_when_controllerCallsDeleteMethodForDeletableEntity()
+            throws Exception {
+
+        ClassroomDto classroom = new ClassroomDto();
+        classroom.setRoomName("R-1");
+        classroom.setRoomType("Special room");
+        classroom.setRoomCapacity(3);
+        classroom.setBuildingId(1);
+        serviceClassroom.createUseDto(classroom);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/classrooms/{id}", classroom.getId())
+                        .param("roomName", classroom.getRoomName())
+                        .param("roomType", classroom.getRoomType())
+                        .param("roomCapacity", Integer.toString(classroom.getRoomCapacity()))
+                        .param("buildingId", Integer.toString(classroom.getBuildingId())))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/classrooms"))
+                .andExpect(redirectedUrl("/classrooms"))
+                .andReturn();
+
+    }
+
     private List<String> getClassroomTypes() {
         List<String> typesWithDuplicates = new ArrayList<>();
-        classroomService.getAll().forEach(room -> typesWithDuplicates.add(room.getRoomType()));
+        serviceClassroom.getAll().forEach(room -> typesWithDuplicates.add(room.getRoomType()));
         return typesWithDuplicates.stream().distinct().collect(Collectors.toList());
     }
 }

@@ -1,14 +1,19 @@
 package ua.com.foxminded.classtimetable.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import ua.com.foxminded.classtimetable.controllers.exceptions.ClassroomCapacityException;
+import ua.com.foxminded.classtimetable.controllers.exceptions.InvalidLessonConditionsException;
 import ua.com.foxminded.classtimetable.domain.dto.LessonDto;
 import ua.com.foxminded.classtimetable.service.ClassroomService;
 import ua.com.foxminded.classtimetable.service.CourseService;
 import ua.com.foxminded.classtimetable.service.LessonService;
 import ua.com.foxminded.classtimetable.service.TeacherService;
+import ua.com.foxminded.classtimetable.validators.LessonValidator;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -18,6 +23,9 @@ import javax.validation.constraints.NotNull;
 @Validated
 @RequestMapping("/lessons")
 public class LessonController {
+
+    @Autowired
+    private LessonValidator validatorLesson;
 
     private final LessonService serviceLesson;
     private final ClassroomService serviceClassroom;
@@ -62,6 +70,8 @@ public class LessonController {
 
     @PostMapping()
     public String addToDB(@Valid @ModelAttribute("lesson") LessonDto lesson) {
+        validatorLesson.checkConditions(lesson);
+        validatorLesson.checkClassroomCapacity(lesson);
         serviceLesson.createFromDto(lesson);
         return "redirect:/lessons";
     }
@@ -73,8 +83,32 @@ public class LessonController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@Valid @ModelAttribute("lesson") LessonDto lesson) {
+    public String delete(@NotNull @ModelAttribute("lesson") LessonDto lesson) {
         serviceLesson.deleteFromDto(lesson);
         return "redirect:/lessons";
+    }
+
+    @ExceptionHandler({InvalidLessonConditionsException.class})
+    public ModelAndView handleInvalidLessonConditionsException(InvalidLessonConditionsException exception) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("errorMessage", exception.getMessage())
+                .addObject("lesson", new LessonDto())
+                .addObject("classrooms", serviceClassroom.getAllAsDto())
+                .addObject("courses", serviceCourse.getAll())
+                .addObject("teachers", serviceTeacher.getAllAsDto())
+                .setViewName("lessons/create");
+        return modelAndView;
+    }
+
+    @ExceptionHandler({ClassroomCapacityException.class})
+    public ModelAndView handleClassroomCapacityExceptionException(ClassroomCapacityException exception) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("errorMessage", exception.getMessage())
+                .addObject("lesson", new LessonDto())
+                .addObject("classrooms", serviceClassroom.getAllAsDto())
+                .addObject("courses", serviceCourse.getAll())
+                .addObject("teachers", serviceTeacher.getAllAsDto())
+                .setViewName("lessons/create");
+        return modelAndView;
     }
 }

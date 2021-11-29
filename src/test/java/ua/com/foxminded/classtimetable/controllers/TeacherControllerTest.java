@@ -31,13 +31,13 @@ public class TeacherControllerTest {
     private WebApplicationContext context;
 
     @Autowired
-    private TeacherService teacherService;
+    private TeacherService serviceTeacher;
 
     @Autowired
-    private FacultyService facultyService;
+    private FacultyService serviceFaculty;
 
     @Autowired
-    private CourseService courseService;
+    private CourseService serviceCourse;
 
     @Before
     public void setup() {
@@ -51,9 +51,9 @@ public class TeacherControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("teachers/showAll"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("teachers", teacherService.getAllAsDto()))
-                .andExpect(model().attribute("faculties", facultyService))
-                .andExpect(model().attribute("courses", courseService))
+                .andExpect(model().attribute("teachers", serviceTeacher.getAllAsDto()))
+                .andExpect(model().attribute("faculties", serviceFaculty))
+                .andExpect(model().attribute("courses", serviceCourse))
                 .andReturn();
     }
 
@@ -66,9 +66,9 @@ public class TeacherControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("teachers/showById"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("teacher", teacherService.getByIdAsDto(id)))
-                .andExpect(model().attribute("faculties", facultyService.getAll()))
-                .andExpect(model().attribute("allCourses", courseService.getAll()))
+                .andExpect(model().attribute("teacher", serviceTeacher.getByIdAsDto(id)))
+                .andExpect(model().attribute("faculties", serviceFaculty.getAll()))
+                .andExpect(model().attribute("allCourses", serviceCourse.getAll()))
                 .andReturn();
     }
 
@@ -79,8 +79,8 @@ public class TeacherControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("teachers/create"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(model().attribute("faculties", facultyService.getAll()))
-                .andExpect(model().attribute("allCourses", courseService.getAll()))
+                .andExpect(model().attribute("faculties", serviceFaculty.getAll()))
+                .andExpect(model().attribute("allCourses", serviceCourse.getAll()))
                 .andReturn();
     }
 
@@ -122,7 +122,6 @@ public class TeacherControllerTest {
         teacher.setFacultyId(2);
         teacher.setCoursesId(teacherCourses);
 
-
         this.mockMvc.perform(MockMvcRequestBuilders.put("/teachers/{id}", teacher.getId())
                         .param("id", Integer.toString(teacher.getId()))
                         .param("firstName", teacher.getFirstName())
@@ -134,6 +133,32 @@ public class TeacherControllerTest {
                 .andExpect(redirectedUrl("/teachers"))
                 .andReturn();
     }
+
+//    @Test
+//    public void should_deleteTeacherFromDatabase_when_controllerCallsDeleteMethodForDeletableEntity()
+//            throws Exception {
+//
+//        Set<Integer> teacherCourses = new HashSet<>();
+//
+//        TeacherDto teacher = new TeacherDto();
+//        teacher.setId(12);
+//        teacher.setFirstName("Frank");
+//        teacher.setLastName("Sinatra");
+//        teacher.setFacultyId(3);
+//        teacher.setCoursesId(teacherCourses);
+//        serviceTeacher.createFromDto(teacher);
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.delete("/teachers/{id}", teacher.getId())
+//                        .param("id", Integer.toString(teacher.getId()))
+//                        .param("firstName", teacher.getFirstName())
+//                        .param("lastName", teacher.getLastName())
+//                        .param("facultyId", Integer.toString(teacher.getFacultyId()))
+//                        .param("coursesId", createStringOfValues(teacher.getCoursesId())))
+//                .andExpect(status().isFound())
+//                .andExpect(view().name("redirect:/teachers"))
+//                .andExpect(redirectedUrl("/teachers"))
+//                .andReturn();
+//    }
 
     private String createStringOfValues(Set<Integer> setOfValues) {
         StringBuilder stringBuilder = new StringBuilder();

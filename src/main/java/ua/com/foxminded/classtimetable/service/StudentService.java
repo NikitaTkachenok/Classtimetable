@@ -104,4 +104,8 @@ public class StudentService {
         return lessons;
     }
 
+    public List<Integer> receiveStudentsIdsWithCertainCourse(int courseId) {
+        return studentRepository.getStudentStudyingCourse(courseId);
+    }
+
 }

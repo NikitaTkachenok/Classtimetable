@@ -61,14 +61,7 @@
                    + ${teachers.getById(lesson.teacherId).lastName}">teacher</a>
             </td>
             <td>
-                <form th:method="DELETE" th:action="@{/lessons/{id}(
-                id=${lesson.id},
-                date=${lesson.date},
-                startTime=${lesson.startTime},
-                endTime=${lesson.endTime},
-                roomName=${lesson.classroomId},
-                courseName=${lesson.courseId},
-                teacher=${lesson.teacherId})}">
+                <form th:method="DELETE" th:action="@{/lessons/{id}(id=${lesson.id})}">
                     <input class="btn btn-sm btn-danger" type="submit" value="Delete!"/>
                 </form>
             </td>

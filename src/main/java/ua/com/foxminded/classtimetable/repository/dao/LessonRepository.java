@@ -7,10 +7,20 @@ import org.springframework.stereotype.Repository;
 import ua.com.foxminded.classtimetable.repository.entities.Lesson;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Integer> {
+
+    String GET_LESSONS_BY_DATE_AND_TIME_RANGE =
+            "SELECT lessons.id, date, start_time, end_time, classroom_id, course_id, teacher_id " +
+                    "FROM lessons " +
+                    "WHERE date = :date AND (" +
+                    "start_time BETWEEN :beginningOfRange AND :endOfRange " +
+                    "OR " +
+                    "end_time BETWEEN :beginningOfRange AND :endOfRange" +
+                    ")";
 
     String GET_TEACHER_LESSONS_IN_DATE_RANGE =
             "SELECT lessons.id, date, start_time, end_time, classroom_id, course_id, teacher_id " +
@@ -36,5 +46,11 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
     List<Lesson> getLessonsForStudentOnDateRange(@Param("id") int id,
                                                  @Param("beginDate") LocalDate beginDate,
                                                  @Param("endDate") LocalDate endDate);
+
+    @Query(value = GET_LESSONS_BY_DATE_AND_TIME_RANGE,
+            nativeQuery = true)
+    List<Lesson> getLessonsByTemporalConditions(@Param("date") LocalDate date,
+                                                @Param("beginningOfRange") LocalTime beginningOfRange,
+                                                @Param("endOfRange") LocalTime endOfRange);
 
 }

@@ -74,7 +74,7 @@ public class ClassroomController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@Valid @ModelAttribute("classroom") ClassroomDto classroom, HttpServletRequest request) {
+    public String delete(@NotNull @ModelAttribute("classroom") ClassroomDto classroom, HttpServletRequest request) {
         validatorClassroom.checkForDeletion(classroom, request);
         serviceClassroom.deleteUseDto(classroom);
         return "redirect:/classrooms";

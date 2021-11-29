@@ -49,12 +49,7 @@
         <input class="btn btn-sm btn-success" type="submit" value="Update!">
     </form>
     <br/>
-    <form th:method="DELETE" th:action="@{/classrooms/{id}(
-                id=${classroom.id},
-                roomName=${classroom.roomName},
-                roomType=${classroom.roomType},
-                roomCapacity=${classroom.roomCapacity},
-                building=${classroom.buildingId})}">
+    <form th:method="DELETE" th:action="@{/classrooms/{id}(id=${classroom.id})}">
         <input class="btn btn-sm btn-danger" type="submit" value="Delete!"/>
     </form>
 </div>

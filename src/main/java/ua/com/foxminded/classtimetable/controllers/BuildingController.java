@@ -61,7 +61,7 @@ public class BuildingController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@Valid @ModelAttribute("building") Building building, HttpServletRequest request) {
+    public String delete(@NotNull @ModelAttribute("building") Building building, HttpServletRequest request) {
         validatorBuilding.checkForDeletion(building, request);
         serviceBuilding.delete(building);
         return "redirect:/buildings";
@@ -74,11 +74,12 @@ public class BuildingController {
         String thrownOutUrl = exception.getThrownOutUrl();
         if (thrownOutUrl.contains("buildings/")) {
             modelAndView.addObject("building",
-                    serviceBuilding.getById(Integer.parseInt(thrownOutUrl.substring(thrownOutUrl.length() - 1))));
-            modelAndView.setViewName("buildings/showById");
+                            serviceBuilding.getById(
+                                    Integer.parseInt(thrownOutUrl.substring(thrownOutUrl.length() - 1))))
+                    .setViewName("buildings/showById");
         } else {
-            modelAndView.addObject("buildings", serviceBuilding.getAll());
-            modelAndView.setViewName("buildings/showAll");
+            modelAndView.addObject("buildings", serviceBuilding.getAll())
+                    .setViewName("buildings/showAll");
         }
         return modelAndView;
     }

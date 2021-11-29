@@ -1,5 +1,7 @@
 package ua.com.foxminded.classtimetable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,12 +9,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Application {
 
     public static void main(String[] args) {
+        final Logger logger = LoggerFactory.getLogger(Application.class);
         try {
             SpringApplication.run(Application.class, args);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        System.out.println("The application started");
+        logger.info("The application started");
     }
 
 }
