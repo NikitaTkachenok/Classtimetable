@@ -4,8 +4,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.com.foxminded.classtimetable.controllers.exceptions.ClassroomCapacityException;
-import ua.com.foxminded.classtimetable.controllers.exceptions.InvalidLessonConditionsException;
+import ua.com.foxminded.classtimetable.exceptions.ClassroomCapacityException;
+import ua.com.foxminded.classtimetable.exceptions.InvalidLessonConditionsException;
 import ua.com.foxminded.classtimetable.domain.dto.LessonDto;
 import ua.com.foxminded.classtimetable.service.LessonService;
 

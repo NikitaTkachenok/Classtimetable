@@ -3,7 +3,7 @@ package ua.com.foxminded.classtimetable.validators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import ua.com.foxminded.classtimetable.controllers.exceptions.IndelibleEntityException;
+import ua.com.foxminded.classtimetable.exceptions.IndelibleEntityException;
 import ua.com.foxminded.classtimetable.domain.dto.LessonDto;
 import ua.com.foxminded.classtimetable.domain.dto.TeacherDto;
 import ua.com.foxminded.classtimetable.service.LessonService;

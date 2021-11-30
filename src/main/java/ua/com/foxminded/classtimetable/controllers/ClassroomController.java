@@ -6,7 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import ua.com.foxminded.classtimetable.controllers.exceptions.IndelibleEntityException;
+import ua.com.foxminded.classtimetable.exceptions.IndelibleEntityException;
 import ua.com.foxminded.classtimetable.domain.dto.ClassroomDto;
 import ua.com.foxminded.classtimetable.repository.entities.Classroom;
 import ua.com.foxminded.classtimetable.service.BuildingService;

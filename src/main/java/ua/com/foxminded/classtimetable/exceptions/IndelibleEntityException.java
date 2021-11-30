@@ -1,4 +1,4 @@
-package ua.com.foxminded.classtimetable.controllers.exceptions;
+package ua.com.foxminded.classtimetable.exceptions;
 
 public class IndelibleEntityException extends CommonCustomException {
 
