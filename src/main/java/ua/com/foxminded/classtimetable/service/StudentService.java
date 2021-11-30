@@ -105,7 +105,10 @@ public class StudentService {
     }
 
     public List<Integer> receiveStudentsIdsWithCertainCourse(int courseId) {
-        return studentRepository.getStudentStudyingCourse(courseId);
+        List<Integer> studentsIdsWithCertainCourse = studentRepository.getStudentStudyingCourse(courseId);
+        logger.info("receiveStudentsIdsWithCertainCourse: course id = {}, courses ids = {}",
+                courseId, studentsIdsWithCertainCourse);
+        return studentsIdsWithCertainCourse;
     }
 
 }

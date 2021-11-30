@@ -83,7 +83,11 @@ public class LessonService {
 
     public List<Lesson> getLessonsByTemporalConditions(
             LocalDate date, LocalTime beginningOfRange, LocalTime endOfRange) {
-        return lessonRepository.getLessonsByTemporalConditions(date, beginningOfRange, endOfRange);
+        List<Lesson> lessonsByTemporalConditions = lessonRepository.getLessonsByTemporalConditions(
+                date, beginningOfRange, endOfRange);
+        logger.info("getLessonsByTemporalConditions: " +
+                        "date = {}, beginningOfRange = {}, endOfRange = {}, lessonsByTemporalConditions = {}",
+                date, beginningOfRange, endOfRange, lessonsByTemporalConditions);
+        return lessonsByTemporalConditions;
     }
-
 }
