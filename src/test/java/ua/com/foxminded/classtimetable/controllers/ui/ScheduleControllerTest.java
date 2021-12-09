@@ -1,4 +1,4 @@
-package ua.com.foxminded.classtimetable.controllers;
+package ua.com.foxminded.classtimetable.controllers.ui;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -65,8 +65,8 @@ public class ScheduleControllerTest {
     public void should_giveLessonsForTeacherOnDateRange_when_controllerCallsShowScheduleMethod() throws Exception {
 
         Object person = new TeacherDto();
-        LocalDate beginDate = LocalDate.of(2021, 03, 01);
-        LocalDate endDate = LocalDate.of(2021, 03, 31);
+        LocalDate beginDate = LocalDate.of(2021, 3, 1);
+        LocalDate endDate = LocalDate.of(2021, 3, 31);
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/schedule/show")
                         .param("person", person.toString())
@@ -85,8 +85,8 @@ public class ScheduleControllerTest {
     public void should_giveLessonsForStudentOnDateRange_when_controllerCallsShowScheduleMethod() throws Exception {
 
         Object person = new StudentDto();
-        LocalDate beginDate = LocalDate.of(2021, 03, 01);
-        LocalDate endDate = LocalDate.of(2021, 03, 31);
+        LocalDate beginDate = LocalDate.of(2021, 3, 1);
+        LocalDate endDate = LocalDate.of(2021, 3, 31);
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/schedule/show")
                         .param("person", person.toString())

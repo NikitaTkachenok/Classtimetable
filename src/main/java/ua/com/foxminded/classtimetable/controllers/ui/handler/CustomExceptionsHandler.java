@@ -1,4 +1,4 @@
-package ua.com.foxminded.classtimetable.controllers.handler;
+package ua.com.foxminded.classtimetable.controllers.ui.handler;
 
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;

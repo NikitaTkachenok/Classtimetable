@@ -1,10 +1,8 @@
-package ua.com.foxminded.classtimetable.controllers;
+package ua.com.foxminded.classtimetable.controllers.ui;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -27,12 +25,11 @@ public class MenuControllerTest {
     @Test
     public void should_returnMenuPage_when_controllerStarts() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders
-                .get("/"))
+                        .get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("menu"))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
-
     }
 
 }

@@ -1,4 +1,4 @@
-package ua.com.foxminded.classtimetable.controllers;
+package ua.com.foxminded.classtimetable.controllers.ui;
 
 import org.junit.Before;
 import org.junit.Test;

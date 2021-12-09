@@ -1,4 +1,4 @@
-package ua.com.foxminded.classtimetable.controllers;
+package ua.com.foxminded.classtimetable.controllers.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
