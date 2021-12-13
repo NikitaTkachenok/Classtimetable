@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import ua.com.foxminded.classtimetable.domain.dto.LessonDto;
+import ua.com.foxminded.classtimetable.exceptions.ClassroomCapacityException;
 import ua.com.foxminded.classtimetable.exceptions.InvalidLessonConditionsException;
 import ua.com.foxminded.classtimetable.service.LessonService;
 import ua.com.foxminded.classtimetable.validators.LessonValidator;
@@ -107,6 +108,27 @@ public class LessonRestControllerTest {
         lessonDto.setTeacherId(1);
 
         Mockito.doThrow(new InvalidLessonConditionsException()).when(serviceLessonMock).createFromDto(lessonDto);
+
+        this.mockMvc.perform(post("/rest/v1/lessons")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapToJson(lessonDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void should_returnBadRequestStatus_when_controllerCallsCreateMethodWithInsufficientClassroom()
+            throws Exception {
+
+        LessonDto lessonDto = new LessonDto();
+        lessonDto.setId(707);
+        lessonDto.setDate(LocalDate.of(2021, 2, 1));
+        lessonDto.setStartTime(LocalTime.of(9, 20));
+        lessonDto.setEndTime(LocalTime.of(10, 0));
+        lessonDto.setClassroomId(5);
+        lessonDto.setCourseId(1);
+        lessonDto.setTeacherId(1);
+
+        Mockito.doThrow(new ClassroomCapacityException()).when(serviceLessonMock).createFromDto(lessonDto);
 
         this.mockMvc.perform(post("/rest/v1/lessons")
                         .contentType(MediaType.APPLICATION_JSON)
