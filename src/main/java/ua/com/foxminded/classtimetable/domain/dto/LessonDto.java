@@ -1,5 +1,11 @@
 package ua.com.foxminded.classtimetable.domain.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Min;
@@ -13,14 +19,20 @@ public class LessonDto {
     private int id;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     @NotNull(message = "Date is mandatory for a lesson")
     private LocalDate date;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @JsonDeserialize(using = LocalTimeDeserializer.class)
+    @JsonSerialize(using = LocalTimeSerializer.class)
     @NotNull(message = "Time of start is mandatory for a lesson")
     private LocalTime startTime;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @JsonDeserialize(using = LocalTimeDeserializer.class)
+    @JsonSerialize(using = LocalTimeSerializer.class)
     @NotNull(message = "Time of finish is mandatory for a lesson")
     private LocalTime endTime;
 

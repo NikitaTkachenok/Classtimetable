@@ -52,22 +52,21 @@ public class LessonRestController {
         serviceLesson.createFromDto(lessonDto);
     }
 
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void update(@Valid @RequestBody LessonDto lessonDto,
-                       @PathVariable("id") @Min(0) int id) {
+    @PutMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@Valid @RequestBody LessonDto lessonDto) {
         serviceLesson.updateFromDto(lessonDto);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") @Min(0) int id) {
         serviceLesson.deleteById(id);
     }
 
     @ExceptionHandler({InvalidLessonConditionsException.class})
     public ResponseEntity<Object> handleInvalidLessonConditionsException(InvalidLessonConditionsException exception) {
-        return new ResponseEntity<>(exception.getMessage(), PRECONDITION_FAILED);
+        return new ResponseEntity<>(exception.getMessage(), BAD_REQUEST);
     }
 
     @ExceptionHandler({ClassroomCapacityException.class})

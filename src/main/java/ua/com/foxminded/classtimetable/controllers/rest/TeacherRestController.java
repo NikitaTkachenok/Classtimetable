@@ -46,15 +46,14 @@ public class TeacherRestController {
         serviceTeacher.createFromDto(teacherDto);
     }
 
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void update(@Valid @RequestBody TeacherDto teacherDto,
-                       @PathVariable("id") @Min(0) int id) {
+    @PutMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@Valid @RequestBody TeacherDto teacherDto) {
         serviceTeacher.updateFromDto(teacherDto);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") @Min(0) int id,
                        HttpServletRequest request) {
         validatorTeacher.checkForDeletion(serviceTeacher.getByIdAsDto(id), request);

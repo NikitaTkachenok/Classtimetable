@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,7 +25,7 @@ public class StudentRestControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    StudentService serviceStudent;
+    StudentService serviceStudentMock;
 
     @Test
     public void should_returnIsOkStatus_when_controllerCallsShowAllMethod() throws Exception {
@@ -62,7 +63,7 @@ public class StudentRestControllerTest {
     }
 
     @Test
-    public void should_returnIsOkStatus_when_controllerCallsUpdateMethod() throws Exception {
+    public void should_returnIsNoContentStatus_when_controllerCallsUpdateMethod() throws Exception {
 
         StudentDto studentDto = new StudentDto();
         studentDto.setId(5);
@@ -70,20 +71,23 @@ public class StudentRestControllerTest {
         studentDto.setFirstName("First");
         studentDto.setLastName("Last");
 
-        this.mockMvc.perform(put("/rest/v1/students/" + studentDto.getId())
+        this.mockMvc.perform(put("/rest/v1/students/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapToJson(studentDto)))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
-    public void should_returnIsOkStatus_when_controllerCallsDeleteMethod() throws Exception {
+    public void should_returnIsNoContentStatus_when_controllerCallsDeleteMethod() throws Exception {
 
-        StudentDto studentDto = serviceStudent.getByIdAsDto(20);
+        StudentDto studentDto = new StudentDto();
+        studentDto.setId(40);
+
+        Mockito.when(serviceStudentMock.getByIdAsDto(40)).thenReturn(studentDto);
 
         this.mockMvc.perform(delete("/rest/v1/students/" + studentDto.getId())
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     private String mapToJson(Object object) throws JsonProcessingException {

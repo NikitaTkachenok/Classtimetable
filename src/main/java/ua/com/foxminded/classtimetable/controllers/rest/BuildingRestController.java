@@ -45,15 +45,14 @@ public class BuildingRestController {
         serviceBuilding.create(building);
     }
 
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void update(@Valid @RequestBody Building building,
-                       @PathVariable("id") @Min(0) int id) {
+    @PutMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@Valid @RequestBody Building building) {
         serviceBuilding.update(building);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") @Min(0) int id,
                        HttpServletRequest request) {
         validatorBuilding.checkForDeletion(serviceBuilding.getById(id), request);

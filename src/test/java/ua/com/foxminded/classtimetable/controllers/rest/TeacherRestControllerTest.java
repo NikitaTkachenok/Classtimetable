@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -11,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import ua.com.foxminded.classtimetable.domain.dto.TeacherDto;
+import ua.com.foxminded.classtimetable.exceptions.IndelibleEntityException;
 import ua.com.foxminded.classtimetable.service.TeacherService;
 import ua.com.foxminded.classtimetable.validators.TeacherValidator;
 
@@ -25,10 +27,10 @@ public class TeacherRestControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    TeacherService serviceTeacher;
+    TeacherService serviceTeacherMock;
 
     @MockBean
-    TeacherValidator validatorTeacher;
+    TeacherValidator validatorTeacherMock;
 
     @Test
     public void should_returnIsOkStatus_when_controllerCallsShowAllMethod() throws Exception {
@@ -66,7 +68,7 @@ public class TeacherRestControllerTest {
     }
 
     @Test
-    public void should_returnIsOkStatus_when_controllerCallsUpdateMethod() throws Exception {
+    public void should_returnIsNoContentStatus_when_controllerCallsUpdateMethod() throws Exception {
 
         TeacherDto teacherDto = new TeacherDto();
         teacherDto.setId(12);
@@ -74,33 +76,34 @@ public class TeacherRestControllerTest {
         teacherDto.setFirstName("First");
         teacherDto.setLastName("Last");
 
-        this.mockMvc.perform(put("/rest/v1/teachers/" + teacherDto.getId())
+        this.mockMvc.perform(put("/rest/v1/teachers/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapToJson(teacherDto)))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
-    public void should_returnIsOkStatus_when_controllerCallsDeleteMethod() throws Exception {
+    public void should_returnIsNoContentStatus_when_controllerCallsDeleteMethod() throws Exception {
 
         TeacherDto teacherDto = new TeacherDto();
         teacherDto.setId(15);
-        teacherDto.setFacultyId(2);
-        teacherDto.setFirstName("firstName");
-        teacherDto.setLastName("lastName");
+
+        Mockito.when(serviceTeacherMock.getByIdAsDto(2)).thenReturn(teacherDto);
 
         this.mockMvc.perform(delete("/rest/v1/teachers/" + teacherDto.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapToJson(teacherDto)))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
     public void should_returnBadRequestStatus_when_controllerCallsDeleteMethodWithInvalidData() throws Exception {
 
-        TeacherDto teacherDto = serviceTeacher.getByIdAsDto(2);
+        int teacherId = 1;
 
-        this.mockMvc.perform(delete("/rest/v1/teachers/" + teacherDto.getId())
+        Mockito.doThrow(new IndelibleEntityException()).when(serviceTeacherMock).deleteById(teacherId);
+
+        this.mockMvc.perform(delete("/rest/v1/teachers/" + teacherId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }

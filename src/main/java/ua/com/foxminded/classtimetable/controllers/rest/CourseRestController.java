@@ -45,15 +45,14 @@ public class CourseRestController {
         serviceCourse.create(course);
     }
 
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void update(@Valid @RequestBody Course course,
-                       @PathVariable("id") @Min(0) int id) {
+    @PutMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@Valid @RequestBody Course course) {
         serviceCourse.update(course);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") @Min(0) int id,
                        HttpServletRequest request) {
         validatorCourse.checkForDeletion(serviceCourse.getById(id), request);

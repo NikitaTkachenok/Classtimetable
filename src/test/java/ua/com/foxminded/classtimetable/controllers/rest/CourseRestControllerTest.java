@@ -4,12 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import ua.com.foxminded.classtimetable.exceptions.IndelibleEntityException;
 import ua.com.foxminded.classtimetable.repository.entities.Course;
 import ua.com.foxminded.classtimetable.service.CourseService;
 import ua.com.foxminded.classtimetable.validators.CourseValidator;
@@ -64,40 +66,41 @@ public class CourseRestControllerTest {
     }
 
     @Test
-    public void should_returnIsOkStatus_when_controllerCallsUpdateMethod() throws Exception {
+    public void should_returnIsNoContentStatus_when_controllerCallsUpdateMethod() throws Exception {
 
         Course course = new Course();
         course.setId(15);
         course.setCourseName("Changed course name");
 
-        this.mockMvc.perform(put("/rest/v1/courses/" + course.getId())
+        this.mockMvc.perform(put("/rest/v1/courses/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapToJson(course)))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
-    public void should_returnIsOkStatus_when_controllerCallsDeleteMethod() throws Exception {
+    public void should_returnIsNoContentStatus_when_controllerCallsDeleteMethod() throws Exception {
 
         Course course = new Course();
         course.setId(15);
         course.setCourseName("Changed course name");
-        serviceCourseMock.create(course);
 
         this.mockMvc.perform(delete("/rest/v1/courses/" + course.getId())
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
-    public void should_returnInternalServerErrorStatus_when_controllerCallsDeleteMethodWithInvalidData()
+    public void should_returnIsBadRequestStatus_when_controllerCallsDeleteMethodWithInvalidData()
             throws Exception {
 
         int courseId = 1;
 
+        Mockito.doThrow(new IndelibleEntityException()).when(serviceCourseMock).deleteById(courseId);
+
         this.mockMvc.perform(delete("/rest/v1/courses/" + courseId)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isBadRequest());
     }
 
     private String mapToJson(Object object) throws JsonProcessingException {

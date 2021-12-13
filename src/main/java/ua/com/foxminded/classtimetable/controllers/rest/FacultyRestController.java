@@ -45,15 +45,14 @@ public class FacultyRestController {
         serviceFaculty.create(faculty);
     }
 
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void update(@Valid @RequestBody Faculty faculty,
-                       @PathVariable("id") @Min(0) int id) {
+    @PutMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@Valid @RequestBody Faculty faculty) {
         serviceFaculty.update(faculty);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") @Min(0) int id,
                        HttpServletRequest request) {
         validatorFaculty.checkForDeletion(serviceFaculty.getById(id), request);

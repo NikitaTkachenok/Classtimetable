@@ -45,15 +45,14 @@ public class ClassroomRestController {
         serviceClassroom.createUseDto(classroomDto);
     }
 
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void update(@Valid @RequestBody ClassroomDto classroomDto,
-                       @PathVariable("id") @Min(0) int id) {
+    @PutMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@Valid @RequestBody ClassroomDto classroomDto) {
         serviceClassroom.updateUseDto(classroomDto);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") @Min(0) int id,
                        HttpServletRequest request) {
         validatorClassroom.checkForDeletion(serviceClassroom.getByIdAsDto(id), request);

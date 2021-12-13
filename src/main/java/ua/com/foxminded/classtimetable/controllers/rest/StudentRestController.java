@@ -39,15 +39,14 @@ public class StudentRestController {
         serviceStudent.createFromDto(studentDto);
     }
 
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void update(@Valid @RequestBody StudentDto studentDto,
-                       @PathVariable("id") @Min(0) int id) {
+    @PutMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@Valid @RequestBody StudentDto studentDto) {
         serviceStudent.updateFromDto(studentDto);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") @Min(0) int id) {
         serviceStudent.deleteById(id);
     }
