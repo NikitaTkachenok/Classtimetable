@@ -1,6 +1,7 @@
 package ua.com.foxminded.classtimetable.controllers.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -9,10 +10,14 @@ import ua.com.foxminded.classtimetable.domain.dto.LessonDto;
 import ua.com.foxminded.classtimetable.exceptions.ClassroomCapacityException;
 import ua.com.foxminded.classtimetable.exceptions.InvalidLessonConditionsException;
 import ua.com.foxminded.classtimetable.service.LessonService;
+import ua.com.foxminded.classtimetable.service.StudentService;
+import ua.com.foxminded.classtimetable.service.TeacherService;
 import ua.com.foxminded.classtimetable.validators.LessonValidator;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -27,9 +32,14 @@ public class LessonRestController {
     private LessonValidator validatorLesson;
 
     private final LessonService serviceLesson;
+    private final TeacherService serviceTeacher;
+    private final StudentService serviceStudent;
 
-    public LessonRestController(LessonService serviceLesson) {
+    public LessonRestController(LessonService serviceLesson, TeacherService serviceTeacher,
+                                StudentService serviceStudent) {
         this.serviceLesson = serviceLesson;
+        this.serviceTeacher = serviceTeacher;
+        this.serviceStudent = serviceStudent;
     }
 
     @GetMapping
@@ -72,6 +82,25 @@ public class LessonRestController {
     @ExceptionHandler({ClassroomCapacityException.class})
     public ResponseEntity<Object> handleClassroomCapacityExceptionException(ClassroomCapacityException exception) {
         return new ResponseEntity<>(exception.getMessage(), BAD_REQUEST);
+    }
+
+    @GetMapping("/schedule")
+    @ResponseStatus(HttpStatus.OK)
+    public List<LessonDto> getSchedule(@NotNull(message = "A person's selection is mandatory!")
+                                       @RequestParam Object person,
+                                       @NotNull(message = "The beginning of the date range is mandatory!")
+                                       @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate beginDate,
+                                       @NotNull(message = "The end of the date range is mandatory!")
+                                       @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+        List<LessonDto> lessons;
+        String id = person.toString().substring(
+                person.toString().indexOf("id=") + 3, person.toString().indexOf("id=") + 4);
+        if (person.toString().contains("Teacher")) {
+            lessons = serviceTeacher.receiveLessonsOnDateRange(Integer.parseInt(id), beginDate, endDate);
+        } else {
+            lessons = serviceStudent.receiveLessonsOnDateRange(Integer.parseInt(id), beginDate, endDate);
+        }
+        return lessons;
     }
 
 }
