@@ -29,19 +29,19 @@ public class CourseRestController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Course> showAll() {
+    public List<Course> getAll() {
         return serviceCourse.getAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Course showById(@PathVariable("id") @Min(0) int id) {
+    public Course getById(@PathVariable("id") @Min(0) int id) {
         return serviceCourse.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addToDB(@Valid @RequestBody Course course) {
+    public void create(@Valid @RequestBody Course course) {
         serviceCourse.create(course);
     }
 

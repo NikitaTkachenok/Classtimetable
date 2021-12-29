@@ -35,23 +35,23 @@ public class StudentRestControllerIntegrationTest {
         student.setFacultyId(1);
         student.setCoursesId(studentCourses);
 
-        assertThat(studentRestController.showAll(), not(hasItem(student)));
+        assertThat(studentRestController.getAll(), not(hasItem(student)));
 
-        studentRestController.addToDB(student);
+        studentRestController.create(student);
 
-        assertThat(studentRestController.showAll(), hasItem(student));
-        assertEquals(student, studentRestController.showById(student.getId()));
+        assertThat(studentRestController.getAll(), hasItem(student));
+        assertEquals(student, studentRestController.getById(student.getId()));
 
     }
 
     @Test
     public void should_updateStudent_when_controllerCallsUpdateMethod() {
 
-        StudentDto student = studentRestController.showById(1);
+        StudentDto student = studentRestController.getById(1);
         student.setLastName("Johnson");
         studentRestController.update(student);
 
-        assertEquals(studentRestController.showById(1).getLastName(), "Johnson");
+        assertEquals(studentRestController.getById(1).getLastName(), "Johnson");
     }
 
     @Test
@@ -67,11 +67,11 @@ public class StudentRestControllerIntegrationTest {
         student.setFacultyId(3);
         student.setCoursesId(studentCourses);
 
-        studentRestController.addToDB(student);
-        assertThat(studentRestController.showAll(), hasItem(student));
+        studentRestController.create(student);
+        assertThat(studentRestController.getAll(), hasItem(student));
 
         studentRestController.delete(student.getId());
-        assertThat(studentRestController.showAll(), not(hasItem(student)));
+        assertThat(studentRestController.getAll(), not(hasItem(student)));
     }
 
 }

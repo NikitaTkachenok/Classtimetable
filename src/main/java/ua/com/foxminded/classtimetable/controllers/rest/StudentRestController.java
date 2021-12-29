@@ -23,19 +23,19 @@ public class StudentRestController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<StudentDto> showAll() {
+    public List<StudentDto> getAll() {
         return serviceStudent.getAllAsDto();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public StudentDto showById(@PathVariable("id") @Min(0) int id) {
+    public StudentDto getById(@PathVariable("id") @Min(0) int id) {
         return serviceStudent.getByIdAsDto(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addToDB(@Valid @RequestBody StudentDto studentDto) {
+    public void create(@Valid @RequestBody StudentDto studentDto) {
         serviceStudent.createFromDto(studentDto);
     }
 

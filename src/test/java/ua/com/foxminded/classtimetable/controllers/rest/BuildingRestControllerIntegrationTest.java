@@ -29,24 +29,24 @@ public class BuildingRestControllerIntegrationTest {
         building.setId(4);
         building.setBuildingName("The fourth building");
 
-        assertThat(buildingRestController.showAll(), not(hasItem(building)));
+        assertThat(buildingRestController.getAll(), not(hasItem(building)));
 
-        buildingRestController.addToDB(building);
+        buildingRestController.create(building);
 
-        assertThat(buildingRestController.showAll(), hasItem(building));
-        assertEquals(buildingRestController.showById(building.getId()), building);
+        assertThat(buildingRestController.getAll(), hasItem(building));
+        assertEquals(buildingRestController.getById(building.getId()), building);
 
     }
 
     @Test
     public void should_updateBuilding_when_controllerCallsUpdateMethod() {
 
-        Building building = buildingRestController.showById(1);
+        Building building = buildingRestController.getById(1);
         building.setBuildingName("Changed name");
 
         buildingRestController.update(building);
 
-        assertEquals(buildingRestController.showById(1), building);
+        assertEquals(buildingRestController.getById(1), building);
 
     }
 
@@ -58,11 +58,11 @@ public class BuildingRestControllerIntegrationTest {
         building.setId(4);
         building.setBuildingName("The fourth building");
 
-        buildingRestController.addToDB(building);
-        assertThat(buildingRestController.showAll(), hasItem(building));
+        buildingRestController.create(building);
+        assertThat(buildingRestController.getAll(), hasItem(building));
 
         buildingRestController.delete(4, request);
-        assertThat(buildingRestController.showAll(), not(hasItem(building)));
+        assertThat(buildingRestController.getAll(), not(hasItem(building)));
     }
 
 }

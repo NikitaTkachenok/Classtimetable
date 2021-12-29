@@ -29,23 +29,23 @@ public class FacultyRestControllerIntegrationTest {
         faculty.setId(4);
         faculty.setFacultyName("Faculty name");
 
-        assertThat(facultyRestController.showAll(), not(hasItem(faculty)));
-        facultyRestController.addToDB(faculty);
+        assertThat(facultyRestController.getAll(), not(hasItem(faculty)));
+        facultyRestController.create(faculty);
 
-        assertThat(facultyRestController.showAll(), hasItem(faculty));
-        assertEquals(facultyRestController.showById(faculty.getId()), faculty);
+        assertThat(facultyRestController.getAll(), hasItem(faculty));
+        assertEquals(facultyRestController.getById(faculty.getId()), faculty);
 
     }
 
     @Test
     public void should_updateFaculty_when_controllerCallsUpdateMethod() {
 
-        Faculty faculty = facultyRestController.showById(1);
+        Faculty faculty = facultyRestController.getById(1);
         faculty.setFacultyName("Changed faculty name");
 
         facultyRestController.update(faculty);
 
-        assertEquals(facultyRestController.showById(1), faculty);
+        assertEquals(facultyRestController.getById(1), faculty);
 
     }
 
@@ -57,11 +57,11 @@ public class FacultyRestControllerIntegrationTest {
         faculty.setId(4);
         faculty.setFacultyName("The best faculty");
 
-        facultyRestController.addToDB(faculty);
-        assertThat(facultyRestController.showAll(), hasItem(faculty));
+        facultyRestController.create(faculty);
+        assertThat(facultyRestController.getAll(), hasItem(faculty));
 
         facultyRestController.delete(4, request);
-        assertThat(facultyRestController.showAll(), not(hasItem(faculty)));
+        assertThat(facultyRestController.getAll(), not(hasItem(faculty)));
     }
 
 }

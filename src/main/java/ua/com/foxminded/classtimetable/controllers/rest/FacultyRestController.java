@@ -29,19 +29,19 @@ public class FacultyRestController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Faculty> showAll() {
+    public List<Faculty> getAll() {
         return serviceFaculty.getAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Faculty showById(@PathVariable("id") @Min(0) int id) {
+    public Faculty getById(@PathVariable("id") @Min(0) int id) {
         return serviceFaculty.getById(id);
     }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public void addToDB(@Valid @RequestBody Faculty faculty) {
+    public void create(@Valid @RequestBody Faculty faculty) {
         serviceFaculty.create(faculty);
     }
 

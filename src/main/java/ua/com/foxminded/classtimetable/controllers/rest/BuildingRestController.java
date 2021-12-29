@@ -29,19 +29,19 @@ public class BuildingRestController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Building> showAll() {
+    public List<Building> getAll() {
         return serviceBuilding.getAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Building showById(@PathVariable("id") @Min(0) int id) {
+    public Building getById(@PathVariable("id") @Min(0) int id) {
         return serviceBuilding.getById(id);
     }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public void addToDB(@Valid @RequestBody Building building) {
+    public void create(@Valid @RequestBody Building building) {
         serviceBuilding.create(building);
     }
 

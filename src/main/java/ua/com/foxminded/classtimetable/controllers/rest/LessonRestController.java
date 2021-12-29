@@ -21,7 +21,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.PRECONDITION_FAILED;
 
 @RestController
 @Validated
@@ -44,19 +43,19 @@ public class LessonRestController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<LessonDto> showAll() {
+    public List<LessonDto> getAll() {
         return serviceLesson.getAllAsDto();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public LessonDto showById(@PathVariable("id") @Min(0) int id) {
+    public LessonDto getById(@PathVariable("id") @Min(0) int id) {
         return serviceLesson.getByIdAsDto(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addToDB(@Valid @RequestBody LessonDto lessonDto) {
+    public void create(@Valid @RequestBody LessonDto lessonDto) {
         validatorLesson.checkConditions(lessonDto);
         validatorLesson.checkClassroomCapacity(lessonDto);
         serviceLesson.createFromDto(lessonDto);
@@ -80,7 +79,7 @@ public class LessonRestController {
     }
 
     @ExceptionHandler({ClassroomCapacityException.class})
-    public ResponseEntity<Object> handleClassroomCapacityExceptionException(ClassroomCapacityException exception) {
+    public ResponseEntity<Object> handleClassroomCapacityException(ClassroomCapacityException exception) {
         return new ResponseEntity<>(exception.getMessage(), BAD_REQUEST);
     }
 

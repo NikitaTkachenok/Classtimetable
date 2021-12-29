@@ -30,19 +30,19 @@ public class TeacherRestController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<TeacherDto> showAll() {
+    public List<TeacherDto> getAll() {
         return serviceTeacher.getAllAsDto();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TeacherDto showById(@PathVariable("id") @Min(0) int id) {
+    public TeacherDto getById(@PathVariable("id") @Min(0) int id) {
         return serviceTeacher.getByIdAsDto(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addToDB(@Valid @RequestBody TeacherDto teacherDto) {
+    public void create(@Valid @RequestBody TeacherDto teacherDto) {
         serviceTeacher.createFromDto(teacherDto);
     }
 
