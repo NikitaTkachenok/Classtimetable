@@ -41,7 +41,7 @@ public class CourseRestController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@Valid @RequestBody Course course) {
+    public void addToDB(@Valid @RequestBody Course course) {
         serviceCourse.create(course);
     }
 

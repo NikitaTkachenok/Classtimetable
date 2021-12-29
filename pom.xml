@@ -26,6 +26,7 @@
         <postgresql.version>42.2.18</postgresql.version>
         <springdoc-openapi-ui.version>1.6.1</springdoc-openapi-ui.version>
         <mockito-core.version>3.7.7</mockito-core.version>
+        <h2.version>2.0.202</h2.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
     </properties>
@@ -122,6 +123,12 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>${mockito-core.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
